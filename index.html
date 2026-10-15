@@ -299,7 +299,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 /* Mobile responsive */
 @media (max-width: 600px) {
   .search-box {
-    left: 10px; right: 10px; top: 10px;
+    left: 50px; right: 10px; top: 10px;
   }
   .search-box input {
     width: 100%; font-size: 16px; padding: 12px 14px;
@@ -307,13 +307,26 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   .info-panel {
     display: none;
   }
+
+  .leaflet-control-layers {
+    max-width: 180px; font-size: 11px;
+    margin-top: 55px !important;
+  }
+
   .legend {
-    bottom: 10px; left: 10px; padding: 8px 12px; font-size: 11px;
-    max-width: 180px;
+    bottom: 55px; left: 10px; padding: 8px 12px; font-size: 11px;
+    max-width: 170px;
   }
   .legend h3 { font-size: 12px; margin-bottom: 4px; }
   .legend-item { padding: 1px 0; gap: 5px; }
   .legend-dot, .legend-square, .legend-diamond { width: 10px; height: 10px; }
+
+  .campaign-banner {
+    bottom: 8px; left: 50%; transform: translateX(-50%);
+    padding: 5px 10px 5px 5px;
+  }
+  .campaign-banner img { height: 30px; }
+  .campaign-banner-hashtag { font-size: 12px; }
 
   .hierarchy-panel {
     bottom: 0; right: 0; left: 0; width: 100%;
@@ -332,19 +345,9 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     padding: 8px 14px; font-size: 13px;
   }
 
-  .leaflet-control-layers {
-    max-width: 200px; font-size: 12px;
-  }
-
   .loading-overlay h1 { font-size: 22px; }
   .loading-overlay .subtitle { font-size: 12px; }
   .progress-bar { width: 260px; }
-
-  .campaign-banner {
-    bottom: 8px; padding: 5px 10px 5px 5px;
-  }
-  .campaign-banner img { height: 30px; }
-  .campaign-banner-hashtag { font-size: 12px; }
 }
 
 /* Safe area padding for notched phones */
