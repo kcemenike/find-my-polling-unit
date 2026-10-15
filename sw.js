@@ -1,4 +1,4 @@
-var CACHE = 'pu-map-v1';
+var CACHE = 'pu-map-v2';
 
 var SHELL = [
   './',
@@ -13,7 +13,8 @@ var SHELL = [
   './lib/MarkerCluster.Default.css',
   './lib/images/marker-icon.png',
   './lib/images/marker-icon-2x.png',
-  './lib/images/marker-shadow.png'
+  './lib/images/marker-shadow.png',
+  './votendc.jpg'
 ];
 
 var DATA = [
