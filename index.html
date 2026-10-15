@@ -105,12 +105,34 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   display: flex; justify-content: space-between; align-items: center;
   font-weight: 600; font-size: 14px;
 }
+.hierarchy-handle {
+  display: none; width: 36px; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.5); margin: 0 auto 6px;
+}
 .hierarchy-close {
   background: none; border: none; color: #fff; font-size: 20px;
   cursor: pointer; padding: 0 4px; line-height: 1;
 }
 .hierarchy-close:hover { opacity: 0.7; }
 .hierarchy-body { padding: 0; max-height: 60vh; overflow-y: auto; }
+
+/* Minimized green bar */
+.hierarchy-minimized {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 1000; display: none;
+  background: #00a651; color: #fff; padding: 10px 16px;
+  font-weight: 600; font-size: 13px; cursor: pointer;
+  text-align: center; box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+}
+.hierarchy-minimized.active { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.hierarchy-minimized .min-handle {
+  width: 30px; height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,0.5); position: absolute;
+  top: 5px; left: 50%; transform: translateX(-50%);
+}
+.hierarchy-minimized .min-chevron {
+  display: inline-block; transform: rotate(-90deg); font-size: 16px;
+}
 .hierarchy-step {
   display: flex; align-items: stretch; cursor: pointer;
   transition: background 0.15s;
@@ -332,9 +354,23 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     bottom: 0; right: 0; left: 0; width: 100%;
     border-radius: 16px 16px 0 0;
     max-height: 55vh;
+    transition: max-height 0.3s ease;
   }
-  .hierarchy-body { max-height: 45vh; }
-  .hierarchy-header { padding: 12px 16px; }
+  .hierarchy-panel.peek {
+    max-height: 200px;
+  }
+  .hierarchy-panel.expanded {
+    max-height: 70vh;
+  }
+  .hierarchy-body { max-height: calc(70vh - 50px); overflow-y: auto; }
+  .hierarchy-header {
+    padding: 8px 16px 10px; flex-direction: column;
+  }
+  .hierarchy-header-row {
+    display: flex; justify-content: space-between; align-items: center; width: 100%;
+  }
+  .hierarchy-handle { display: block; }
+  .hierarchy-close { display: none; }
 
   .locate-btn {
     bottom: 200px; left: 10px; right: auto; top: auto;
@@ -409,11 +445,20 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 </a>
 
 <div class="hierarchy-panel" id="hierarchyPanel">
-  <div class="hierarchy-header">
-    <span>Collation Hierarchy</span>
-    <button class="hierarchy-close" id="hierarchyClose">&times;</button>
+  <div class="hierarchy-header" id="hierarchyHeader">
+    <div class="hierarchy-handle"></div>
+    <div class="hierarchy-header-row">
+      <span>Collation Hierarchy</span>
+      <button class="hierarchy-close" id="hierarchyClose">&times;</button>
+    </div>
   </div>
   <div class="hierarchy-body" id="hierarchyBody"></div>
+</div>
+
+<div class="hierarchy-minimized" id="hierarchyMin">
+  <div class="min-handle"></div>
+  <span class="min-chevron">&#x276E;</span>
+  <span id="hierarchyMinLabel">Collation Hierarchy</span>
 </div>
 
 <script src="lib/leaflet.js"></script>
@@ -707,14 +752,53 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     return { dist: roadKm, walkMin: walkMin, driveMin: driveMin };
   }
 
+  var isMobile = window.innerWidth <= 600;
+  window.addEventListener('resize', function() { isMobile = window.innerWidth <= 600; });
+  var lastSelectedPu = null;
+
   function clearHierarchy() {
     highlightLayer.clearLayers();
-    document.getElementById('hierarchyPanel').classList.remove('active');
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.remove('active', 'peek', 'expanded');
+    document.getElementById('hierarchyMin').classList.remove('active');
+    lastSelectedPu = null;
+  }
+
+  function minimizeHierarchy() {
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.remove('active', 'peek', 'expanded');
+    var minBar = document.getElementById('hierarchyMin');
+    if (lastSelectedPu) {
+      document.getElementById('hierarchyMinLabel').textContent =
+        (lastSelectedPu.n || lastSelectedPu.c);
+      minBar.classList.add('active');
+    }
+  }
+
+  function expandHierarchy() {
+    document.getElementById('hierarchyMin').classList.remove('active');
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.add('active');
+    if (isMobile) {
+      panel.classList.remove('peek');
+      panel.classList.add('expanded');
+    }
+  }
+
+  function peekHierarchy() {
+    document.getElementById('hierarchyMin').classList.remove('active');
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.add('active');
+    if (isMobile) {
+      panel.classList.remove('expanded');
+      panel.classList.add('peek');
+    }
   }
 
   function showHierarchy(pu, autoZoom) {
     track('select_pu', { pu_code: pu.c, state: pu.s, lga: pu.l, ward: pu.w, source: autoZoom ? 'search' : 'map' });
     clearHierarchy();
+    lastSelectedPu = pu;
 
     var ward = findWard(pu);
     var lga = findLGA(pu);
@@ -903,7 +987,11 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       }
     });
 
-    document.getElementById('hierarchyPanel').classList.add('active');
+    if (isMobile) {
+      peekHierarchy();
+    } else {
+      document.getElementById('hierarchyPanel').classList.add('active');
+    }
 
     // Zoom to show PU and ward (the most useful view)
     if (autoZoom) {
@@ -997,6 +1085,37 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     document.getElementById('campaignBanner').addEventListener('click', function() {
       track('banner_click', { destination: 'smartballot_supergroup' });
     });
+
+    // Minimized bar: tap to expand
+    document.getElementById('hierarchyMin').addEventListener('click', expandHierarchy);
+
+    // Touch gestures on hierarchy header (mobile swipe down to minimize, up to expand)
+    var header = document.getElementById('hierarchyHeader');
+    var touchStartY = 0;
+    var touchStartTime = 0;
+    header.addEventListener('touchstart', function(e) {
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }, { passive: true });
+    header.addEventListener('touchend', function(e) {
+      var dy = e.changedTouches[0].clientY - touchStartY;
+      var dt = Date.now() - touchStartTime;
+      if (dt > 500) return;
+      var panel = document.getElementById('hierarchyPanel');
+      if (dy > 40) {
+        // Swipe down
+        if (panel.classList.contains('expanded')) {
+          peekHierarchy();
+        } else {
+          minimizeHierarchy();
+        }
+      } else if (dy < -40) {
+        // Swipe up
+        if (panel.classList.contains('peek')) {
+          expandHierarchy();
+        }
+      }
+    }, { passive: true });
 
     map.on('click', function(e) {
       if (!e.originalEvent._puClicked) clearHierarchy();
