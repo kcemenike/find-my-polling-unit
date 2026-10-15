@@ -11,6 +11,21 @@
 <meta name="apple-mobile-web-app-title" content="PU Map">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://www.googletagmanager.com" />
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KQYBR3GKH0"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+gtag('js', new Date());
+gtag('config', 'G-KQYBR3GKH0', {
+  display_mode:
+    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+    window.navigator.standalone === true ? 'standalone' : 'browser'
+});
+function track(event, params) {
+  try { gtag('event', event, params); } catch(e) {}
+}
+</script>
 <link rel="stylesheet" href="lib/leaflet.css" />
 <link rel="stylesheet" href="lib/MarkerCluster.css" />
 <link rel="stylesheet" href="lib/MarkerCluster.Default.css" />
@@ -382,13 +397,13 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
 </button>
 
-<div class="campaign-banner">
+<a class="campaign-banner" id="campaignBanner" href="https://smartballotapp.com/supergroup?code=NCZOG5PL-PCI6G75L" target="_blank" rel="noopener">
   <img src="votendc.jpg" alt="NDC">
   <div class="campaign-banner-text">
     <span class="campaign-banner-hashtag">#VoteNDC #OK2027</span>
     <span class="campaign-banner-sub">Find your PU. Plan your vote. Defend your mandate.</span>
   </div>
-</div>
+</a>
 
 <div class="hierarchy-panel" id="hierarchyPanel">
   <div class="hierarchy-header">
@@ -695,6 +710,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   }
 
   function showHierarchy(pu, autoZoom) {
+    track('select_pu', { pu_code: pu.c, state: pu.s, lga: pu.l, ward: pu.w, source: autoZoom ? 'search' : 'map' });
     clearHierarchy();
 
     var ward = findWard(pu);
@@ -902,6 +918,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   window._getDir = function(la, ln, mode) { openDirections(la, ln, mode); };
 
   function openDirections(destLat, destLng, mode) {
+    track('get_directions', { mode: mode, has_location: !!userLatLng });
     var travelMode = mode === 'driving' ? 'driving' : 'walking';
     var origin = '';
     if (userLatLng) {
@@ -920,6 +937,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       alert('Geolocation is not supported by your browser.');
       return;
     }
+    track('locate_me', {});
     btn.classList.add('locating');
     navigator.geolocation.getCurrentPosition(
       function(pos) {
@@ -973,6 +991,9 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
     document.getElementById('hierarchyClose').addEventListener('click', clearHierarchy);
     document.getElementById('locateBtn').addEventListener('click', locateUser);
+    document.getElementById('campaignBanner').addEventListener('click', function() {
+      track('banner_click', { destination: 'smartballot_supergroup' });
+    });
 
     map.on('click', function(e) {
       if (!e.originalEvent._puClicked) clearHierarchy();
@@ -1009,6 +1030,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
           matches.push({ type: 'PU', name: pu.n || pu.c, detail: pu.w + ', ' + pu.l + ', ' + pu.s, la: pu.la, ln: pu.ln, zoom: 17, data: pu });
       }
     }
+
+    track('search', { query: query, results: matches.length });
 
     if (matches.length === 0) {
       results.innerHTML = '<div class="search-result" style="color:#999;">No results found</div>';
