@@ -584,15 +584,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     maxClusterRadius: 60,
     spiderfyOnMaxZoom: true,
     showCoverageOnHover: false,
-    disableClusteringAtZoom: 16,
-    chunkProgress: function(processed, total) {
-      var pct = Math.round(30 + (processed / total) * 60);
-      setProgress(pct, 'Rendering polling units... ' + processed.toLocaleString() + ' / ' + total.toLocaleString());
-      if (processed === total) {
-        setProgress(100, 'Complete!');
-        setTimeout(function() { document.getElementById('loading').classList.add('hidden'); }, 500);
-      }
-    }
+    disableClusteringAtZoom: 16
   });
 
   var wardLayer = L.layerGroup();
@@ -609,46 +601,60 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     return fetch(file).then(function(r) { return r.json(); });
   }
 
-  function init() {
-    setProgress(5, 'Loading polling unit data (22 MB)...');
+  var gpsIcon = createCircleIcon('#00a651', 5, false);
+  var estIcon = createCircleIcon('#00a651', 5, true);
+  var totalLoaded = 0;
+  var totalGps = 0;
+  var totalEst = 0;
 
+  function addPuBatch(puData) {
+    var markers = [];
+    for (var i = 0; i < puData.length; i++) {
+      var pu = puData[i];
+      var icon = pu.r === 'g' ? gpsIcon : estIcon;
+      var m = L.marker([pu.la, pu.ln], { icon: icon });
+      m.bindPopup(puPopup(pu));
+      (function(puRef) {
+        m.on('click', function(e) {
+          if (e.originalEvent) e.originalEvent._puClicked = true;
+          showHierarchy(puRef);
+        });
+      })(pu);
+      markers.push(m);
+      if (pu.r === 'g') totalGps++; else totalEst++;
+    }
+    puCluster.addLayers(markers);
+    allData.pu = allData.pu.concat(puData);
+    totalLoaded += puData.length;
+    document.getElementById('puCount').textContent = totalLoaded.toLocaleString();
+    document.getElementById('gpsCount').textContent = totalGps.toLocaleString();
+    document.getElementById('estCount').textContent = totalEst.toLocaleString();
+  }
+
+  function init() {
+    setProgress(5, 'Loading map data...');
+
+    // Load small files + FCT polling units first
     return Promise.all([
-      loadJSON('pu.json'),
+      loadJSON('pu/index.json'),
+      loadJSON('pu/fct.json'),
       loadJSON('ward.json'),
       loadJSON('lga.json'),
       loadJSON('state.json'),
       loadJSON('nat.json')
     ]).then(function(results) {
-      var puData = results[0], wardData = results[1], lgaData = results[2],
-          stateData = results[3], natData = results[4];
+      var puIndex = results[0], fctData = results[1], wardData = results[2],
+          lgaData = results[3], stateData = results[4], natData = results[5];
 
-      allData = { pu: puData, ward: wardData, lga: lgaData, state: stateData, nat: natData };
-      setProgress(25, 'Adding polling units to map...');
+      allData = { pu: [], ward: wardData, lga: lgaData, state: stateData, nat: natData };
 
-      var gpsIcon = createCircleIcon('#00a651', 5, false);
-      var estIcon = createCircleIcon('#00a651', 5, true);
+      setProgress(20, 'Rendering FCT (' + fctData.length + ' polling units)...');
 
-      var markers = [];
-      var gpsCount = 0, estCount = 0;
-      for (var i = 0; i < puData.length; i++) {
-        var pu = puData[i];
-        var icon = pu.r === 'g' ? gpsIcon : estIcon;
-        var m = L.marker([pu.la, pu.ln], { icon: icon });
-        m.bindPopup(puPopup(pu));
-        (function(puRef) {
-          m.on('click', function(e) {
-            if (e.originalEvent) e.originalEvent._puClicked = true;
-            showHierarchy(puRef);
-          });
-        })(pu);
-        markers.push(m);
-        if (pu.r === 'g') gpsCount++; else estCount++;
-      }
-      puCluster.addLayers(markers);
+      // Add FCT first so the user sees something immediately
       map.addLayer(puCluster);
+      addPuBatch(fctData);
 
-      setProgress(92, 'Adding collation centres...');
-
+      // Add collation centres
       var wardIcon = createSquareIcon('#3498db', 10);
       wardData.forEach(function(w) {
         L.marker([w.la, w.ln], { icon: wardIcon }).bindPopup(wardPopup(w)).addTo(wardLayer);
@@ -674,21 +680,40 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         'Road': googleRoad,
         'Satellite': googleSat
       }, {
-        ['Polling Units (' + puData.length.toLocaleString() + ')']: puCluster,
+        'Polling Units': puCluster,
         ['Ward Centres (' + wardData.length.toLocaleString() + ')']: wardLayer,
         ['LGA Centres (' + lgaData.length.toLocaleString() + ')']: lgaLayer,
         ['State Centres (' + stateData.length.toLocaleString() + ')']: stateLayer,
         ['National Centre']: natLayer
       }, { collapsed: false, position: 'topright' }).addTo(map);
 
-      document.getElementById('puCount').textContent = puData.length.toLocaleString();
       document.getElementById('wardCount').textContent = wardData.length.toLocaleString();
       document.getElementById('lgaCount').textContent = lgaData.length.toLocaleString();
       document.getElementById('stateCount').textContent = stateData.length.toLocaleString();
-      document.getElementById('gpsCount').textContent = gpsCount.toLocaleString();
-      document.getElementById('estCount').textContent = estCount.toLocaleString();
+
+      // Hide loading overlay — map is usable now with FCT
+      setProgress(100, 'Ready! Loading remaining states...');
+      setTimeout(function() { document.getElementById('loading').classList.add('hidden'); }, 400);
 
       initSearch();
+
+      // Load remaining states in background
+      var remaining = puIndex.filter(function(s) { return s.s !== 'fct'; });
+      var loaded = 0;
+      function loadNext() {
+        if (loaded >= remaining.length) return;
+        var entry = remaining[loaded];
+        loadJSON('pu/' + entry.s + '.json').then(function(data) {
+          addPuBatch(data);
+          loaded++;
+          var pct = Math.round((loaded / remaining.length) * 100);
+          document.title = loaded < remaining.length
+            ? 'Loading ' + pct + '% — Nigeria Electoral Map'
+            : 'Nigeria Electoral Map — 176,846 Polling Units';
+          setTimeout(loadNext, 50);
+        });
+      }
+      loadNext();
     });
   }
 

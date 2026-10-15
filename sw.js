@@ -1,4 +1,4 @@
-var CACHE = 'pu-map-v2';
+var CACHE = 'pu-map-v3';
 
 var SHELL = [
   './',
@@ -17,13 +17,20 @@ var SHELL = [
   './votendc.jpg'
 ];
 
+var STATES = [
+  'abia','adamawa','akwa-ibom','anambra','bauchi','bayelsa','benue','borno',
+  'cross-river','delta','ebonyi','edo','ekiti','enugu','fct','gombe','imo',
+  'jigawa','kaduna','kano','katsina','kebbi','kogi','kwara','lagos','nasarawa',
+  'niger','ogun','ondo','osun','oyo','plateau','rivers','sokoto','taraba','yobe','zamfara'
+];
+
 var DATA = [
-  './pu.json',
+  './pu/index.json',
   './ward.json',
   './lga.json',
   './state.json',
   './nat.json'
-];
+].concat(STATES.map(function(s) { return './pu/' + s + '.json'; }));
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
