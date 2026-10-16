@@ -985,7 +985,12 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
           el.style.cursor = 'pointer';
           el.addEventListener('click', function(e) {
             e.stopPropagation();
-            map.setView([s.la, s.ln], s.zoom, { animate: true });
+            if (userLatLng) {
+              var bounds = L.latLngBounds([[userLatLng.lat, userLatLng.lng], [s.la, s.ln]]);
+              map.fitBounds(bounds.pad(0.2), { animate: true });
+            } else {
+              map.setView([s.la, s.ln], Math.max(map.getZoom(), s.zoom), { animate: true });
+            }
           });
         })(step);
       });
@@ -1071,7 +1076,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
           .bindPopup('<strong>Your Location</strong>')
           .addTo(userLocationLayer);
 
-        map.setView([userLatLng.lat, userLatLng.lng], 14, { animate: true });
+        var currentZoom = map.getZoom();
+        map.setView([userLatLng.lat, userLatLng.lng], Math.max(currentZoom, 14), { animate: true });
       },
       function(err) {
         btn.classList.remove('locating');
