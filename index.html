@@ -417,14 +417,14 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   <div class="stat"><span class="stat-label">LGA Centres</span><span class="stat-value" id="lgaCount">--</span></div>
   <div class="stat"><span class="stat-label">State Centres</span><span class="stat-value" id="stateCount">--</span></div>
   <div class="divider"></div>
-  <div class="stat"><span class="stat-label">GPS sourced</span><span class="stat-value" id="gpsCount">--</span></div>
-  <div class="stat"><span class="stat-label">Ward estimated</span><span class="stat-value" id="estCount">--</span></div>
+  <div class="stat"><span class="stat-label">INEC GPS</span><span class="stat-value" id="gpsCount">--</span></div>
+  <div class="stat"><span class="stat-label">Estimated</span><span class="stat-value" id="estCount">--</span></div>
   <div style="margin-top:8px;font-size:11px;color:#999;">Search for a polling unit to see its full collation hierarchy.</div>
 </div>
 
 <div class="legend">
   <h3>Legend</h3>
-  <div class="legend-item"><div class="legend-dot" style="background:#00a651;"></div> Polling Unit (GPS)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#00a651;"></div> Polling Unit (INEC GPS)</div>
   <div class="legend-item"><div class="legend-dot" style="background:#00a651;opacity:0.5;border:1px dashed #00a651;"></div> Polling Unit (estimated)</div>
   <div class="legend-item"><div class="legend-square" style="background:#3498db;"></div> Ward Collation Centre</div>
   <div class="legend-item"><div class="legend-square" style="background:#e67e22;"></div> LGA Collation Centre</div>
@@ -474,11 +474,11 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
   var googleRoad = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
     subdomains: '0123', maxZoom: 21,
-    attribution: 'Map data &copy; Google | Electoral data from INEC via IReV'
+    attribution: 'Map data &copy; Google | Electoral data from INEC CVR Portal'
   });
   var googleSat = L.tileLayer('https://mt{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
     subdomains: '0123', maxZoom: 21,
-    attribution: 'Imagery &copy; Google | Electoral data from INEC via IReV'
+    attribution: 'Imagery &copy; Google | Electoral data from INEC CVR Portal'
   });
   googleRoad.addTo(map);
 
@@ -490,7 +490,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     loadStatus.textContent = msg;
   }
 
-  const SRC_LABELS = { g: 'GPS verified', w: 'Ward centroid estimate', l: 'LGA centroid estimate', s: 'State centroid estimate' };
+  const SRC_LABELS = { g: 'INEC GPS coordinate', w: 'Ward centroid estimate' };
 
   const HIER_COLORS = {
     pu:    '#e74c3c',

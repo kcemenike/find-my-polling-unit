@@ -18,15 +18,17 @@ Interactive map of all **176,846 polling units** in Nigeria with the full collat
 - **Offline support** — installable as a PWA, works without internet after first load
 - **Satellite view** — toggle between road and satellite map tiles
 
-## Data Sources
+## Data Source
 
-| Data | Source | Coverage |
-|------|--------|----------|
-| Polling unit list (176,846) | [INEC IReV](https://github.com/Emeka-Onwuepe/Polling_Units_in_Nigeria) | All 37 states |
-| GPS coordinates (95,154) | [mykeels/inec-polling-units](https://github.com/mykeels/inec-polling-units) | 54% of PUs |
-| Ward centroids (8,809) | [temikeezy/nigeria-geojson-data](https://github.com/temikeezy/nigeria-geojson-data) | All wards |
+All data is scraped directly from **INEC's official CVR portal** ([cvr.inecnigeria.org](https://cvr.inecnigeria.org/pu)) — the single source of truth.
 
-Polling units without GPS coordinates are placed at their ward centroid with a small random offset. The coordinate source (GPS vs estimated) is shown when you tap a polling unit.
+| Data | Coverage |
+|------|----------|
+| Polling units | 176,846 (all 37 states, 774 LGAs, 8,809 wards) |
+| INEC GPS coordinates | 163,170 (92.3% of PUs) |
+| Ward centroid estimates | 13,676 (7.7% where INEC returned no coordinates) |
+
+The coordinate source (INEC GPS vs estimated) is shown when you tap a polling unit.
 
 ## How It Works
 
