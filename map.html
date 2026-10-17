@@ -510,7 +510,9 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   }
 
   function wardPopup(w) {
-    return '<strong>Ward: ' + w.n + '</strong><br>LGA: ' + w.l + '<br>State: ' + w.s + '<br>Polling Units: ' + w.p.toLocaleString();
+    return '<strong>Ward: ' + w.n + '</strong><br>' +
+      (w.cn ? '<em>' + w.cn + '</em><br>' : '') +
+      'LGA: ' + w.l + '<br>State: ' + w.s + '<br>Polling Units: ' + w.p.toLocaleString();
   }
 
   function lgaPopup(l) {
@@ -842,7 +844,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     if (ward) {
       chain.push({
         level: 'ward', label: 'Ward Collation Centre', color: HIER_COLORS.ward,
-        name: ward.n, detail: ward.p + ' polling units',
+        name: ward.n + (ward.cn ? ' — ' + ward.cn : ''),
+        detail: ward.p + ' polling units',
         la: ward.la, ln: ward.ln, zoom: 14
       });
     }
