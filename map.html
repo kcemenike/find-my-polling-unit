@@ -658,30 +658,20 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     document.getElementById('estCount').textContent = totalEst.toLocaleString();
   }
 
-  function init() {
-    setProgress(5, 'Loading map data...');
+  var collationLoaded = false;
+  var collationLoading = false;
 
-    // Load small files + FCT polling units first
+  function loadCollationData() {
+    if (collationLoaded || collationLoading) return Promise.resolve();
+    collationLoading = true;
     return Promise.all([
-      loadJSON('pu/index.json'),
-      loadJSON('pu/fct.json'),
       loadJSON('ward.json'),
-      loadJSON('lga.json'),
-      loadJSON('state.json'),
-      loadJSON('nat.json')
+      loadJSON('lga.json')
     ]).then(function(results) {
-      var puIndex = results[0], fctData = results[1], wardData = results[2],
-          lgaData = results[3], stateData = results[4], natData = results[5];
+      var wardData = results[0], lgaData = results[1];
+      allData.ward = wardData;
+      allData.lga = lgaData;
 
-      allData = { pu: [], ward: wardData, lga: lgaData, state: stateData, nat: natData };
-
-      setProgress(20, 'Rendering FCT (' + fctData.length + ' polling units)...');
-
-      // Add FCT first so the user sees something immediately
-      map.addLayer(puCluster);
-      addPuBatch(fctData);
-
-      // Add collation centres
       var wardIcon = createSquareIcon('#3498db', 10);
       wardData.forEach(function(w) {
         L.marker([w.la, w.ln], { icon: wardIcon }).bindPopup(wardPopup(w)).addTo(wardLayer);
@@ -692,6 +682,36 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         L.marker([l.la, l.ln], { icon: lgaIcon }).bindPopup(lgaPopup(l)).addTo(lgaLayer);
       });
 
+      document.getElementById('wardCount').textContent = wardData.length.toLocaleString();
+      document.getElementById('lgaCount').textContent = lgaData.length.toLocaleString();
+
+      buildLookups();
+      collationLoaded = true;
+      collationLoading = false;
+    });
+  }
+
+  function init() {
+    setProgress(5, 'Loading map data...');
+
+    // Load only essentials first: index, FCT PUs, state/national centres
+    return Promise.all([
+      loadJSON('pu/index.json'),
+      loadJSON('pu/fct.json'),
+      loadJSON('state.json'),
+      loadJSON('nat.json')
+    ]).then(function(results) {
+      var puIndex = results[0], fctData = results[1],
+          stateData = results[2], natData = results[3];
+
+      allData = { pu: [], ward: [], lga: [], state: stateData, nat: natData };
+
+      setProgress(20, 'Rendering FCT (' + fctData.length + ' polling units)...');
+
+      map.addLayer(puCluster);
+      addPuBatch(fctData);
+
+      // State and national centres (tiny data, always loaded)
       var stateIcon = createDiamondIcon('#9b59b6', 16);
       stateData.forEach(function(s) {
         L.marker([s.la, s.ln], { icon: stateIcon }).bindPopup(statePopup(s)).addTo(stateLayer);
@@ -708,23 +728,23 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         'Satellite': googleSat
       }, {
         'Polling Units': puCluster,
-        ['Ward Centres (' + wardData.length.toLocaleString() + ')']: wardLayer,
-        ['LGA Centres (' + lgaData.length.toLocaleString() + ')']: lgaLayer,
-        ['State Centres (' + stateData.length.toLocaleString() + ')']: stateLayer,
-        ['National Centre']: natLayer
+        'Ward Centres': wardLayer,
+        'LGA Centres': lgaLayer,
+        'State Centres': stateLayer,
+        'National Centre': natLayer
       }, { collapsed: false, position: 'topright' }).addTo(map);
 
-      document.getElementById('wardCount').textContent = wardData.length.toLocaleString();
-      document.getElementById('lgaCount').textContent = lgaData.length.toLocaleString();
       document.getElementById('stateCount').textContent = stateData.length.toLocaleString();
-
       buildLookups();
 
-      // Hide loading overlay — map is usable now with FCT
+      // Hide loading overlay — map is usable now
       setProgress(100, 'Ready! Loading remaining states...');
       setTimeout(function() { document.getElementById('loading').classList.add('hidden'); }, 400);
 
       initSearch();
+
+      // Load ward/LGA collation data in background (not blocking)
+      loadCollationData();
 
       // Load remaining states in background
       var remaining = puIndex.filter(function(s) { return s.s !== 'fct'; });
@@ -849,6 +869,12 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
   function showHierarchy(pu, autoZoom) {
     track('select_pu', { pu_code: pu.c, state: pu.s, lga: pu.l, ward: pu.w, source: autoZoom ? 'search' : 'map' });
+
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showHierarchy(pu, autoZoom); });
+      return;
+    }
+
     clearHierarchy();
     lastSelectedPu = pu;
 
