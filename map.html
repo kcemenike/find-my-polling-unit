@@ -681,20 +681,20 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       map.addLayer(puCluster);
       addPuBatch(fctData);
 
-      // Add collation centres
-      var wardIcon = createSquareIcon('#3498db', 10);
+      // Add collation centres (circleMarker = canvas-rendered, much faster than divIcon)
       wardData.forEach(function(w) {
-        L.marker([w.la, w.ln], { icon: wardIcon }).bindPopup(wardPopup(w)).addTo(wardLayer);
+        L.circleMarker([w.la, w.ln], { radius: 5, color: '#fff', weight: 1.5, fillColor: '#3498db', fillOpacity: 0.9 })
+          .bindPopup(wardPopup(w)).addTo(wardLayer);
       });
 
-      var lgaIcon = createSquareIcon('#e67e22', 14);
       lgaData.forEach(function(l) {
-        L.marker([l.la, l.ln], { icon: lgaIcon }).bindPopup(lgaPopup(l)).addTo(lgaLayer);
+        L.circleMarker([l.la, l.ln], { radius: 7, color: '#fff', weight: 2, fillColor: '#e67e22', fillOpacity: 0.9 })
+          .bindPopup(lgaPopup(l)).addTo(lgaLayer);
       });
 
-      var stateIcon = createDiamondIcon('#9b59b6', 16);
       stateData.forEach(function(s) {
-        L.marker([s.la, s.ln], { icon: stateIcon }).bindPopup(statePopup(s)).addTo(stateLayer);
+        L.circleMarker([s.la, s.ln], { radius: 9, color: '#fff', weight: 2, fillColor: '#9b59b6', fillOpacity: 0.9 })
+          .bindPopup(statePopup(s)).addTo(stateLayer);
       });
 
       var natIcon = createDiamondIcon('#e74c3c', 22);
@@ -729,6 +729,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       document.getElementById('lgaCount').textContent = lgaData.length.toLocaleString();
       document.getElementById('stateCount').textContent = stateData.length.toLocaleString();
 
+      buildLookups();
+
       // Hide loading overlay — map is usable now with FCT
       setProgress(100, 'Ready! Loading remaining states...');
       setTimeout(function() { document.getElementById('loading').classList.add('hidden'); }, 400);
@@ -748,7 +750,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
           document.title = loaded < remaining.length
             ? 'Loading ' + pct + '% — Nigeria Electoral Map'
             : 'Nigeria Electoral Map — 176,846 Polling Units';
-          setTimeout(loadNext, 50);
+          setTimeout(loadNext, 200);
         });
       }
       loadNext();
@@ -757,31 +759,31 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
   // --- Hierarchy highlight ---
 
+  // Fast lookup maps (built once, O(1) per query instead of O(n) scan)
+  var wardLookup = {}, lgaLookup = {}, stateLookup = {};
+
+  function buildLookups() {
+    allData.ward.forEach(function(w) {
+      wardLookup[w.s.toUpperCase() + '|' + w.l.toUpperCase() + '|' + w.n.toUpperCase()] = w;
+    });
+    allData.lga.forEach(function(l) {
+      lgaLookup[l.s.toUpperCase() + '|' + l.n.toUpperCase()] = l;
+    });
+    allData.state.forEach(function(s) {
+      stateLookup[s.n.toUpperCase()] = s;
+    });
+  }
+
   function findWard(pu) {
-    var sUp = pu.s.toUpperCase(), lUp = pu.l.toUpperCase(), wUp = pu.w.toUpperCase();
-    for (var i = 0; i < allData.ward.length; i++) {
-      var w = allData.ward[i];
-      if (w.s.toUpperCase() === sUp && w.l.toUpperCase() === lUp && w.n.toUpperCase() === wUp) return w;
-    }
-    return null;
+    return wardLookup[pu.s.toUpperCase() + '|' + pu.l.toUpperCase() + '|' + pu.w.toUpperCase()] || null;
   }
 
   function findLGA(pu) {
-    var sUp = pu.s.toUpperCase(), lUp = pu.l.toUpperCase();
-    for (var i = 0; i < allData.lga.length; i++) {
-      var l = allData.lga[i];
-      if (l.s.toUpperCase() === sUp && l.n.toUpperCase() === lUp) return l;
-    }
-    return null;
+    return lgaLookup[pu.s.toUpperCase() + '|' + pu.l.toUpperCase()] || null;
   }
 
   function findState(pu) {
-    var sUp = pu.s.toUpperCase();
-    for (var i = 0; i < allData.state.length; i++) {
-      var s = allData.state[i];
-      if (s.n.toUpperCase() === sUp) return s;
-    }
-    return null;
+    return stateLookup[pu.s.toUpperCase()] || null;
   }
 
   function haversine(lat1, lng1, lat2, lng2) {
