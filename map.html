@@ -66,10 +66,14 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   box-shadow: 0 2px 12px rgba(0,0,0,0.15); font-size: 12px;
 }
 .legend h3 { font-size: 13px; margin-bottom: 6px; }
-.legend-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; }
-.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-.legend-square { width: 12px; height: 12px; flex-shrink: 0; }
-.legend-diamond { width: 12px; height: 12px; transform: rotate(45deg); flex-shrink: 0; }
+.legend-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: default; }
+.legend-item:hover { padding-left: 4px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; transition: transform 0.2s; }
+.legend-square { width: 12px; height: 12px; flex-shrink: 0; transition: transform 0.2s; }
+.legend-diamond { width: 12px; height: 12px; transform: rotate(45deg); flex-shrink: 0; transition: transform 0.2s; }
+.legend-item:hover .legend-dot,
+.legend-item:hover .legend-square { transform: scale(1.4); }
+.legend-item:hover .legend-diamond { transform: rotate(45deg) scale(1.4); }
 
 .search-box {
   position: absolute; top: 10px; left: 60px; z-index: 1000;
@@ -89,7 +93,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   padding: 8px 14px; cursor: pointer; font-size: 13px;
   border-bottom: 1px solid #f0f0f0;
 }
-.search-result:hover { background: #f0fff5; }
+.search-result:hover { background: #f0fff5; border-left: 3px solid #00a651; padding-left: 11px; }
 .search-result .result-name { font-weight: 600; }
 .search-result .result-detail { color: #888; font-size: 11px; }
 
@@ -136,9 +140,9 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 }
 .hierarchy-step {
   display: flex; align-items: stretch; cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
 }
-.hierarchy-step:hover { background: #f8faf9; }
+.hierarchy-step:hover { background: #f0fff5; transform: translateX(2px); box-shadow: -2px 0 0 #00a651 inset; }
 .hierarchy-step-line {
   width: 40px; display: flex; flex-direction: column; align-items: center;
   padding: 0; flex-shrink: 0;
@@ -201,11 +205,11 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 .btn-directions-walk {
   background: #e8f5e9; color: #2e7d32;
 }
-.btn-directions-walk:hover { background: #c8e6c9; }
+.btn-directions-walk:hover { background: #2e7d32; color: #fff; }
 .btn-directions-drive {
   background: #e3f2fd; color: #1565c0;
 }
-.btn-directions-drive:hover { background: #bbdefb; }
+.btn-directions-drive:hover { background: #1565c0; color: #fff; }
 .btn-directions svg { width: 12px; height: 12px; }
 
 /* Locate me button */
