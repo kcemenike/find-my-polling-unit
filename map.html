@@ -337,8 +337,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   }
 
   .leaflet-control-layers {
-    max-width: 180px; font-size: 11px;
-    margin-top: 55px !important;
+    display: none !important;
   }
 
   .legend {
@@ -376,7 +375,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     display: flex; justify-content: space-between; align-items: center; width: 100%;
   }
   .hierarchy-handle { display: block; }
-  .hierarchy-close { display: none; }
+  .hierarchy-close { display: block; }
 
   .locate-btn {
     bottom: 200px; left: 10px; right: auto; top: auto;
@@ -701,6 +700,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       var natIcon = createDiamondIcon('#e74c3c', 22);
       L.marker([natData.la, natData.ln], { icon: natIcon }).bindPopup(natPopup(natData)).addTo(natLayer);
 
+      wardLayer.addTo(map);
+      lgaLayer.addTo(map);
       stateLayer.addTo(map);
       natLayer.addTo(map);
 
@@ -1142,7 +1143,6 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       if (!e.target.closest('.search-box')) results.classList.remove('active');
     });
 
-    document.getElementById('hierarchyClose').addEventListener('click', clearHierarchy);
     document.getElementById('locateBtn').addEventListener('click', locateUser);
     document.getElementById('campaignBanner').addEventListener('click', function() {
       track('banner_click', { destination: 'smartballot_supergroup' });
@@ -1151,33 +1151,27 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     // Minimized bar: tap to expand
     document.getElementById('hierarchyMin').addEventListener('click', expandHierarchy);
 
-    // Touch gestures on hierarchy header (mobile swipe down to minimize, up to expand)
+    // Tap header to toggle between peek and expanded
     var header = document.getElementById('hierarchyHeader');
-    var touchStartY = 0;
-    var touchStartTime = 0;
-    header.addEventListener('touchstart', function(e) {
-      touchStartY = e.touches[0].clientY;
-      touchStartTime = Date.now();
-    }, { passive: true });
-    header.addEventListener('touchend', function(e) {
-      var dy = e.changedTouches[0].clientY - touchStartY;
-      var dt = Date.now() - touchStartTime;
-      if (dt > 500) return;
+    header.addEventListener('click', function(e) {
+      if (e.target.closest('.hierarchy-close')) return;
       var panel = document.getElementById('hierarchyPanel');
-      if (dy > 40) {
-        // Swipe down
-        if (panel.classList.contains('expanded')) {
-          peekHierarchy();
-        } else {
-          minimizeHierarchy();
-        }
-      } else if (dy < -40) {
-        // Swipe up
-        if (panel.classList.contains('peek')) {
-          expandHierarchy();
-        }
+      if (panel.classList.contains('expanded')) {
+        peekHierarchy();
+      } else if (panel.classList.contains('peek')) {
+        expandHierarchy();
       }
-    }, { passive: true });
+    });
+
+    // X button: minimize to bar (not just close)
+    document.getElementById('hierarchyClose').addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (isMobile) {
+        minimizeHierarchy();
+      } else {
+        clearHierarchy();
+      }
+    });
 
     map.on('click', function(e) {
       if (!e.originalEvent._puClicked) clearHierarchy();
