@@ -700,10 +700,18 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       var natIcon = createDiamondIcon('#e74c3c', 22);
       L.marker([natData.la, natData.ln], { icon: natIcon }).bindPopup(natPopup(natData)).addTo(natLayer);
 
-      wardLayer.addTo(map);
-      lgaLayer.addTo(map);
       stateLayer.addTo(map);
       natLayer.addTo(map);
+
+      function updateLayerVisibility() {
+        var z = map.getZoom();
+        if (z >= 10 && !map.hasLayer(wardLayer)) map.addLayer(wardLayer);
+        if (z < 10 && map.hasLayer(wardLayer)) map.removeLayer(wardLayer);
+        if (z >= 9 && !map.hasLayer(lgaLayer)) map.addLayer(lgaLayer);
+        if (z < 9 && map.hasLayer(lgaLayer)) map.removeLayer(lgaLayer);
+      }
+      map.on('zoomend', updateLayerVisibility);
+      updateLayerVisibility();
 
       L.control.layers({
         'Road': googleRoad,
