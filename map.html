@@ -221,6 +221,15 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 .locate-btn svg { width: 20px; height: 20px; color: #333; }
 .locate-btn.locating svg { color: #00a651; }
 
+/* Google Maps-style pin */
+.gmap-pin {
+  position: relative; width: 28px; height: 40px;
+}
+.gmap-pin svg {
+  width: 28px; height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
 /* User location marker */
 @keyframes user-pulse {
   0% { transform: scale(1); opacity: 0.6; }
@@ -230,16 +239,13 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   position: relative;
 }
 .user-marker .user-pulse {
-  position: absolute; top: 50%; left: 50%;
-  width: 24px; height: 24px; margin: -12px 0 0 -12px;
-  border-radius: 50%; background: rgba(33,150,243,0.3);
+  position: absolute; top: 0; left: 50%;
+  width: 28px; height: 28px; margin: -4px 0 0 -14px;
+  border-radius: 50%; background: rgba(234,67,53,0.3);
   animation: user-pulse 2s ease-out infinite;
 }
-.user-marker .user-dot {
-  position: absolute; top: 50%; left: 50%;
-  width: 14px; height: 14px; margin: -7px 0 0 -7px;
-  border-radius: 50%; background: #2196f3;
-  border: 3px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+.user-marker .pin-icon {
+  position: relative;
 }
 
 /* Pulsing highlight marker */
@@ -516,11 +522,17 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   }
 
   function lgaPopup(l) {
-    return '<strong>LGA: ' + l.n + '</strong><br>State: ' + l.s + '<br>Wards: ' + l.w + '<br>Polling Units: ' + l.p.toLocaleString();
+    return '<strong>LGA: ' + l.n + '</strong><br>' +
+      (l.cn ? '<em>' + l.cn + '</em><br>' : '') +
+      (l.addr ? '<span style="font-size:11px;color:#666">' + l.addr + '</span><br>' : '') +
+      'State: ' + l.s + '<br>Wards: ' + l.w + '<br>Polling Units: ' + l.p.toLocaleString();
   }
 
   function statePopup(s) {
-    return '<strong>State: ' + s.n + '</strong><br>LGAs: ' + s.l + '<br>Wards: ' + s.w + '<br>Polling Units: ' + s.p.toLocaleString();
+    return '<strong>State: ' + s.n + '</strong><br>' +
+      (s.cn ? '<em>' + s.cn + '</em><br>' : '') +
+      (s.addr ? '<span style="font-size:11px;color:#666">' + s.addr + '</span><br>' : '') +
+      'LGAs: ' + s.l + '<br>Wards: ' + s.w + '<br>Polling Units: ' + s.p.toLocaleString();
   }
 
   function natPopup(n) {
@@ -595,7 +607,21 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   var natLayer = L.layerGroup();
   var highlightLayer = L.layerGroup().addTo(map);
   var userLocationLayer = L.layerGroup().addTo(map);
+  var selectedPinLayer = L.layerGroup().addTo(map);
   var userLatLng = null;
+
+  var PIN_SVG = '<svg viewBox="0 0 28 40" width="28" height="40"><path d="M14 0C6.27 0 0 6.27 0 14c0 10.5 14 26 14 26s14-15.5 14-26C28 6.27 21.73 0 14 0zm0 19a5 5 0 110-10 5 5 0 010 10z" fill="#EA4335"/></svg>';
+
+  function showPin(lat, lng) {
+    selectedPinLayer.clearLayers();
+    var pinIcon = L.divIcon({
+      className: '',
+      html: '<div class="gmap-pin">' + PIN_SVG + '</div>',
+      iconSize: [28, 40],
+      iconAnchor: [14, 40]
+    });
+    L.marker([lat, lng], { icon: pinIcon, zIndexOffset: 2500 }).addTo(selectedPinLayer);
+  }
 
   var allData = { pu: [], ward: [], lga: [], state: [], nat: null };
 
@@ -785,6 +811,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
   function clearHierarchy() {
     highlightLayer.clearLayers();
+    selectedPinLayer.clearLayers();
     var panel = document.getElementById('hierarchyPanel');
     panel.classList.remove('active', 'peek', 'expanded');
     document.getElementById('hierarchyMin').classList.remove('active');
@@ -988,6 +1015,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
           el.style.cursor = 'pointer';
           el.addEventListener('click', function(e) {
             e.stopPropagation();
+            showPin(s.la, s.ln);
             if (userLatLng) {
               var bounds = L.latLngBounds([[userLatLng.lat, userLatLng.lng], [s.la, s.ln]]);
               map.fitBounds(bounds.pad(0.2), { animate: true });
@@ -1071,9 +1099,9 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         userLocationLayer.clearLayers();
         var userIcon = L.divIcon({
           className: '',
-          html: '<div class="user-marker"><div class="user-pulse"></div><div class="user-dot"></div></div>',
-          iconSize: [24, 24],
-          iconAnchor: [12, 12]
+          html: '<div class="user-marker"><div class="user-pulse"></div><div class="pin-icon"><svg viewBox="0 0 28 40" width="28" height="40"><path d="M14 0C6.27 0 0 6.27 0 14c0 10.5 14 26 14 26s14-15.5 14-26C28 6.27 21.73 0 14 0zm0 19a5 5 0 110-10 5 5 0 010 10z" fill="#EA4335"/></svg></div></div>',
+          iconSize: [28, 40],
+          iconAnchor: [14, 40]
         });
         L.marker([userLatLng.lat, userLatLng.lng], { icon: userIcon, zIndexOffset: 3000 })
           .bindPopup('<strong>Your Location</strong>')
