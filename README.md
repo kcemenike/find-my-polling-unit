@@ -16,22 +16,22 @@ Interactive map of all **176,846 polling units** in Nigeria with the full collat
 - **Get Directions** — walking or driving via Google Maps from your current location
 - **Locate Me** — GPS-based location to find your nearest polling unit
 - **Search** — find any polling unit, ward, LGA, or state by name or code
-- **Mobile-first** — responsive bottom sheet with swipe gestures
+- **Mobile-first** — responsive bottom sheet with tap-to-toggle
 - **Offline support** — installable as a PWA, works without internet after first load
 - **Lazy loading** — FCT loads first (363KB), remaining states stream in background
 - **Satellite view** — toggle between road and satellite map tiles
 
-## Data Source
+## Data Sources
 
-All data is scraped directly from **INEC's official CVR portal** ([cvr.inecnigeria.org](https://cvr.inecnigeria.org/pu)) — the single source of truth.
+Every location on the map is a real building — zero centroids or estimates.
 
-| Data | Coverage |
-|------|----------|
-| Polling units | 176,846 (all 37 states, 774 LGAs, 8,809 wards) |
-| INEC GPS coordinates | 163,170 (92.3% of PUs) |
-| Ward centroid estimates | 13,676 (7.7% where INEC returned no coordinates) |
-
-The coordinate source (INEC GPS vs estimated) is shown when you tap a polling unit.
+| Data | Count | Source |
+|------|-------|--------|
+| Polling units | 176,846 | [INEC CVR portal](https://cvr.inecnigeria.org/pu) GPS coordinates |
+| Ward collation centres | 8,809 | [INEC state-specific PDFs](https://inecnigeria.org/documents/resources/rac/) — actual INEC-designated buildings |
+| LGA collation centres | 775 | [INEC CVR locator](https://cvr.inecnigeria.org/locator/browse) — INEC LGA office addresses |
+| State collation centres | 37 | [INEC state offices](https://inecnigeria.org/about/state-offices) — INEC state HQ addresses |
+| National collation centre | 1 | ICC Abuja |
 
 ## Raw INEC Data
 
