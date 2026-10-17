@@ -1,4 +1,4 @@
-var CACHE = 'pu-map-v6';
+var CACHE = 'pu-map-v8';
 
 var SHELL = [
   './',
