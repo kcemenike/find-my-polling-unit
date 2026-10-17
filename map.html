@@ -713,16 +713,17 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       map.on('zoomend', updateLayerVisibility);
       updateLayerVisibility();
 
+      var overlays = { 'Polling Units': puCluster };
+      if (!isMobile) {
+        overlays['Ward Centres (' + wardData.length.toLocaleString() + ')'] = wardLayer;
+        overlays['LGA Centres (' + lgaData.length.toLocaleString() + ')'] = lgaLayer;
+        overlays['State Centres (' + stateData.length.toLocaleString() + ')'] = stateLayer;
+        overlays['National Centre'] = natLayer;
+      }
       L.control.layers({
         'Road': googleRoad,
         'Satellite': googleSat
-      }, {
-        'Polling Units': puCluster,
-        ['Ward Centres (' + wardData.length.toLocaleString() + ')']: wardLayer,
-        ['LGA Centres (' + lgaData.length.toLocaleString() + ')']: lgaLayer,
-        ['State Centres (' + stateData.length.toLocaleString() + ')']: stateLayer,
-        ['National Centre']: natLayer
-      }, { collapsed: false, position: 'topright' }).addTo(map);
+      }, overlays, { collapsed: isMobile, position: 'topright' }).addTo(map);
 
       document.getElementById('wardCount').textContent = wardData.length.toLocaleString();
       document.getElementById('lgaCount').textContent = lgaData.length.toLocaleString();
