@@ -1149,6 +1149,125 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     );
   }
 
+  // --- Area highlights (ward/LGA/state search clicks) ---
+
+  function showWardHighlight(ward) {
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showWardHighlight(ward); });
+      return;
+    }
+    clearHierarchy();
+
+    showPin(ward.la, ward.ln);
+
+    // Find all PUs in this ward
+    var bounds = L.latLngBounds([[ward.la, ward.ln]]);
+    var wardPuCoords = new Set();
+    var wardKey = ward.s.toUpperCase() + '|' + ward.l.toUpperCase() + '|' + ward.n.toUpperCase();
+
+    allData.pu.forEach(function(pu) {
+      var puKey = pu.s.toUpperCase() + '|' + pu.l.toUpperCase() + '|' + pu.w.toUpperCase();
+      if (puKey === wardKey) {
+        var coordKey = pu.la + ',' + pu.ln;
+        var isWardCentre = Math.abs(pu.la - ward.la) < 0.0001 && Math.abs(pu.ln - ward.ln) < 0.0001;
+        if (!isWardCentre) {
+          L.circleMarker([pu.la, pu.ln], { radius: 6, color: '#fff', weight: 1.5, fillColor: '#00a651', fillOpacity: 0.9 })
+            .bindPopup(puPopup(pu)).addTo(highlightLayer);
+        }
+        wardPuCoords.add(coordKey);
+        bounds.extend([pu.la, pu.ln]);
+      }
+    });
+
+    // Ward centre marker (blue, larger)
+    L.circleMarker([ward.la, ward.ln], { radius: 10, color: '#fff', weight: 2.5, fillColor: '#3498db', fillOpacity: 1 })
+      .bindPopup(wardPopup(ward)).openPopup().addTo(highlightLayer);
+
+    map.fitBounds(bounds.pad(0.15), { maxZoom: 16 });
+  }
+
+  function showLGAHighlight(lga) {
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showLGAHighlight(lga); });
+      return;
+    }
+    clearHierarchy();
+
+    showPin(lga.la, lga.ln);
+
+    var bounds = L.latLngBounds([[lga.la, lga.ln]]);
+    var wardCoords = new Set();
+
+    // Find all wards in this LGA
+    allData.ward.forEach(function(w) {
+      if (w.s.toUpperCase() === lga.s.toUpperCase() && w.l.toUpperCase() === lga.n.toUpperCase()) {
+        wardCoords.add(w.la + ',' + w.ln);
+        L.circleMarker([w.la, w.ln], { radius: 7, color: '#fff', weight: 2, fillColor: '#3498db', fillOpacity: 0.9 })
+          .bindPopup(wardPopup(w)).addTo(highlightLayer);
+        bounds.extend([w.la, w.ln]);
+      }
+    });
+
+    // Find all PUs in this LGA
+    allData.pu.forEach(function(pu) {
+      if (pu.s.toUpperCase() === lga.s.toUpperCase() && pu.l.toUpperCase() === lga.n.toUpperCase()) {
+        var coordKey = pu.la + ',' + pu.ln;
+        if (!wardCoords.has(coordKey)) {
+          L.circleMarker([pu.la, pu.ln], { radius: 5, color: '#fff', weight: 1, fillColor: '#00a651', fillOpacity: 0.8 })
+            .bindPopup(puPopup(pu)).addTo(highlightLayer);
+        }
+        bounds.extend([pu.la, pu.ln]);
+      }
+    });
+
+    // LGA centre marker (orange, largest)
+    L.circleMarker([lga.la, lga.ln], { radius: 12, color: '#fff', weight: 2.5, fillColor: '#e67e22', fillOpacity: 1 })
+      .bindPopup(lgaPopup(lga)).openPopup().addTo(highlightLayer);
+
+    map.fitBounds(bounds.pad(0.1), { maxZoom: 14 });
+  }
+
+  function showStateHighlight(state) {
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showStateHighlight(state); });
+      return;
+    }
+    clearHierarchy();
+
+    showPin(state.la, state.ln);
+
+    var bounds = L.latLngBounds([[state.la, state.ln]]);
+    var lgaCoords = new Set();
+
+    // Find all LGAs in this state
+    allData.lga.forEach(function(l) {
+      if (l.s.toUpperCase() === state.n.toUpperCase()) {
+        lgaCoords.add(l.la + ',' + l.ln);
+        L.circleMarker([l.la, l.ln], { radius: 8, color: '#fff', weight: 2, fillColor: '#e67e22', fillOpacity: 0.9 })
+          .bindPopup(lgaPopup(l)).addTo(highlightLayer);
+        bounds.extend([l.la, l.ln]);
+      }
+    });
+
+    // Find all wards in this state
+    allData.ward.forEach(function(w) {
+      if (w.s.toUpperCase() === state.n.toUpperCase()) {
+        var coordKey = w.la + ',' + w.ln;
+        if (!lgaCoords.has(coordKey)) {
+          L.circleMarker([w.la, w.ln], { radius: 5, color: '#fff', weight: 1, fillColor: '#3498db', fillOpacity: 0.7 })
+            .bindPopup(wardPopup(w)).addTo(highlightLayer);
+        }
+        bounds.extend([w.la, w.ln]);
+      }
+    });
+
+    // State centre marker (purple, largest)
+    L.circleMarker([state.la, state.ln], { radius: 14, color: '#fff', weight: 3, fillColor: '#9b59b6', fillOpacity: 1 })
+      .bindPopup(statePopup(state)).openPopup().addTo(highlightLayer);
+
+    map.fitBounds(bounds.pad(0.1), { maxZoom: 10 });
+  }
+
   // --- Search ---
 
   function initSearch() {
@@ -1214,17 +1333,17 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     for (var si = 0; si < allData.state.length && matches.length < 20; si++) {
       var s = allData.state[si];
       if (s.n.toUpperCase().indexOf(q) !== -1)
-        matches.push({ type: 'State', name: s.n, detail: s.l + ' LGAs, ' + s.p.toLocaleString() + ' PUs', la: s.la, ln: s.ln, zoom: 8, data: null });
+        matches.push({ type: 'State', name: s.n, detail: s.l + ' LGAs, ' + s.p.toLocaleString() + ' PUs', la: s.la, ln: s.ln, zoom: 8, data: s });
     }
     for (var li = 0; li < allData.lga.length && matches.length < 20; li++) {
       var l = allData.lga[li];
       if (l.n.toUpperCase().indexOf(q) !== -1 || (l.s + ' ' + l.n).toUpperCase().indexOf(q) !== -1)
-        matches.push({ type: 'LGA', name: l.n, detail: l.s + ' — ' + l.w + ' wards, ' + l.p.toLocaleString() + ' PUs', la: l.la, ln: l.ln, zoom: 11, data: null });
+        matches.push({ type: 'LGA', name: l.n, detail: l.s + ' — ' + l.w + ' wards, ' + l.p.toLocaleString() + ' PUs', la: l.la, ln: l.ln, zoom: 11, data: l });
     }
     for (var wi = 0; wi < allData.ward.length && matches.length < 20; wi++) {
       var w = allData.ward[wi];
       if (w.n.toUpperCase().indexOf(q) !== -1)
-        matches.push({ type: 'Ward', name: w.n, detail: w.l + ', ' + w.s + ' — ' + w.p + ' PUs', la: w.la, ln: w.ln, zoom: 14, data: null });
+        matches.push({ type: 'Ward', name: w.n, detail: w.l + ', ' + w.s + (w.cn ? ' — ' + w.cn : '') + ' (' + w.p + ' PUs)', la: w.la, ln: w.ln, zoom: 14, data: w });
     }
     if (matches.length < 20) {
       for (var pi = 0; pi < allData.pu.length && matches.length < 20; pi++) {
@@ -1250,6 +1369,12 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
           if (m.type === 'PU' && m.data) {
             showHierarchy(m.data, true);
+          } else if (m.type === 'Ward' && m.data) {
+            showWardHighlight(m.data);
+          } else if (m.type === 'LGA' && m.data) {
+            showLGAHighlight(m.data);
+          } else if (m.type === 'State' && m.data) {
+            showStateHighlight(m.data);
           } else {
             clearHierarchy();
             map.setView([m.la, m.ln], m.zoom);
