@@ -52,6 +52,7 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   background: #fff; border-radius: 8px; padding: 14px 18px;
   box-shadow: 0 2px 12px rgba(0,0,0,0.15); max-width: 280px;
   font-size: 13px; line-height: 1.5;
+  transition: opacity 0.5s ease;
 }
 .info-panel h2 { font-size: 15px; margin-bottom: 6px; color: #00a651; }
 .info-panel .stat { display: flex; justify-content: space-between; padding: 2px 0; }
@@ -743,6 +744,13 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       // Hide loading overlay — map is usable now
       setProgress(100, 'Ready! Loading remaining states...');
       setTimeout(function() { document.getElementById('loading').classList.add('hidden'); }, 400);
+
+      // Auto-hide info panel after 3 seconds
+      setTimeout(function() {
+        var panel = document.getElementById('infoPanel');
+        panel.style.opacity = '0';
+        setTimeout(function() { panel.style.display = 'none'; }, 500);
+      }, 3000);
 
       initSearch();
 
