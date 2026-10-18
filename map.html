@@ -974,6 +974,11 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         icon: createLabelledIcon(HIER_COLORS.ward, 'square', 'Ward: ' + ward.n, 'hier-ward-marker'),
         zIndexOffset: 1500
       }).bindPopup(wardPopup(ward)).addTo(highlightLayer);
+
+      // Dotted line: PU → Ward
+      L.polyline([[pu.la, pu.ln], [ward.la, ward.ln]], {
+        color: HIER_COLORS.ward, weight: 2, opacity: 0.6, dashArray: '6,8'
+      }).addTo(highlightLayer);
     }
 
     if (lga) {
@@ -981,6 +986,13 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         icon: createLabelledIcon(HIER_COLORS.lga, 'square', 'LGA: ' + lga.n, 'hier-lga-marker'),
         zIndexOffset: 1400
       }).bindPopup(lgaPopup(lga)).addTo(highlightLayer);
+
+      // Dotted line: Ward → LGA
+      if (ward) {
+        L.polyline([[ward.la, ward.ln], [lga.la, lga.ln]], {
+          color: HIER_COLORS.lga, weight: 2, opacity: 0.6, dashArray: '6,8'
+        }).addTo(highlightLayer);
+      }
     }
 
     if (state) {
