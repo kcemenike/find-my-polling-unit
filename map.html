@@ -256,6 +256,32 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   border: 3px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,0.3);
 }
 
+/* Zoom indicator */
+.zoom-indicator {
+  position: absolute; top: 95px; left: 11px; z-index: 1000;
+  background: #fff; border-radius: 4px; padding: 2px 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  font-size: 11px; font-weight: 600; color: #555;
+  font-variant-numeric: tabular-nums; text-align: center;
+  min-width: 30px; pointer-events: none;
+}
+
+/* Pulsing collation marker */
+@keyframes collation-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52,152,219,0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(52,152,219,0); }
+}
+@keyframes collation-pulse-orange {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(230,126,34,0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(230,126,34,0); }
+}
+.hier-ward-marker {
+  border-radius: 3px; animation: collation-pulse 1.5s ease-in-out infinite;
+}
+.hier-lga-marker {
+  border-radius: 3px; animation: collation-pulse-orange 1.5s ease-in-out infinite;
+}
+
 /* Pulsing highlight marker */
 @keyframes pulse-ring {
   0% { transform: scale(1); opacity: 0.8; }
@@ -418,6 +444,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
 <div id="map"></div>
 
+<div class="zoom-indicator" id="zoomLevel">7</div>
+
 <div class="search-box">
   <input type="text" id="searchInput" placeholder="Search polling units, wards, LGAs..." />
   <div id="searchResults" class="search-results"></div>
@@ -490,6 +518,10 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     attribution: 'Imagery &copy; Google | Electoral data from INEC CVR Portal'
   });
   googleRoad.addTo(map);
+
+  var zoomEl = document.getElementById('zoomLevel');
+  function updateZoom() { zoomEl.textContent = map.getZoom(); }
+  map.on('zoomend', updateZoom);
 
   const progress = document.getElementById('progress');
   const loadStatus = document.getElementById('loadStatus');
@@ -579,12 +611,13 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     });
   }
 
-  function createLabelledIcon(color, shape, label) {
+  function createLabelledIcon(color, shape, label, pulseClass) {
+    var extraClass = pulseClass ? ' ' + pulseClass : '';
     var iconHtml;
     if (shape === 'square') {
-      iconHtml = '<div class="lm-icon" style="width:14px;height:14px;background:' + color + ';"></div>';
+      iconHtml = '<div class="lm-icon' + extraClass + '" style="width:14px;height:14px;background:' + color + ';"></div>';
     } else {
-      iconHtml = '<div class="lm-icon" style="width:14px;height:14px;background:' + color + ';transform:rotate(45deg);"></div>';
+      iconHtml = '<div class="lm-icon' + extraClass + '" style="width:14px;height:14px;background:' + color + ';transform:rotate(45deg);"></div>';
     }
     return L.divIcon({
       className: '',
@@ -938,14 +971,14 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     // Collation centres get labelled markers
     if (ward) {
       L.marker([ward.la, ward.ln], {
-        icon: createLabelledIcon(HIER_COLORS.ward, 'square', 'Ward: ' + ward.n),
+        icon: createLabelledIcon(HIER_COLORS.ward, 'square', 'Ward: ' + ward.n, 'hier-ward-marker'),
         zIndexOffset: 1500
       }).bindPopup(wardPopup(ward)).addTo(highlightLayer);
     }
 
     if (lga) {
       L.marker([lga.la, lga.ln], {
-        icon: createLabelledIcon(HIER_COLORS.lga, 'square', 'LGA: ' + lga.n),
+        icon: createLabelledIcon(HIER_COLORS.lga, 'square', 'LGA: ' + lga.n, 'hier-lga-marker'),
         zIndexOffset: 1400
       }).bindPopup(lgaPopup(lga)).addTo(highlightLayer);
     }
