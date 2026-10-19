@@ -2,314 +2,1529 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Find My Polling Unit — Launching October 20</title>
-<meta name="description" content="Interactive map of all 176,846 polling units in Nigeria. Find your PU, see your collation hierarchy, get walking and driving directions. Launching October 20, 2026.">
-<meta name="theme-color" content="#04120c">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>Nigeria Electoral Map — 176,846 Polling Units</title>
+<meta name="description" content="Interactive map of all 176,846 polling units in Nigeria with collation centres, directions, and offline support.">
+<meta name="theme-color" content="#00a651">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PU Map">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://www.googletagmanager.com">
+<link rel="preconnect" href="https://www.googletagmanager.com" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQYBR3GKH0"></script>
 <script>
-window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
-gtag('js',new Date());gtag('config','G-KQYBR3GKH0');
+window.dataLayer = window.dataLayer || [];
+function gtag() { dataLayer.push(arguments); }
+gtag('js', new Date());
+gtag('config', 'G-KQYBR3GKH0', {
+  display_mode:
+    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+    window.navigator.standalone === true ? 'standalone' : 'browser'
+});
+function track(event, params) {
+  try { gtag('event', event, params); } catch(e) {}
+}
 </script>
-<script>
-// Auto-redirect after launch date
-var LAUNCH = new Date('2026-10-20T00:00:00+01:00');
-if (Date.now() >= LAUNCH.getTime()) { window.location.replace('./map.html' + window.location.search); }
-</script>
+<link rel="stylesheet" href="lib/leaflet.css" />
+<link rel="stylesheet" href="lib/MarkerCluster.css" />
+<link rel="stylesheet" href="lib/MarkerCluster.Default.css" />
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:'Montserrat',sans-serif;background:#04120c;color:#fff;overflow-x:hidden}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+#map { height: 100%; width: 100%; }
 
-/* Hero */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(0,166,81,0.08) 0%,transparent 60%);animation:hero-glow 8s ease-in-out infinite alternate}
-@keyframes hero-glow{0%{transform:translate(0,0)}100%{transform:translate(5%,3%)}}
+.loading-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,40,20,0.92); z-index: 10000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px; transition: opacity 0.5s;
+}
+.loading-overlay.hidden { opacity: 0; pointer-events: none; }
+.loading-overlay h1 { font-size: 28px; margin-bottom: 8px; color: #00a651; }
+.loading-overlay .subtitle { color: #aaa; margin-bottom: 30px; font-size: 14px; }
+.progress-bar { width: 320px; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #00a651, #fff); width: 0%; transition: width 0.3s; }
+.loading-status { margin-top: 12px; font-size: 13px; color: #ccc; }
 
-.badge{background:rgba(0,166,81,0.15);border:1px solid rgba(0,166,81,0.3);color:#00a651;padding:6px 16px;border-radius:50px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
+.info-panel {
+  position: absolute; top: 10px; right: 10px; z-index: 1000;
+  background: #fff; border-radius: 8px; padding: 14px 18px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15); max-width: 280px;
+  font-size: 13px; line-height: 1.5;
+  transition: opacity 0.5s ease;
+}
+.info-panel h2 { font-size: 15px; margin-bottom: 6px; color: #00a651; }
+.info-panel .stat { display: flex; justify-content: space-between; padding: 2px 0; }
+.info-panel .stat-label { color: #666; }
+.info-panel .stat-value { font-weight: 600; }
+.info-panel .divider { border-top: 1px solid #eee; margin: 8px 0; }
 
-h1{font-size:clamp(32px,6vw,64px);font-weight:900;text-align:center;line-height:1.15;margin-bottom:16px}
-h1 .green{color:#00a651}
-h1 .gold{color:#f1c40f}
+.legend {
+  position: absolute; bottom: 30px; left: 10px; z-index: 1000;
+  background: #fff; border-radius: 8px; padding: 12px 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15); font-size: 12px;
+}
+.legend h3 { font-size: 13px; margin-bottom: 6px; }
+.legend-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: default; }
+.legend-item:hover { padding-left: 4px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; transition: transform 0.2s; }
+.legend-square { width: 12px; height: 12px; flex-shrink: 0; transition: transform 0.2s; }
+.legend-diamond { width: 12px; height: 12px; transform: rotate(45deg); flex-shrink: 0; transition: transform 0.2s; }
+.legend-item:hover .legend-dot,
+.legend-item:hover .legend-square { transform: scale(1.4); }
+.legend-item:hover .legend-diamond { transform: rotate(45deg) scale(1.4); }
 
-.subtitle{font-size:clamp(15px,2.5vw,20px);color:rgba(255,255,255,0.7);text-align:center;max-width:550px;line-height:1.6;margin-bottom:40px}
+.search-box {
+  position: absolute; top: 10px; left: 60px; z-index: 1000;
+}
+.search-box input {
+  width: 300px; padding: 10px 14px; border: 2px solid #ddd;
+  border-radius: 8px; font-size: 14px; outline: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.search-box input:focus { border-color: #00a651; }
+.search-results {
+  background: #fff; border-radius: 0 0 8px 8px; max-height: 300px;
+  overflow-y: auto; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none;
+}
+.search-results.active { display: block; }
+.search-result {
+  padding: 8px 14px; cursor: pointer; font-size: 13px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.search-result:hover { background: #f0fff5; border-left: 3px solid #00a651; padding-left: 11px; }
+.search-result .result-name { font-weight: 600; }
+.search-result .result-detail { color: #888; font-size: 11px; }
 
-/* Countdown */
-.countdown{display:flex;gap:clamp(12px,3vw,24px);margin-bottom:48px}
-.cd-unit{text-align:center}
-.cd-num{font-size:clamp(36px,7vw,72px);font-weight:900;color:#fff;line-height:1;display:block;font-variant-numeric:tabular-nums}
-.cd-label{font-size:clamp(10px,1.5vw,13px);color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;margin-top:6px}
-.cd-sep{font-size:clamp(28px,5vw,56px);color:rgba(255,255,255,0.15);font-weight:300;align-self:flex-start;margin-top:4px}
+/* Hierarchy panel */
+.hierarchy-panel {
+  position: absolute; bottom: 30px; right: 10px; z-index: 1000;
+  background: #fff; border-radius: 10px; padding: 0;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2); width: 320px;
+  font-size: 13px; overflow: hidden; display: none;
+}
+.hierarchy-panel.active { display: block; }
+.hierarchy-header {
+  background: #00a651; color: #fff; padding: 10px 16px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: 600; font-size: 14px;
+}
+.hierarchy-handle {
+  display: none; width: 36px; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.5); margin: 0 auto 6px;
+}
+.hierarchy-close {
+  background: none; border: none; color: #fff; font-size: 20px;
+  cursor: pointer; padding: 0 4px; line-height: 1;
+}
+.hierarchy-close:hover { opacity: 0.7; }
+.hierarchy-body { padding: 0; max-height: 60vh; overflow-y: auto; }
 
-/* Phone mockup */
-.phone-container{position:relative;margin:0 auto 48px;width:clamp(260px,50vw,320px)}
-.phone-frame{background:#1a1a1a;border-radius:28px;border:3px solid #333;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 80px rgba(0,166,81,0.1);position:relative}
-.phone-notch{width:100px;height:22px;background:#1a1a1a;border-radius:0 0 14px 14px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:10}
-.phone-screen{width:100%;aspect-ratio:9/18;background:#f0f0f0;position:relative;overflow:hidden}
+/* Minimized green bar */
+.hierarchy-minimized {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  z-index: 1000; display: none;
+  background: #00a651; color: #fff; padding: 10px 16px;
+  font-weight: 600; font-size: 13px; cursor: pointer;
+  text-align: center; box-shadow: 0 -2px 12px rgba(0,0,0,0.15);
+}
+.hierarchy-minimized.active { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.hierarchy-minimized .min-handle {
+  width: 30px; height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,0.5); position: absolute;
+  top: 5px; left: 50%; transform: translateX(-50%);
+}
+.hierarchy-minimized .min-chevron {
+  display: inline-block; transform: rotate(-90deg); font-size: 16px;
+}
+.hierarchy-step {
+  display: flex; align-items: stretch; cursor: pointer;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+.hierarchy-step:hover { background: #f0fff5; transform: translateX(2px); box-shadow: -2px 0 0 #00a651 inset; }
+.hierarchy-step-line {
+  width: 40px; display: flex; flex-direction: column; align-items: center;
+  padding: 0; flex-shrink: 0;
+}
+.hierarchy-step-dot {
+  width: 16px; height: 16px; border-radius: 50%; border: 3px solid;
+  flex-shrink: 0; margin-top: 12px; z-index: 1;
+}
+.hierarchy-step-connector {
+  width: 2px; flex-grow: 1; min-height: 8px;
+}
+.hierarchy-step-content {
+  flex: 1; padding: 10px 14px 10px 0; border-bottom: 1px solid #f0f0f0;
+}
+.hierarchy-step:last-child .hierarchy-step-content { border-bottom: none; }
+.hierarchy-step-label {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  font-weight: 600; margin-bottom: 2px;
+}
+.hierarchy-step-name { font-weight: 600; font-size: 13px; color: #222; }
+.hierarchy-step-detail { font-size: 11px; color: #888; margin-top: 1px; }
+.hierarchy-step-zoom {
+  font-size: 10px; color: #00a651; margin-top: 3px; opacity: 0;
+  transition: opacity 0.15s;
+}
+.hierarchy-step:hover .hierarchy-step-zoom { opacity: 1; }
+.hierarchy-distance {
+  display: flex; align-items: center; font-size: 11px; color: #666;
+  padding: 0 0 0 40px; gap: 4px;
+}
+.hierarchy-distance-line {
+  width: 40px; display: flex; justify-content: center; flex-shrink: 0;
+  margin-left: -40px;
+}
+.hierarchy-distance-line span {
+  display: block; width: 1px; height: 100%; border-left: 2px dashed #ddd;
+}
+.hierarchy-distance-info {
+  background: #f8f9fa; border-radius: 6px; padding: 4px 10px;
+  margin: 2px 14px 2px 0; display: flex; gap: 10px; flex-wrap: wrap;
+  font-size: 11px; width: 100%;
+}
+.dist-chip {
+  display: inline-flex; align-items: center; gap: 3px;
+}
+.dist-chip svg { width: 11px; height: 11px; }
+.dist-chip-walk { color: #2e7d32; }
+.dist-chip-drive { color: #1565c0; }
+.dist-chip-dist { color: #555; font-weight: 600; }
+.hierarchy-step-actions {
+  display: flex; gap: 6px; margin-top: 5px;
+}
+.btn-directions {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: 5px; border: none;
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn-directions:active { transform: scale(0.96); }
+.btn-directions-walk {
+  background: #e8f5e9; color: #2e7d32;
+}
+.btn-directions-walk:hover { background: #2e7d32; color: #fff; }
+.btn-directions-drive {
+  background: #e3f2fd; color: #1565c0;
+}
+.btn-directions-drive:hover { background: #1565c0; color: #fff; }
+.btn-directions svg { width: 12px; height: 12px; }
 
-/* Demo animation inside phone */
-.demo-map{width:100%;height:100%;background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 50%,#a5d6a7 100%);position:relative}
-.demo-map-tiles{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.3;background-image:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,0,0,0.05) 40px,rgba(0,0,0,0.05) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,0,0,0.05) 40px,rgba(0,0,0,0.05) 41px)}
+/* Locate me button */
+.locate-btn {
+  position: absolute; bottom: 200px; left: 14px; z-index: 1000;
+  width: 36px; height: 36px; border-radius: 6px;
+  background: #fff; border: none; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.locate-btn:hover { background: #f0fff5; }
+.locate-btn.locating { background: #e8f5e9; }
+.locate-btn svg { width: 20px; height: 20px; color: #333; }
+.locate-btn.locating svg { color: #00a651; }
 
-/* Animated demo dots */
-.demo-dot{position:absolute;width:6px;height:6px;border-radius:50%;background:#00a651}
-.demo-cluster{position:absolute;width:28px;height:28px;border-radius:50%;background:rgba(0,166,81,0.7);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff}
+/* Google Maps-style pin */
+.gmap-pin {
+  position: relative; width: 28px; height: 40px;
+}
+.gmap-pin svg {
+  width: 28px; height: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
 
-/* Demo search bar */
-.demo-search{position:absolute;top:28px;left:8px;right:8px;height:28px;background:#fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,0.1);display:flex;align-items:center;padding:0 8px;font-size:9px;color:#999}
+/* User location marker — Google-style blue pulsing dot */
+@keyframes user-pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(3); opacity: 0; }
+}
+.user-marker {
+  position: relative; width: 22px; height: 22px;
+}
+.user-marker .user-pulse {
+  position: absolute; top: 50%; left: 50%;
+  width: 22px; height: 22px; margin: -11px 0 0 -11px;
+  border-radius: 50%; background: rgba(66,133,244,0.3);
+  animation: user-pulse 2s ease-out infinite;
+}
+.user-marker .user-dot {
+  position: absolute; top: 50%; left: 50%;
+  width: 18px; height: 18px; margin: -9px 0 0 -9px;
+  border-radius: 50%; background: #4285f4;
+  border: 3px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+}
 
-/* Demo hierarchy panel */
-.demo-panel{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:10px 10px 0 0;box-shadow:0 -2px 10px rgba(0,0,0,0.1);transform:translateY(100%);transition:transform 0.6s ease}
-.demo-panel.show{transform:translateY(0)}
-.demo-panel-header{background:#00a651;color:#fff;padding:6px 10px;border-radius:10px 10px 0 0;font-size:8px;font-weight:700;text-align:center}
-.demo-panel-handle{width:24px;height:3px;background:rgba(255,255,255,0.5);border-radius:2px;margin:0 auto 4px}
-.demo-step{display:flex;align-items:center;gap:6px;padding:5px 10px;border-bottom:1px solid #f0f0f0}
-.demo-step-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.demo-step-text{font-size:7px;color:#333}
-.demo-step-name{font-weight:700;font-size:8px;color:#222}
-.demo-step-dist{font-size:6px;color:#888;margin-top:1px}
-.demo-step-btns{display:flex;gap:3px;margin-top:2px}
-.demo-step-btn{font-size:5px;padding:2px 5px;border-radius:3px;font-weight:700}
-.demo-step-btn-walk{background:#e8f5e9;color:#2e7d32}
-.demo-step-btn-drive{background:#e3f2fd;color:#1565c0}
+/* Zoom indicator */
+.zoom-indicator {
+  position: absolute; top: 95px; left: 11px; z-index: 1000;
+  background: #fff; border-radius: 4px; padding: 2px 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  font-size: 11px; font-weight: 600; color: #555;
+  font-variant-numeric: tabular-nums; text-align: center;
+  min-width: 30px; pointer-events: none;
+}
 
-/* Pulsing highlight dot */
-@keyframes demo-pulse{0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,0.4)}50%{box-shadow:0 0 0 8px rgba(231,76,60,0)}}
-.demo-highlight{position:absolute;width:10px;height:10px;border-radius:50%;background:#e74c3c;border:2px solid #fff;opacity:0;transition:opacity 0.4s}
-.demo-highlight.show{opacity:1;animation:demo-pulse 1.5s ease infinite}
+/* Pulsing collation marker */
+@keyframes collation-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52,152,219,0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(52,152,219,0); }
+}
+@keyframes collation-pulse-orange {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(230,126,34,0.5); }
+  50% { box-shadow: 0 0 0 8px rgba(230,126,34,0); }
+}
+.hier-ward-marker {
+  border-radius: 3px; animation: collation-pulse 1.5s ease-in-out infinite;
+}
+.hier-lga-marker {
+  border-radius: 3px; animation: collation-pulse-orange 1.5s ease-in-out infinite;
+}
 
-/* Demo typing animation */
-@keyframes typing{from{width:0}to{width:100%}}
-.demo-typing{overflow:hidden;white-space:nowrap;color:#333;font-weight:600}
+/* Pulsing highlight marker */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(3); opacity: 0; }
+}
+.highlight-marker {
+  position: relative;
+}
+.highlight-marker .pulse {
+  position: absolute; top: 50%; left: 50%;
+  width: 20px; height: 20px; margin: -10px 0 0 -10px;
+  border-radius: 50%; background: rgba(231,76,60,0.4);
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+.highlight-marker .dot {
+  position: absolute; top: 50%; left: 50%;
+  width: 14px; height: 14px; margin: -7px 0 0 -7px;
+  border-radius: 50%; background: #e74c3c;
+  border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
 
-/* Feature badges below phone */
-.features{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:48px;max-width:600px}
-.feature{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px 16px;font-size:12px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:6px}
-.feature-icon{font-size:16px}
+/* Labelled hierarchy marker */
+.labelled-marker {
+  white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+.labelled-marker .lm-icon {
+  flex-shrink: 0; border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.labelled-marker .lm-label {
+  background: #fff; padding: 3px 8px; border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.2); font-size: 11px;
+  font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 
-/* Stats */
-.stats{display:flex;gap:clamp(20px,5vw,48px);margin-bottom:48px;flex-wrap:wrap;justify-content:center}
-.stat-item{text-align:center}
-.stat-num{font-size:clamp(24px,4vw,36px);font-weight:900;color:#00a651}
-.stat-label{font-size:clamp(10px,1.5vw,12px);color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.leaflet-popup-content { font-size: 13px; line-height: 1.6; }
+.leaflet-popup-content strong { color: #00a651; }
+.popup-code { font-family: monospace; background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+.coord-source { font-size: 11px; color: #999; }
 
-/* NDC banner */
-.ndc-banner{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 24px;text-decoration:none;color:#fff;transition:background 0.2s,transform 0.15s;margin-bottom:24px}
-.ndc-banner:hover{background:rgba(255,255,255,0.1);transform:scale(1.02)}
-.ndc-banner img{height:48px;border-radius:6px}
-.ndc-text h3{font-size:18px;font-weight:800;color:#f1c40f}
-.ndc-text p{font-size:12px;color:rgba(255,255,255,0.6);margin-top:2px}
+.marker-cluster-small { background-color: rgba(0,166,81,0.3); }
+.marker-cluster-small div { background-color: rgba(0,166,81,0.7); }
+.marker-cluster-medium { background-color: rgba(241,196,15,0.3); }
+.marker-cluster-medium div { background-color: rgba(241,196,15,0.7); }
+.marker-cluster-large { background-color: rgba(231,76,60,0.3); }
+.marker-cluster-large div { background-color: rgba(231,76,60,0.7); }
+.marker-cluster div { color: #fff; font-weight: 700; }
 
-.footer{text-align:center;padding:20px;font-size:11px;color:rgba(255,255,255,0.3)}
-.footer a{color:rgba(255,255,255,0.5)}
+/* Campaign banner */
+.campaign-banner {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  z-index: 1000; background: #fff; border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 14px 6px 6px; cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-decoration: none; color: inherit;
+}
+.campaign-banner:hover {
+  transform: translateX(-50%) scale(1.03);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+.campaign-banner img {
+  height: 36px; border-radius: 4px;
+}
+.campaign-banner-text {
+  display: flex; flex-direction: column; gap: 1px;
+}
+.campaign-banner-hashtag {
+  font-weight: 800; font-size: 13px; color: #1a237e;
+  letter-spacing: 0.5px;
+}
+.campaign-banner-sub {
+  font-size: 10px; color: #666; font-weight: 500;
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #333; color: #fff; padding: 10px 20px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; z-index: 11000;
+  opacity: 0; transition: opacity 0.3s, transform 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+  .search-box {
+    left: 50px; right: 10px; top: 10px;
+  }
+  .search-box input {
+    width: 100%; font-size: 16px; padding: 12px 14px;
+  }
+  .info-panel {
+    display: none;
+  }
+
+  .leaflet-control-layers {
+    display: none !important;
+  }
+
+  .legend {
+    bottom: 55px; left: 10px; padding: 8px 12px; font-size: 11px;
+    max-width: 170px;
+  }
+  .legend h3 { font-size: 12px; margin-bottom: 4px; }
+  .legend-item { padding: 1px 0; gap: 5px; }
+  .legend-dot, .legend-square, .legend-diamond { width: 10px; height: 10px; }
+
+  .campaign-banner {
+    bottom: 8px; left: 50%; transform: translateX(-50%);
+    padding: 5px 10px 5px 5px;
+  }
+  .campaign-banner img { height: 30px; }
+  .campaign-banner-hashtag { font-size: 12px; }
+
+  .hierarchy-panel {
+    bottom: 0; right: 0; left: 0; width: 100%;
+    border-radius: 16px 16px 0 0;
+    max-height: 55vh;
+    transition: max-height 0.3s ease;
+  }
+  .hierarchy-panel.peek {
+    max-height: 200px;
+  }
+  .hierarchy-panel.expanded {
+    max-height: 70vh;
+  }
+  .hierarchy-body { max-height: calc(70vh - 50px); overflow-y: auto; }
+  .hierarchy-header {
+    padding: 8px 16px 10px; flex-direction: column;
+  }
+  .hierarchy-header-row {
+    display: flex; justify-content: space-between; align-items: center; width: 100%;
+  }
+  .hierarchy-handle { display: block; }
+  .hierarchy-close { display: block; }
+
+  .locate-btn {
+    bottom: 200px; left: 10px; right: auto; top: auto;
+    width: 44px; height: 44px;
+  }
+
+  .btn-directions {
+    padding: 8px 14px; font-size: 13px;
+  }
+
+  .loading-overlay h1 { font-size: 22px; }
+  .loading-overlay .subtitle { font-size: 12px; }
+  .progress-bar { width: 260px; }
+}
+
+/* Safe area padding for notched phones */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .hierarchy-panel {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="badge">Launching October 20</div>
-
-  <h1>Find My<br><span class="green">Polling Unit</span></h1>
-  <p class="subtitle">The interactive map of all 176,846 polling units in Nigeria. Find your PU, see your collation hierarchy, get directions.</p>
-
-  <!-- Countdown -->
-  <div class="countdown" id="countdown">
-    <div class="cd-unit"><span class="cd-num" id="cdDays">--</span><span class="cd-label">Days</span></div>
-    <span class="cd-sep">:</span>
-    <div class="cd-unit"><span class="cd-num" id="cdHours">--</span><span class="cd-label">Hours</span></div>
-    <span class="cd-sep">:</span>
-    <div class="cd-unit"><span class="cd-num" id="cdMins">--</span><span class="cd-label">Mins</span></div>
-    <span class="cd-sep">:</span>
-    <div class="cd-unit"><span class="cd-num" id="cdSecs">--</span><span class="cd-label">Secs</span></div>
-  </div>
-
-  <!-- Phone Mockup with Demo -->
-  <div class="phone-container">
-    <div class="phone-frame">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="demo-map">
-          <div class="demo-map-tiles"></div>
-
-          <!-- Clusters -->
-          <div class="demo-cluster" style="top:15%;left:20%">48</div>
-          <div class="demo-cluster" style="top:25%;left:60%">125</div>
-          <div class="demo-cluster" style="top:55%;left:35%;background:rgba(241,196,15,0.7)">312</div>
-          <div class="demo-cluster" style="top:45%;left:70%">67</div>
-          <div class="demo-cluster" style="top:70%;left:55%;background:rgba(231,76,60,0.7)">1.2k</div>
-
-          <!-- Individual dots -->
-          <div class="demo-dot" style="top:38%;left:25%"></div>
-          <div class="demo-dot" style="top:42%;left:30%"></div>
-          <div class="demo-dot" style="top:35%;left:45%"></div>
-          <div class="demo-dot" style="top:60%;left:22%"></div>
-          <div class="demo-dot" style="top:65%;left:28%"></div>
-          <div class="demo-dot" style="top:80%;left:40%"></div>
-          <div class="demo-dot" style="top:75%;left:75%"></div>
-
-          <!-- Highlight dot (appears during animation) -->
-          <div class="demo-highlight" id="demoHighlight" style="top:38%;left:25%"></div>
-
-          <!-- Search bar -->
-          <div class="demo-search" id="demoSearch">
-            <span id="demoSearchText">Search polling units, wards...</span>
-          </div>
-
-          <!-- Hierarchy panel -->
-          <div class="demo-panel" id="demoPanel">
-            <div class="demo-panel-header">
-              <div class="demo-panel-handle"></div>
-              Collation Hierarchy
-            </div>
-            <div class="demo-step">
-              <div class="demo-step-dot" style="background:#2196f3"></div>
-              <div>
-                <div class="demo-step-text" style="color:#2196f3">YOUR LOCATION</div>
-                <div class="demo-step-name">Current Position</div>
-                <div class="demo-step-dist">1.2 km &bull; 15 min walk &bull; 3 min drive</div>
-              </div>
-            </div>
-            <div class="demo-step">
-              <div class="demo-step-dot" style="background:#e74c3c"></div>
-              <div>
-                <div class="demo-step-text" style="color:#e74c3c">YOUR POLLING UNIT</div>
-                <div class="demo-step-name">LGEA PRIMARY SCHOOL I</div>
-                <div class="demo-step-btns">
-                  <span class="demo-step-btn demo-step-btn-walk">Walk</span>
-                  <span class="demo-step-btn demo-step-btn-drive">Drive</span>
-                </div>
-              </div>
-            </div>
-            <div class="demo-step">
-              <div class="demo-step-dot" style="background:#3498db"></div>
-              <div>
-                <div class="demo-step-text" style="color:#3498db">WARD COLLATION CENTRE</div>
-                <div class="demo-step-name">Garki Ward</div>
-                <div class="demo-step-dist">3.4 km &bull; 42 min walk &bull; 8 min drive</div>
-              </div>
-            </div>
-            <div class="demo-step" style="border-bottom:none">
-              <div class="demo-step-dot" style="background:#e67e22"></div>
-              <div>
-                <div class="demo-step-text" style="color:#e67e22">LGA COLLATION CENTRE</div>
-                <div class="demo-step-name">Municipal</div>
-                <div class="demo-step-dist">5.1 km &bull; 1 hr walk &bull; 12 min drive</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Features -->
-  <div class="features">
-    <div class="feature"><span class="feature-icon">&#x1F4CD;</span> 176,846 Polling Units</div>
-    <div class="feature"><span class="feature-icon">&#x1F6B6;</span> Walking Directions</div>
-    <div class="feature"><span class="feature-icon">&#x1F4F6;</span> Works Offline</div>
-    <div class="feature"><span class="feature-icon">&#x1F50D;</span> Search Any PU</div>
-    <div class="feature"><span class="feature-icon">&#x1F3DB;</span> Full Collation Hierarchy</div>
-    <div class="feature"><span class="feature-icon">&#x1F4F1;</span> Mobile First</div>
-  </div>
-
-  <!-- Stats -->
-  <div class="stats">
-    <div class="stat-item"><div class="stat-num">176,846</div><div class="stat-label">Polling Units</div></div>
-    <div class="stat-item"><div class="stat-num">8,809</div><div class="stat-label">Wards</div></div>
-    <div class="stat-item"><div class="stat-num">774</div><div class="stat-label">LGAs</div></div>
-    <div class="stat-item"><div class="stat-num">37</div><div class="stat-label">States</div></div>
-  </div>
-
-  <!-- NDC Banner -->
-  <a class="ndc-banner" href="https://smartballotapp.com/supergroup?code=NCZOG5PL-PCI6G75L" target="_blank" rel="noopener">
-    <img src="votendc.jpg" alt="NDC">
-    <div class="ndc-text">
-      <h3>#VoteNDC #OK2027</h3>
-      <p>Find your PU. Plan your vote. Defend your mandate.</p>
-    </div>
-  </a>
-
-  <div class="footer">
-    Data sourced from <a href="https://cvr.inecnigeria.org/pu" target="_blank">INEC CVR Portal</a>
-  </div>
+<div id="loading" class="loading-overlay">
+  <h1>&#x1F1F3;&#x1F1EC; Nigeria Electoral Map</h1>
+  <div class="subtitle">Loading 176,846 polling units...</div>
+  <div class="progress-bar"><div id="progress" class="progress-fill"></div></div>
+  <div id="loadStatus" class="loading-status">Initializing...</div>
 </div>
 
+<div id="map"></div>
+
+<div class="zoom-indicator" id="zoomLevel">7</div>
+
+<div class="search-box">
+  <input type="text" id="searchInput" placeholder="Search polling units, wards, LGAs..." />
+  <div id="searchResults" class="search-results"></div>
+</div>
+
+<div class="info-panel" id="infoPanel">
+  <h2>Nigeria Electoral Map</h2>
+  <div class="stat"><span class="stat-label">Polling Units</span><span class="stat-value" id="puCount">--</span></div>
+  <div class="stat"><span class="stat-label">Ward Centres</span><span class="stat-value" id="wardCount">--</span></div>
+  <div class="stat"><span class="stat-label">LGA Centres</span><span class="stat-value" id="lgaCount">--</span></div>
+  <div class="stat"><span class="stat-label">State Centres</span><span class="stat-value" id="stateCount">--</span></div>
+  <div style="margin-top:8px;font-size:11px;color:#999;">Search for a polling unit to see its full collation hierarchy.</div>
+</div>
+
+<div class="legend">
+  <h3>Legend</h3>
+  <div class="legend-item"><div class="legend-dot" style="background:#00a651;"></div> Polling Unit</div>
+  <div class="legend-item"><div class="legend-square" style="background:#3498db;"></div> Ward Collation Centre</div>
+  <div class="legend-item"><div class="legend-square" style="background:#e67e22;"></div> LGA Collation Centre</div>
+  <div class="legend-item"><div class="legend-diamond" style="background:#9b59b6;"></div> State Collation Centre</div>
+  <div class="legend-item"><div class="legend-diamond" style="background:#e74c3c;width:14px;height:14px;"></div> National Collation Centre</div>
+</div>
+
+<button class="locate-btn" id="locateBtn" title="Find my location">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+</button>
+
+<a class="campaign-banner" id="campaignBanner" href="https://smartballotapp.com/supergroup?code=NCZOG5PL-PCI6G75L" target="_blank" rel="noopener">
+  <img src="votendc.jpg" alt="NDC">
+  <div class="campaign-banner-text">
+    <span class="campaign-banner-hashtag">#VoteNDC #OK2027</span>
+    <span class="campaign-banner-sub">Find your PU. Plan your vote. Defend your mandate.</span>
+  </div>
+</a>
+
+<div class="hierarchy-panel" id="hierarchyPanel">
+  <div class="hierarchy-header" id="hierarchyHeader">
+    <div class="hierarchy-handle"></div>
+    <div class="hierarchy-header-row">
+      <span>Collation Hierarchy</span>
+      <button class="hierarchy-close" id="hierarchyClose">&times;</button>
+    </div>
+  </div>
+  <div class="hierarchy-body" id="hierarchyBody"></div>
+</div>
+
+<div class="hierarchy-minimized" id="hierarchyMin">
+  <div class="min-handle"></div>
+  <span class="min-chevron">&#x276E;</span>
+  <span id="hierarchyMinLabel">Collation Hierarchy</span>
+</div>
+
+<script src="lib/leaflet.js"></script>
+<script src="lib/leaflet.markercluster.js"></script>
 <script>
-(function(){
-  // Countdown
-  var LAUNCH = new Date('2026-10-20T00:00:00+01:00');
-  function updateCountdown(){
-    var diff = Math.max(0, LAUNCH.getTime() - Date.now());
-    var d = Math.floor(diff/86400000);
-    var h = Math.floor((diff%86400000)/3600000);
-    var m = Math.floor((diff%3600000)/60000);
-    var s = Math.floor((diff%60000)/1000);
-    document.getElementById('cdDays').textContent = d < 10 ? '0'+d : d;
-    document.getElementById('cdHours').textContent = h < 10 ? '0'+h : h;
-    document.getElementById('cdMins').textContent = m < 10 ? '0'+m : m;
-    document.getElementById('cdSecs').textContent = s < 10 ? '0'+s : s;
-    if(diff <= 0) window.location.replace('./map.html' + window.location.search);
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
+(function() {
+  const map = L.map('map', {
+    center: [9.05, 7.49],
+    zoom: 7,
+    maxZoom: 21,
+    minZoom: 5
+  });
 
-  // Demo animation loop
-  var searchEl = document.getElementById('demoSearchText');
-  var panelEl = document.getElementById('demoPanel');
-  var highlightEl = document.getElementById('demoHighlight');
-  var searchQuery = 'LGEA Primary School';
-  var phase = 0;
+  var googleRoad = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+    subdomains: '0123', maxZoom: 21,
+    attribution: 'Map data &copy; Google | Electoral data from INEC CVR Portal'
+  });
+  var googleSat = L.tileLayer('https://mt{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+    subdomains: '0123', maxZoom: 21,
+    attribution: 'Imagery &copy; Google | Electoral data from INEC CVR Portal'
+  });
+  googleRoad.addTo(map);
 
-  function resetDemo(){
-    searchEl.textContent = 'Search polling units, wards...';
-    searchEl.style.color = '#999';
-    panelEl.classList.remove('show');
-    highlightEl.classList.remove('show');
+  var zoomEl = document.getElementById('zoomLevel');
+  function updateZoom() { zoomEl.textContent = map.getZoom(); }
+  map.on('zoomend', updateZoom);
+
+  const progress = document.getElementById('progress');
+  const loadStatus = document.getElementById('loadStatus');
+
+  function setProgress(pct, msg) {
+    progress.style.width = pct + '%';
+    loadStatus.textContent = msg;
   }
 
-  function runDemo(){
-    resetDemo();
-    phase = 0;
-    // Phase 1: Type search query
-    setTimeout(function(){
-      var i = 0;
-      searchEl.style.color = '#333';
-      searchEl.style.fontWeight = '600';
-      function typeChar(){
-        if(i <= searchQuery.length){
-          searchEl.textContent = searchQuery.substring(0, i) + '|';
-          i++;
-          setTimeout(typeChar, 80);
-        } else {
-          searchEl.textContent = searchQuery;
+  const SRC_LABELS = { g: 'INEC GPS coordinate' };
+
+  const HIER_COLORS = {
+    pu:    '#e74c3c',
+    ward:  '#3498db',
+    lga:   '#e67e22',
+    state: '#9b59b6',
+    nat:   '#c0392b'
+  };
+
+  function puPopup(pu) {
+    return '<strong>' + (pu.n || 'Unnamed') + '</strong><br>' +
+      '<span class="popup-code">' + pu.c + '</span><br>' +
+      'Ward: ' + pu.w + '<br>LGA: ' + pu.l + '<br>State: ' + pu.s + '<br>' +
+      '<span class="coord-source">' + (SRC_LABELS[pu.r] || 'Unknown source') + '</span>' +
+      '<br><a href="#" onclick="window._getDir(' + pu.la + ',' + pu.ln + ',\'walking\');return false" style="color:#2e7d32;font-size:12px;font-weight:600;text-decoration:none;">Walk</a>' +
+      ' &middot; <a href="#" onclick="window._getDir(' + pu.la + ',' + pu.ln + ',\'driving\');return false" style="color:#1565c0;font-size:12px;font-weight:600;text-decoration:none;">Drive</a>' +
+      ' &middot; <a href="#" onclick="window._copyPU(\'' + pu.c + '\');return false" style="color:#666;font-size:12px;font-weight:600;text-decoration:none;">Copy</a>';
+  }
+
+  function wardPopup(w) {
+    return '<strong>Ward: ' + w.n + '</strong><br>' +
+      (w.cn ? '<em>' + w.cn + '</em><br>' : '') +
+      'LGA: ' + w.l + '<br>State: ' + w.s + '<br>Polling Units: ' + w.p.toLocaleString();
+  }
+
+  function lgaPopup(l) {
+    return '<strong>LGA: ' + l.n + '</strong><br>' +
+      (l.cn ? '<em>' + l.cn + '</em><br>' : '') +
+      (l.addr ? '<span style="font-size:11px;color:#666">' + l.addr + '</span><br>' : '') +
+      'State: ' + l.s + '<br>Wards: ' + l.w + '<br>Polling Units: ' + l.p.toLocaleString();
+  }
+
+  function statePopup(s) {
+    return '<strong>State: ' + s.n + '</strong><br>' +
+      (s.cn ? '<em>' + s.cn + '</em><br>' : '') +
+      (s.addr ? '<span style="font-size:11px;color:#666">' + s.addr + '</span><br>' : '') +
+      'LGAs: ' + s.l + '<br>Wards: ' + s.w + '<br>Polling Units: ' + s.p.toLocaleString();
+  }
+
+  function natPopup(n) {
+    return '<strong>' + n.n + '</strong><br>States: ' + n.st + '<br>LGAs: ' + n.l + '<br>Wards: ' + n.w + '<br>Polling Units: ' + n.p.toLocaleString();
+  }
+
+  function createCircleIcon(color, radius, dashed) {
+    var border = dashed ? 'border: 1.5px dashed ' + color + '; background: ' + color + '44;' : 'background: ' + color + ';';
+    return L.divIcon({
+      className: '',
+      html: '<div style="width:' + (radius*2) + 'px;height:' + (radius*2) + 'px;border-radius:50%;' + border + '"></div>',
+      iconSize: [radius*2, radius*2],
+      iconAnchor: [radius, radius]
+    });
+  }
+
+  function createSquareIcon(color, size) {
+    return L.divIcon({
+      className: '',
+      html: '<div style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>',
+      iconSize: [size, size],
+      iconAnchor: [size/2, size/2]
+    });
+  }
+
+  function createDiamondIcon(color, size) {
+    return L.divIcon({
+      className: '',
+      html: '<div style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';border:2px solid #fff;transform:rotate(45deg);box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>',
+      iconSize: [size, size],
+      iconAnchor: [size/2, size/2]
+    });
+  }
+
+  function createHighlightIcon() {
+    return L.divIcon({
+      className: '',
+      html: '<div class="highlight-marker"><div class="pulse"></div><div class="dot"></div></div>',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10]
+    });
+  }
+
+  function createLabelledIcon(color, shape, label, pulseClass) {
+    var extraClass = pulseClass ? ' ' + pulseClass : '';
+    var iconHtml;
+    if (shape === 'square') {
+      iconHtml = '<div class="lm-icon' + extraClass + '" style="width:14px;height:14px;background:' + color + ';"></div>';
+    } else {
+      iconHtml = '<div class="lm-icon' + extraClass + '" style="width:14px;height:14px;background:' + color + ';transform:rotate(45deg);"></div>';
+    }
+    return L.divIcon({
+      className: '',
+      html: '<div class="labelled-marker">' + iconHtml + '<div class="lm-label" style="color:' + color + ';">' + label + '</div></div>',
+      iconSize: [200, 20],
+      iconAnchor: [7, 10]
+    });
+  }
+
+  var puCluster = L.markerClusterGroup({
+    chunkedLoading: true,
+    chunkInterval: 100,
+    chunkDelay: 10,
+    maxClusterRadius: 60,
+    spiderfyOnMaxZoom: true,
+    showCoverageOnHover: false,
+    disableClusteringAtZoom: 16
+  });
+
+  var wardLayer = L.layerGroup();
+  var lgaLayer = L.layerGroup();
+  var stateLayer = L.layerGroup();
+  var natLayer = L.layerGroup();
+  var highlightLayer = L.layerGroup().addTo(map);
+  var userLocationLayer = L.layerGroup().addTo(map);
+  var selectedPinLayer = L.layerGroup().addTo(map);
+  var userLatLng = null;
+
+  var PIN_SVG = '<svg viewBox="0 0 28 40" width="28" height="40"><path d="M14 0C6.27 0 0 6.27 0 14c0 10.5 14 26 14 26s14-15.5 14-26C28 6.27 21.73 0 14 0zm0 19a5 5 0 110-10 5 5 0 010 10z" fill="#EA4335"/></svg>';
+
+  function showPin(lat, lng) {
+    selectedPinLayer.clearLayers();
+    var pinIcon = L.divIcon({
+      className: '',
+      html: '<div class="gmap-pin">' + PIN_SVG + '</div>',
+      iconSize: [28, 40],
+      iconAnchor: [14, 40]
+    });
+    L.marker([lat, lng], { icon: pinIcon, zIndexOffset: 2500 }).addTo(selectedPinLayer);
+  }
+
+  var allData = { pu: [], ward: [], lga: [], state: [], nat: null };
+
+  function loadJSON(file) {
+    return fetch(file).then(function(r) { return r.json(); });
+  }
+
+  var puIcon = createCircleIcon('#00a651', 5, false);
+  var totalLoaded = 0;
+  var puByLGA = {};
+
+  function addPuBatch(puData) {
+    var markers = [];
+    for (var i = 0; i < puData.length; i++) {
+      var pu = puData[i];
+      var m = L.marker([pu.la, pu.ln], { icon: puIcon });
+      m.bindPopup(puPopup(pu));
+      (function(puRef) {
+        m.on('click', function(e) {
+          if (e.originalEvent) e.originalEvent._puClicked = true;
+          showHierarchy(puRef);
+        });
+      })(pu);
+      markers.push(m);
+      var lk = pu.s.toUpperCase() + '|' + pu.l.toUpperCase();
+      (puByLGA[lk] = puByLGA[lk] || []).push(pu);
+    }
+    puCluster.addLayers(markers);
+    Array.prototype.push.apply(allData.pu, puData);
+    totalLoaded += puData.length;
+    document.getElementById('puCount').textContent = totalLoaded.toLocaleString();
+  }
+
+  var collationLoaded = false;
+  var collationPromise = null;
+
+  function loadCollationData() {
+    if (collationLoaded) return Promise.resolve();
+    if (collationPromise) return collationPromise;
+    collationPromise = Promise.all([
+      loadJSON('ward.json'),
+      loadJSON('lga.json')
+    ]).then(function(results) {
+      var wardData = results[0], lgaData = results[1];
+      allData.ward = wardData;
+      allData.lga = lgaData;
+
+      var wardIcon = createSquareIcon('#3498db', 10);
+      wardData.forEach(function(w) {
+        L.marker([w.la, w.ln], { icon: wardIcon }).bindPopup(wardPopup(w)).addTo(wardLayer);
+      });
+
+      var lgaIcon = createSquareIcon('#e67e22', 14);
+      lgaData.forEach(function(l) {
+        L.marker([l.la, l.ln], { icon: lgaIcon }).bindPopup(lgaPopup(l)).addTo(lgaLayer);
+      });
+
+      document.getElementById('wardCount').textContent = wardData.length.toLocaleString();
+      document.getElementById('lgaCount').textContent = lgaData.length.toLocaleString();
+
+      buildLookups();
+      collationLoaded = true;
+    });
+    return collationPromise;
+  }
+
+  function init() {
+    setProgress(5, 'Loading map data...');
+
+    // Load only essentials first: index, FCT PUs, state/national centres
+    return Promise.all([
+      loadJSON('pu/index.json'),
+      loadJSON('pu/fct.json'),
+      loadJSON('state.json'),
+      loadJSON('nat.json')
+    ]).then(function(results) {
+      var puIndex = results[0], fctData = results[1],
+          stateData = results[2], natData = results[3];
+
+      allData = { pu: [], ward: [], lga: [], state: stateData, nat: natData };
+
+      setProgress(20, 'Rendering FCT (' + fctData.length + ' polling units)...');
+
+      map.addLayer(puCluster);
+      addPuBatch(fctData);
+
+      // State and national centres (tiny data, always loaded)
+      var stateIcon = createDiamondIcon('#9b59b6', 16);
+      stateData.forEach(function(s) {
+        L.marker([s.la, s.ln], { icon: stateIcon }).bindPopup(statePopup(s)).addTo(stateLayer);
+      });
+
+      var natIcon = createDiamondIcon('#e74c3c', 22);
+      L.marker([natData.la, natData.ln], { icon: natIcon }).bindPopup(natPopup(natData)).addTo(natLayer);
+
+      stateLayer.addTo(map);
+      natLayer.addTo(map);
+
+      L.control.layers({
+        'Road': googleRoad,
+        'Satellite': googleSat
+      }, {
+        'Polling Units': puCluster,
+        'Ward Centres': wardLayer,
+        'LGA Centres': lgaLayer,
+        'State Centres': stateLayer,
+        'National Centre': natLayer
+      }, { collapsed: false, position: 'topright' }).addTo(map);
+
+      document.getElementById('stateCount').textContent = stateData.length.toLocaleString();
+      buildLookups();
+
+      // Hide loading overlay — map is usable now
+      setProgress(100, 'Ready! Loading remaining states...');
+      setTimeout(function() { document.getElementById('loading').classList.add('hidden'); }, 400);
+
+      // Auto-hide info panel after 3 seconds
+      setTimeout(function() {
+        var panel = document.getElementById('infoPanel');
+        panel.style.opacity = '0';
+        setTimeout(function() { panel.style.display = 'none'; }, 500);
+      }, 3000);
+
+      initSearch();
+
+      // Load ward/LGA collation data in background (not blocking)
+      loadCollationData();
+
+      // Deep link: ?pu=08/13/12/038
+      var deepLinkCode = new URLSearchParams(window.location.search).get('pu');
+      var deepLinkSlug = null;
+      if (deepLinkCode) {
+        var CODE_TO_SLUG = {
+          '01':'abia','02':'adamawa','03':'akwa-ibom','04':'anambra','05':'bauchi',
+          '06':'bayelsa','07':'benue','08':'borno','09':'cross-river','10':'delta',
+          '11':'ebonyi','12':'edo','13':'ekiti','14':'enugu','15':'gombe','16':'imo',
+          '17':'jigawa','18':'kaduna','19':'kano','20':'katsina','21':'kebbi','22':'kogi',
+          '23':'kwara','24':'lagos','25':'nasarawa','26':'niger','27':'ogun','28':'ondo',
+          '29':'osun','30':'oyo','31':'plateau','32':'rivers','33':'sokoto','34':'taraba',
+          '35':'yobe','36':'zamfara','37':'fct'
+        };
+        deepLinkSlug = CODE_TO_SLUG[deepLinkCode.split('/')[0]];
+      }
+
+      // Load remaining states in background (prioritize deep link state)
+      var remaining = puIndex.filter(function(s) { return s.s !== 'fct'; });
+      if (deepLinkSlug && deepLinkSlug !== 'fct') {
+        var dlIdx = remaining.findIndex(function(s) { return s.s === deepLinkSlug; });
+        if (dlIdx > 0) {
+          var dlEntry = remaining.splice(dlIdx, 1)[0];
+          remaining.unshift(dlEntry);
         }
       }
-      typeChar();
-    }, 1000);
+      var loaded = 0;
+      function loadNext() {
+        if (loaded >= remaining.length) return;
+        var entry = remaining[loaded];
+        loadJSON('pu/' + entry.s + '.json').then(function(data) {
+          addPuBatch(data);
+          loaded++;
 
-    // Phase 2: Show highlight
-    setTimeout(function(){
-      highlightEl.classList.add('show');
-    }, 3500);
+          // Check if deep link PU is now loaded
+          if (deepLinkCode) {
+            var found = null;
+            for (var di = 0; di < data.length; di++) {
+              if (data[di].c === deepLinkCode) { found = data[di]; break; }
+            }
+            if (found) {
+              deepLinkCode = null;
+              showHierarchy(found, true);
+              document.getElementById('searchInput').value = found.n || found.c;
+            }
+          }
 
-    // Phase 3: Show hierarchy panel
-    setTimeout(function(){
-      panelEl.classList.add('show');
-    }, 4500);
+          var pct = Math.round((loaded / remaining.length) * 100);
+          document.title = loaded < remaining.length
+            ? 'Loading ' + pct + '% — Nigeria Electoral Map'
+            : 'Nigeria Electoral Map — 176,846 Polling Units';
+          setTimeout(loadNext, 150);
+        });
+      }
 
-    // Phase 4: Reset and loop
-    setTimeout(function(){
-      resetDemo();
-      setTimeout(runDemo, 1500);
-    }, 10000);
+      // Also check FCT data for deep link (already loaded)
+      if (deepLinkCode && deepLinkSlug === 'fct') {
+        for (var fi = 0; fi < fctData.length; fi++) {
+          if (fctData[fi].c === deepLinkCode) {
+            var fctPu = fctData[fi];
+            deepLinkCode = null;
+            setTimeout(function() { showHierarchy(fctPu, true); document.getElementById('searchInput').value = fctPu.n || fctPu.c; }, 500);
+            break;
+          }
+        }
+      }
+      loadNext();
+    });
   }
 
-  runDemo();
+  // --- Hierarchy highlight ---
+
+  var wardLookup = {}, lgaLookup = {}, stateLookup = {};
+
+  function buildLookups() {
+    allData.ward.forEach(function(w) {
+      wardLookup[w.s.toUpperCase() + '|' + w.l.toUpperCase() + '|' + w.n.toUpperCase()] = w;
+    });
+    allData.lga.forEach(function(l) {
+      lgaLookup[l.s.toUpperCase() + '|' + l.n.toUpperCase()] = l;
+    });
+    allData.state.forEach(function(s) {
+      stateLookup[s.n.toUpperCase()] = s;
+    });
+  }
+
+  function findWard(pu) {
+    return wardLookup[pu.s.toUpperCase() + '|' + pu.l.toUpperCase() + '|' + pu.w.toUpperCase()] || null;
+  }
+  function findLGA(pu) {
+    return lgaLookup[pu.s.toUpperCase() + '|' + pu.l.toUpperCase()] || null;
+  }
+  function findState(pu) {
+    return stateLookup[pu.s.toUpperCase()] || null;
+  }
+
+  function haversine(lat1, lng1, lat2, lng2) {
+    var R = 6371;
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLng/2) * Math.sin(dLng/2);
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  function formatDist(km) {
+    if (km < 1) return Math.round(km * 1000) + ' m';
+    if (km < 10) return km.toFixed(1) + ' km';
+    return Math.round(km) + ' km';
+  }
+
+  function formatTime(minutes) {
+    if (minutes < 1) return '< 1 min';
+    if (minutes < 60) return Math.round(minutes) + ' min';
+    var h = Math.floor(minutes / 60);
+    var m = Math.round(minutes % 60);
+    return h + ' hr' + (m > 0 ? ' ' + m + ' min' : '');
+  }
+
+  function estimateTravel(straightKm) {
+    var roadKm = straightKm * 1.35;
+    var walkMin = (roadKm / 4.5) * 60;
+    var driveMin = straightKm < 5 ? (roadKm / 25) * 60 : (roadKm / 50) * 60;
+    return { dist: roadKm, walkMin: walkMin, driveMin: driveMin };
+  }
+
+  var isMobile = window.innerWidth <= 600;
+  window.addEventListener('resize', function() { isMobile = window.innerWidth <= 600; });
+  var lastSelectedPu = null;
+
+  function clearHierarchy() {
+    highlightLayer.clearLayers();
+    selectedPinLayer.clearLayers();
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.remove('active', 'peek', 'expanded');
+    document.getElementById('hierarchyMin').classList.remove('active');
+    lastSelectedPu = null;
+  }
+
+  function minimizeHierarchy() {
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.remove('active', 'peek', 'expanded');
+    var minBar = document.getElementById('hierarchyMin');
+    if (lastSelectedPu) {
+      document.getElementById('hierarchyMinLabel').textContent =
+        (lastSelectedPu.n || lastSelectedPu.c);
+      minBar.classList.add('active');
+    }
+  }
+
+  function expandHierarchy() {
+    document.getElementById('hierarchyMin').classList.remove('active');
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.add('active');
+    if (isMobile) {
+      panel.classList.remove('peek');
+      panel.classList.add('expanded');
+    }
+  }
+
+  function peekHierarchy() {
+    document.getElementById('hierarchyMin').classList.remove('active');
+    var panel = document.getElementById('hierarchyPanel');
+    panel.classList.add('active');
+    if (isMobile) {
+      panel.classList.remove('expanded');
+      panel.classList.add('peek');
+    }
+  }
+
+  function showHierarchy(pu, autoZoom) {
+    track('select_pu', { pu_code: pu.c, state: pu.s, lga: pu.l, ward: pu.w, source: autoZoom ? 'search' : 'map' });
+
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showHierarchy(pu, autoZoom); });
+      return;
+    }
+
+    clearHierarchy();
+    lastSelectedPu = pu;
+
+    var ward = findWard(pu);
+    var lga = findLGA(pu);
+    var state = findState(pu);
+    var nat = allData.nat;
+
+    // Build the chain of points
+    var chain = [];
+
+    chain.push({
+      level: 'pu', label: 'Your Polling Unit', color: HIER_COLORS.pu,
+      name: pu.n || pu.c, detail: 'Code: ' + pu.c,
+      la: pu.la, ln: pu.ln, zoom: 17
+    });
+
+    if (ward) {
+      chain.push({
+        level: 'ward', label: 'Ward Collation Centre', color: HIER_COLORS.ward,
+        name: ward.n + (ward.cn ? ' — ' + ward.cn : ''),
+        detail: ward.p + ' polling units',
+        la: ward.la, ln: ward.ln, zoom: 14
+      });
+    }
+
+    if (lga) {
+      chain.push({
+        level: 'lga', label: 'LGA Collation Centre', color: HIER_COLORS.lga,
+        name: lga.n, detail: lga.w + ' wards, ' + lga.p.toLocaleString() + ' PUs',
+        la: lga.la, ln: lga.ln, zoom: 11
+      });
+    }
+
+    if (state) {
+      chain.push({
+        level: 'state', label: 'State Collation Centre', color: HIER_COLORS.state,
+        name: state.n, detail: state.l + ' LGAs, ' + state.p.toLocaleString() + ' PUs',
+        la: state.la, ln: state.ln, zoom: 8
+      });
+    }
+
+    chain.push({
+      level: 'nat', label: 'National Collation Centre', color: HIER_COLORS.nat,
+      name: nat.n, detail: nat.st + ' states, ' + nat.p.toLocaleString() + ' PUs',
+      la: nat.la, ln: nat.ln, zoom: 7
+    });
+
+    // Add highlight markers
+    // PU gets the pulsing marker
+    L.marker([pu.la, pu.ln], { icon: createHighlightIcon(), zIndexOffset: 2000 })
+      .bindPopup(puPopup(pu)).addTo(highlightLayer);
+
+    // Collation centres get labelled markers
+    if (ward) {
+      L.marker([ward.la, ward.ln], {
+        icon: createLabelledIcon(HIER_COLORS.ward, 'square', 'Ward: ' + ward.n, 'hier-ward-marker'),
+        zIndexOffset: 1500
+      }).bindPopup(wardPopup(ward)).addTo(highlightLayer);
+
+      // Dotted line: PU → Ward
+      L.polyline([[pu.la, pu.ln], [ward.la, ward.ln]], {
+        color: HIER_COLORS.ward, weight: 2, opacity: 0.6, dashArray: '6,8'
+      }).addTo(highlightLayer);
+    }
+
+    if (lga) {
+      L.marker([lga.la, lga.ln], {
+        icon: createLabelledIcon(HIER_COLORS.lga, 'square', 'LGA: ' + lga.n, 'hier-lga-marker'),
+        zIndexOffset: 1400
+      }).bindPopup(lgaPopup(lga)).addTo(highlightLayer);
+
+      // Dotted line: Ward → LGA
+      if (ward) {
+        L.polyline([[ward.la, ward.ln], [lga.la, lga.ln]], {
+          color: HIER_COLORS.lga, weight: 2, opacity: 0.6, dashArray: '6,8'
+        }).addTo(highlightLayer);
+      }
+    }
+
+    if (state) {
+      L.marker([state.la, state.ln], {
+        icon: createLabelledIcon(HIER_COLORS.state, 'diamond', 'State: ' + state.n),
+        zIndexOffset: 1300
+      }).bindPopup(statePopup(state)).addTo(highlightLayer);
+    }
+
+    L.marker([nat.la, nat.ln], {
+      icon: createLabelledIcon(HIER_COLORS.nat, 'diamond', 'National (ICC Abuja)'),
+      zIndexOffset: 1200
+    }).bindPopup(natPopup(nat)).addTo(highlightLayer);
+
+    // Build hierarchy panel
+    var body = document.getElementById('hierarchyBody');
+    body.innerHTML = '';
+
+    var walkSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="M14 9l-2 4-3 1 1 5"/><path d="M10 9l-1 4 2 3 2 5"/></svg>';
+    var driveSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><circle cx="7" cy="15" r="1.5"/><circle cx="17" cy="15" r="1.5"/><path d="M5 6l2-3h10l2 3"/></svg>';
+    var walkSvgSmall = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4" r="2"/><path d="M14 9l-2 4-3 1 1 5"/><path d="M10 9l-1 4 2 3 2 5"/></svg>';
+    var driveSvgSmall = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><circle cx="7" cy="15" r="1.5"/><circle cx="17" cy="15" r="1.5"/><path d="M5 6l2-3h10l2 3"/></svg>';
+
+    function buildDistRow(fromLa, fromLn, toLa, toLn) {
+      var km = haversine(fromLa, fromLn, toLa, toLn);
+      var est = estimateTravel(km);
+      return '<div class="hierarchy-distance">' +
+        '<div class="hierarchy-distance-line"><span></span></div>' +
+        '<div class="hierarchy-distance-info">' +
+          '<span class="dist-chip dist-chip-dist">' + formatDist(est.dist) + '</span>' +
+          '<span class="dist-chip dist-chip-walk">' + walkSvgSmall + ' ' + formatTime(est.walkMin) + '</span>' +
+          '<span class="dist-chip dist-chip-drive">' + driveSvgSmall + ' ' + formatTime(est.driveMin) + '</span>' +
+        '</div></div>';
+    }
+
+    // If user location is available, show distance from user to PU first
+    if (userLatLng) {
+      var userStep = document.createElement('div');
+      userStep.className = 'hierarchy-step';
+      userStep.innerHTML = '<div class="hierarchy-step-line">' +
+        '<div class="hierarchy-step-dot" style="border-color:#2196f3;background:#2196f3;"></div>' +
+        '<div class="hierarchy-step-connector" style="background:' + HIER_COLORS.pu + ';"></div>' +
+        '</div>' +
+        '<div class="hierarchy-step-content">' +
+          '<div class="hierarchy-step-label" style="color:#2196f3;">Your Location</div>' +
+          '<div class="hierarchy-step-name">Current Position</div>' +
+          '<div class="hierarchy-step-detail">Lat: ' + userLatLng.lat.toFixed(4) + ', Lng: ' + userLatLng.lng.toFixed(4) + '</div>' +
+        '</div>';
+      body.appendChild(userStep);
+
+      var distDiv = document.createElement('div');
+      distDiv.innerHTML = buildDistRow(userLatLng.lat, userLatLng.lng, chain[0].la, chain[0].ln);
+      body.appendChild(distDiv.firstChild);
+    }
+
+    chain.forEach(function(step, idx) {
+      var stepEl = document.createElement('div');
+      stepEl.className = 'hierarchy-step';
+
+      var isLast = idx === chain.length - 1;
+      var isFirst = idx === 0 && !userLatLng;
+
+      var lineHtml = '<div class="hierarchy-step-line">';
+      if (idx > 0 || userLatLng) {
+        lineHtml += '<div class="hierarchy-step-connector" style="background:' + step.color + ';"></div>';
+      }
+      lineHtml += '<div class="hierarchy-step-dot" style="border-color:' + step.color + ';' +
+        (isFirst ? 'background:' + step.color + ';' : '') + '"></div>';
+      if (!isLast) {
+        lineHtml += '<div class="hierarchy-step-connector" style="background:' + chain[idx+1].color + ';"></div>';
+      } else {
+        lineHtml += '<div class="hierarchy-step-connector" style="background:transparent;"></div>';
+      }
+      lineHtml += '</div>';
+
+      var directionsHtml = '<div class="hierarchy-step-actions">' +
+        '<button class="btn-directions btn-directions-walk" data-la="' + step.la + '" data-ln="' + step.ln + '" data-mode="walking" title="Walking directions">' + walkSvg + ' Walk</button>' +
+        '<button class="btn-directions btn-directions-drive" data-la="' + step.la + '" data-ln="' + step.ln + '" data-mode="driving" title="Driving directions">' + driveSvg + ' Drive</button>' +
+        '</div>';
+
+      var contentHtml = '<div class="hierarchy-step-content">' +
+        '<div class="hierarchy-step-label" style="color:' + step.color + ';">' + step.label + '</div>' +
+        '<div class="hierarchy-step-name">' + step.name + '</div>' +
+        '<div class="hierarchy-step-detail">' + step.detail + '</div>' +
+        directionsHtml +
+        '<div class="hierarchy-step-zoom">Click name to zoom here</div>' +
+        '</div>';
+
+      stepEl.innerHTML = lineHtml + contentHtml;
+
+      // Zoom on clicking the name/label area (not the buttons)
+      var nameEl = stepEl.querySelector('.hierarchy-step-name');
+      var labelEl = stepEl.querySelector('.hierarchy-step-label');
+      [nameEl, labelEl].forEach(function(el) {
+        (function(s) {
+          el.style.cursor = 'pointer';
+          el.addEventListener('click', function(e) {
+            e.stopPropagation();
+            showPin(s.la, s.ln);
+            if (userLatLng) {
+              var bounds = L.latLngBounds([[userLatLng.lat, userLatLng.lng], [s.la, s.ln]]);
+              map.fitBounds(bounds.pad(0.2), { animate: true });
+            } else {
+              map.setView([s.la, s.ln], Math.max(map.getZoom(), s.zoom), { animate: true });
+            }
+          });
+        })(step);
+      });
+
+      // Direction buttons
+      stepEl.querySelectorAll('.btn-directions').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var destLa = btn.getAttribute('data-la');
+          var destLn = btn.getAttribute('data-ln');
+          var mode = btn.getAttribute('data-mode');
+          openDirections(parseFloat(destLa), parseFloat(destLn), mode);
+        });
+      });
+
+      body.appendChild(stepEl);
+
+      // Add distance row between this step and the next
+      if (!isLast) {
+        var nextStep = chain[idx + 1];
+        var distDiv = document.createElement('div');
+        distDiv.innerHTML = buildDistRow(step.la, step.ln, nextStep.la, nextStep.ln);
+        body.appendChild(distDiv.firstChild);
+      }
+    });
+
+    if (isMobile) {
+      peekHierarchy();
+    } else {
+      document.getElementById('hierarchyPanel').classList.add('active');
+    }
+
+    // Zoom to show PU and ward (the most useful view)
+    if (autoZoom) {
+      if (ward) {
+        var bounds = L.latLngBounds([[pu.la, pu.ln], [ward.la, ward.ln]]);
+        map.fitBounds(bounds.pad(0.3), { maxZoom: 15 });
+      } else {
+        map.setView([pu.la, pu.ln], 16);
+      }
+    }
+  }
+
+  // --- Directions ---
+
+  window._getDir = function(la, ln, mode) { openDirections(la, ln, mode); };
+
+  window._copyPU = function(code) {
+    var url = window.location.origin + window.location.pathname.replace('map.html', '') + '?pu=' + code;
+    navigator.clipboard.writeText(url).then(function() {
+      showToast('Link copied!');
+      track('copy_link', { pu_code: code });
+    }).catch(function() {
+      showToast('Copy failed');
+    });
+  };
+
+  function showToast(msg) {
+    var existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function() { t.classList.add('show'); }, 10);
+    setTimeout(function() { t.classList.remove('show'); setTimeout(function() { t.remove(); }, 300); }, 2000);
+  }
+
+  function openDirections(destLat, destLng, mode) {
+    track('get_directions', { mode: mode, has_location: !!userLatLng });
+    var travelMode = mode === 'driving' ? 'driving' : 'walking';
+    var origin = '';
+    if (userLatLng) {
+      origin = userLatLng.lat + ',' + userLatLng.lng;
+    }
+    var url = 'https://www.google.com/maps/dir/?api=1' +
+      (origin ? '&origin=' + origin : '') +
+      '&destination=' + destLat + ',' + destLng +
+      '&travelmode=' + travelMode;
+    window.open(url, '_blank');
+  }
+
+  function locateUser() {
+    var btn = document.getElementById('locateBtn');
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser.');
+      return;
+    }
+    track('locate_me', {});
+    btn.classList.add('locating');
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        btn.classList.remove('locating');
+        userLatLng = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+        userLocationLayer.clearLayers();
+        var userIcon = L.divIcon({
+          className: '',
+          html: '<div class="user-marker"><div class="user-pulse"></div><div class="user-dot"></div></div>',
+          iconSize: [22, 22],
+          iconAnchor: [11, 11]
+        });
+        L.marker([userLatLng.lat, userLatLng.lng], { icon: userIcon, zIndexOffset: 3000 })
+          .bindPopup('<strong>Your Location</strong>')
+          .addTo(userLocationLayer);
+
+        var currentZoom = map.getZoom();
+        map.setView([userLatLng.lat, userLatLng.lng], Math.max(currentZoom, 14), { animate: true });
+      },
+      function(err) {
+        btn.classList.remove('locating');
+        if (err.code === 1) {
+          alert('Location access denied. Please allow location access to use this feature.');
+        } else {
+          alert('Unable to get your location. The directions buttons will still work — Google Maps will ask for your starting point.');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }
+
+  // --- Area highlights (ward/LGA/state search clicks) ---
+
+  function showWardHighlight(ward) {
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showWardHighlight(ward); });
+      return;
+    }
+    clearHierarchy();
+
+    showPin(ward.la, ward.ln);
+
+    // Find all PUs in this ward using LGA index
+    var bounds = L.latLngBounds([[ward.la, ward.ln]]);
+    var lgaKey = ward.s.toUpperCase() + '|' + ward.l.toUpperCase();
+    var wardUp = ward.n.toUpperCase();
+    var lgaPus = puByLGA[lgaKey] || [];
+
+    lgaPus.forEach(function(pu) {
+      if (pu.w.toUpperCase() === wardUp) {
+        var isWardCentre = Math.abs(pu.la - ward.la) < 0.0001 && Math.abs(pu.ln - ward.ln) < 0.0001;
+        if (!isWardCentre) {
+          L.circleMarker([pu.la, pu.ln], { radius: 6, color: '#fff', weight: 1.5, fillColor: '#00a651', fillOpacity: 0.9 })
+            .bindPopup(puPopup(pu)).addTo(highlightLayer);
+        }
+        bounds.extend([pu.la, pu.ln]);
+      }
+    });
+
+    // Ward centre marker (blue, larger)
+    L.circleMarker([ward.la, ward.ln], { radius: 10, color: '#fff', weight: 2.5, fillColor: '#3498db', fillOpacity: 1 })
+      .bindPopup(wardPopup(ward)).openPopup().addTo(highlightLayer);
+
+    map.fitBounds(bounds.pad(0.15), { maxZoom: 16 });
+  }
+
+  function showLGAHighlight(lga) {
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showLGAHighlight(lga); });
+      return;
+    }
+    clearHierarchy();
+
+    showPin(lga.la, lga.ln);
+
+    var bounds = L.latLngBounds([[lga.la, lga.ln]]);
+    var wardCoords = new Set();
+
+    // Find all wards in this LGA
+    allData.ward.forEach(function(w) {
+      if (w.s.toUpperCase() === lga.s.toUpperCase() && w.l.toUpperCase() === lga.n.toUpperCase()) {
+        wardCoords.add(w.la + ',' + w.ln);
+        L.circleMarker([w.la, w.ln], { radius: 7, color: '#fff', weight: 2, fillColor: '#3498db', fillOpacity: 0.9 })
+          .bindPopup(wardPopup(w)).addTo(highlightLayer);
+        bounds.extend([w.la, w.ln]);
+      }
+    });
+
+    // Find all PUs in this LGA using index
+    var lgaKey = lga.s.toUpperCase() + '|' + lga.n.toUpperCase();
+    var lgaPus = puByLGA[lgaKey] || [];
+    lgaPus.forEach(function(pu) {
+      var coordKey = pu.la + ',' + pu.ln;
+      if (!wardCoords.has(coordKey)) {
+        L.circleMarker([pu.la, pu.ln], { radius: 5, color: '#fff', weight: 1, fillColor: '#00a651', fillOpacity: 0.8 })
+          .bindPopup(puPopup(pu)).addTo(highlightLayer);
+      }
+      bounds.extend([pu.la, pu.ln]);
+    });
+
+    // LGA centre marker (orange, largest)
+    L.circleMarker([lga.la, lga.ln], { radius: 12, color: '#fff', weight: 2.5, fillColor: '#e67e22', fillOpacity: 1 })
+      .bindPopup(lgaPopup(lga)).openPopup().addTo(highlightLayer);
+
+    map.fitBounds(bounds.pad(0.1), { maxZoom: 14 });
+  }
+
+  function showStateHighlight(state) {
+    if (!collationLoaded) {
+      loadCollationData().then(function() { showStateHighlight(state); });
+      return;
+    }
+    clearHierarchy();
+
+    showPin(state.la, state.ln);
+
+    var bounds = L.latLngBounds([[state.la, state.ln]]);
+    var lgaCoords = new Set();
+
+    // Find all LGAs in this state
+    allData.lga.forEach(function(l) {
+      if (l.s.toUpperCase() === state.n.toUpperCase()) {
+        lgaCoords.add(l.la + ',' + l.ln);
+        L.circleMarker([l.la, l.ln], { radius: 8, color: '#fff', weight: 2, fillColor: '#e67e22', fillOpacity: 0.9 })
+          .bindPopup(lgaPopup(l)).addTo(highlightLayer);
+        bounds.extend([l.la, l.ln]);
+      }
+    });
+
+    // Find all wards in this state
+    allData.ward.forEach(function(w) {
+      if (w.s.toUpperCase() === state.n.toUpperCase()) {
+        var coordKey = w.la + ',' + w.ln;
+        if (!lgaCoords.has(coordKey)) {
+          L.circleMarker([w.la, w.ln], { radius: 5, color: '#fff', weight: 1, fillColor: '#3498db', fillOpacity: 0.7 })
+            .bindPopup(wardPopup(w)).addTo(highlightLayer);
+        }
+        bounds.extend([w.la, w.ln]);
+      }
+    });
+
+    // State centre marker (purple, largest)
+    L.circleMarker([state.la, state.ln], { radius: 14, color: '#fff', weight: 3, fillColor: '#9b59b6', fillOpacity: 1 })
+      .bindPopup(statePopup(state)).openPopup().addTo(highlightLayer);
+
+    map.fitBounds(bounds.pad(0.1), { maxZoom: 10 });
+  }
+
+  // --- Search ---
+
+  function initSearch() {
+    var input = document.getElementById('searchInput');
+    var results = document.getElementById('searchResults');
+    var debounceTimer = null;
+
+    input.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function() { doSearch(input.value.trim()); }, 200);
+    });
+
+    input.addEventListener('focus', function() {
+      if (results.children.length > 0) results.classList.add('active');
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.search-box')) results.classList.remove('active');
+    });
+
+    document.getElementById('locateBtn').addEventListener('click', locateUser);
+    document.getElementById('campaignBanner').addEventListener('click', function() {
+      track('banner_click', { destination: 'smartballot_supergroup' });
+    });
+
+    // Minimized bar: tap to expand
+    document.getElementById('hierarchyMin').addEventListener('click', expandHierarchy);
+
+    // Tap header to toggle between peek and expanded
+    document.getElementById('hierarchyHeader').addEventListener('click', function(e) {
+      if (e.target.closest('.hierarchy-close')) return;
+      var panel = document.getElementById('hierarchyPanel');
+      if (panel.classList.contains('expanded')) {
+        peekHierarchy();
+      } else if (panel.classList.contains('peek')) {
+        expandHierarchy();
+      }
+    });
+
+    // X button: minimize to bar on mobile, close on desktop
+    document.getElementById('hierarchyClose').addEventListener('click', function(e) {
+      e.stopPropagation();
+      if (isMobile) {
+        minimizeHierarchy();
+      } else {
+        clearHierarchy();
+      }
+    });
+
+    map.on('click', function(e) {
+      if (!e.originalEvent._puClicked) clearHierarchy();
+    });
+  }
+
+  function doSearch(query) {
+    var results = document.getElementById('searchResults');
+    results.innerHTML = '';
+    if (query.length < 2) { results.classList.remove('active'); return; }
+
+    var q = query.toUpperCase();
+    var matches = [];
+
+    for (var si = 0; si < allData.state.length && matches.length < 20; si++) {
+      var s = allData.state[si];
+      if (s.n.toUpperCase().indexOf(q) !== -1)
+        matches.push({ type: 'State', name: s.n, detail: s.l + ' LGAs, ' + s.p.toLocaleString() + ' PUs', la: s.la, ln: s.ln, zoom: 8, data: s });
+    }
+    for (var li = 0; li < allData.lga.length && matches.length < 20; li++) {
+      var l = allData.lga[li];
+      if (l.n.toUpperCase().indexOf(q) !== -1 || (l.s + ' ' + l.n).toUpperCase().indexOf(q) !== -1)
+        matches.push({ type: 'LGA', name: l.n, detail: l.s + ' — ' + l.w + ' wards, ' + l.p.toLocaleString() + ' PUs', la: l.la, ln: l.ln, zoom: 11, data: l });
+    }
+    for (var wi = 0; wi < allData.ward.length && matches.length < 20; wi++) {
+      var w = allData.ward[wi];
+      if (w.n.toUpperCase().indexOf(q) !== -1)
+        matches.push({ type: 'Ward', name: w.n, detail: w.l + ', ' + w.s + (w.cn ? ' — ' + w.cn : '') + ' (' + w.p + ' PUs)', la: w.la, ln: w.ln, zoom: 14, data: w });
+    }
+    if (matches.length < 20) {
+      for (var pi = 0; pi < allData.pu.length && matches.length < 20; pi++) {
+        var pu = allData.pu[pi];
+        if ((pu.n && pu.n.toUpperCase().indexOf(q) !== -1) || pu.c.indexOf(q) !== -1)
+          matches.push({ type: 'PU', name: pu.n || pu.c, detail: pu.w + ', ' + pu.l + ', ' + pu.s, la: pu.la, ln: pu.ln, zoom: 17, data: pu });
+      }
+    }
+
+    track('search', { query: query, results: matches.length });
+
+    if (matches.length === 0) {
+      results.innerHTML = '<div class="search-result" style="color:#999;">No results found</div>';
+    } else {
+      matches.forEach(function(m) {
+        var div = document.createElement('div');
+        div.className = 'search-result';
+        var typeColor = m.type === 'PU' ? '#e74c3c' : m.type === 'Ward' ? '#3498db' : m.type === 'LGA' ? '#e67e22' : '#9b59b6';
+        div.innerHTML = '<span style="color:' + typeColor + ';font-size:10px;font-weight:600;">' + m.type + '</span> <span class="result-name">' + m.name + '</span><div class="result-detail">' + m.detail + '</div>';
+        div.addEventListener('click', function() {
+          results.classList.remove('active');
+          document.getElementById('searchInput').value = m.name;
+
+          if (m.type === 'PU' && m.data) {
+            showHierarchy(m.data, true);
+          } else if (m.type === 'Ward' && m.data) {
+            showWardHighlight(m.data);
+          } else if (m.type === 'LGA' && m.data) {
+            showLGAHighlight(m.data);
+          } else if (m.type === 'State' && m.data) {
+            showStateHighlight(m.data);
+          } else {
+            clearHierarchy();
+            map.setView([m.la, m.ln], m.zoom);
+          }
+        });
+        results.appendChild(div);
+      });
+    }
+    results.classList.add('active');
+  }
+
+  init().catch(function(err) {
+    setProgress(0, 'Error: ' + err.message);
+    console.error(err);
+  });
+
+  // Register service worker for offline support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('./sw.js').catch(function() {});
+    });
+  }
 })();
 </script>
 </body>
