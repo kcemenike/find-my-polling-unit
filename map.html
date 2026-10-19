@@ -786,8 +786,31 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       // Load ward/LGA collation data in background (not blocking)
       loadCollationData();
 
-      // Load remaining states in background
+      // Deep link: ?pu=08/13/12/038
+      var deepLinkCode = new URLSearchParams(window.location.search).get('pu');
+      var deepLinkSlug = null;
+      if (deepLinkCode) {
+        var CODE_TO_SLUG = {
+          '01':'abia','02':'adamawa','03':'akwa-ibom','04':'anambra','05':'bauchi',
+          '06':'bayelsa','07':'benue','08':'borno','09':'cross-river','10':'delta',
+          '11':'ebonyi','12':'edo','13':'ekiti','14':'enugu','15':'gombe','16':'imo',
+          '17':'jigawa','18':'kaduna','19':'kano','20':'katsina','21':'kebbi','22':'kogi',
+          '23':'kwara','24':'lagos','25':'nasarawa','26':'niger','27':'ogun','28':'ondo',
+          '29':'osun','30':'oyo','31':'plateau','32':'rivers','33':'sokoto','34':'taraba',
+          '35':'yobe','36':'zamfara','37':'fct'
+        };
+        deepLinkSlug = CODE_TO_SLUG[deepLinkCode.split('/')[0]];
+      }
+
+      // Load remaining states in background (prioritize deep link state)
       var remaining = puIndex.filter(function(s) { return s.s !== 'fct'; });
+      if (deepLinkSlug && deepLinkSlug !== 'fct') {
+        var dlIdx = remaining.findIndex(function(s) { return s.s === deepLinkSlug; });
+        if (dlIdx > 0) {
+          var dlEntry = remaining.splice(dlIdx, 1)[0];
+          remaining.unshift(dlEntry);
+        }
+      }
       var loaded = 0;
       function loadNext() {
         if (loaded >= remaining.length) return;
@@ -795,12 +818,38 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         loadJSON('pu/' + entry.s + '.json').then(function(data) {
           addPuBatch(data);
           loaded++;
+
+          // Check if deep link PU is now loaded
+          if (deepLinkCode) {
+            var found = null;
+            for (var di = 0; di < data.length; di++) {
+              if (data[di].c === deepLinkCode) { found = data[di]; break; }
+            }
+            if (found) {
+              deepLinkCode = null;
+              showHierarchy(found, true);
+              document.getElementById('searchInput').value = found.n || found.c;
+            }
+          }
+
           var pct = Math.round((loaded / remaining.length) * 100);
           document.title = loaded < remaining.length
             ? 'Loading ' + pct + '% — Nigeria Electoral Map'
             : 'Nigeria Electoral Map — 176,846 Polling Units';
           setTimeout(loadNext, 150);
         });
+      }
+
+      // Also check FCT data for deep link (already loaded)
+      if (deepLinkCode && deepLinkSlug === 'fct') {
+        for (var fi = 0; fi < fctData.length; fi++) {
+          if (fctData[fi].c === deepLinkCode) {
+            var fctPu = fctData[fi];
+            deepLinkCode = null;
+            setTimeout(function() { showHierarchy(fctPu, true); document.getElementById('searchInput').value = fctPu.n || fctPu.c; }, 500);
+            break;
+          }
+        }
       }
       loadNext();
     });
