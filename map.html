@@ -358,6 +358,16 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   font-size: 10px; color: #666; font-weight: 500;
 }
 
+/* Toast */
+.toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #333; color: #fff; padding: 10px 20px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; z-index: 11000;
+  opacity: 0; transition: opacity 0.3s, transform 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 /* Mobile responsive */
 @media (max-width: 600px) {
   .search-box {
@@ -547,7 +557,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
       'Ward: ' + pu.w + '<br>LGA: ' + pu.l + '<br>State: ' + pu.s + '<br>' +
       '<span class="coord-source">' + (SRC_LABELS[pu.r] || 'Unknown source') + '</span>' +
       '<br><a href="#" onclick="window._getDir(' + pu.la + ',' + pu.ln + ',\'walking\');return false" style="color:#2e7d32;font-size:12px;font-weight:600;text-decoration:none;">Walk</a>' +
-      ' &middot; <a href="#" onclick="window._getDir(' + pu.la + ',' + pu.ln + ',\'driving\');return false" style="color:#1565c0;font-size:12px;font-weight:600;text-decoration:none;">Drive</a>';
+      ' &middot; <a href="#" onclick="window._getDir(' + pu.la + ',' + pu.ln + ',\'driving\');return false" style="color:#1565c0;font-size:12px;font-weight:600;text-decoration:none;">Drive</a>' +
+      ' &middot; <a href="#" onclick="window._copyPU(\'' + pu.c + '\');return false" style="color:#666;font-size:12px;font-weight:600;text-decoration:none;">Copy</a>';
   }
 
   function wardPopup(w) {
@@ -1193,6 +1204,27 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
   // --- Directions ---
 
   window._getDir = function(la, ln, mode) { openDirections(la, ln, mode); };
+
+  window._copyPU = function(code) {
+    var url = window.location.origin + window.location.pathname.replace('map.html', '') + '?pu=' + code;
+    navigator.clipboard.writeText(url).then(function() {
+      showToast('Link copied!');
+      track('copy_link', { pu_code: code });
+    }).catch(function() {
+      showToast('Copy failed');
+    });
+  };
+
+  function showToast(msg) {
+    var existing = document.querySelector('.toast');
+    if (existing) existing.remove();
+    var t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(function() { t.classList.add('show'); }, 10);
+    setTimeout(function() { t.classList.remove('show'); setTimeout(function() { t.remove(); }, 300); }, 2000);
+  }
 
   function openDirections(destLat, destLng, mode) {
     track('get_directions', { mode: mode, has_location: !!userLatLng });
