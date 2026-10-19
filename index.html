@@ -20,7 +20,7 @@ gtag('js',new Date());gtag('config','G-KQYBR3GKH0');
 <script>
 // Auto-redirect after launch date
 var LAUNCH = new Date('2026-10-20T00:00:00+01:00');
-if (Date.now() >= LAUNCH.getTime()) { window.location.replace('./map.html'); }
+if (Date.now() >= LAUNCH.getTime()) { window.location.replace('./map.html' + window.location.search); }
 </script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -253,7 +253,7 @@ h1 .gold{color:#f1c40f}
     document.getElementById('cdHours').textContent = h < 10 ? '0'+h : h;
     document.getElementById('cdMins').textContent = m < 10 ? '0'+m : m;
     document.getElementById('cdSecs').textContent = s < 10 ? '0'+s : s;
-    if(diff <= 0) window.location.replace('./map.html');
+    if(diff <= 0) window.location.replace('./map.html' + window.location.search);
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
