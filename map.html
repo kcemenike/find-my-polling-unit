@@ -1461,25 +1461,17 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     for (var si = 0; si < allData.state.length && matches.length < 20; si++) {
       var s = allData.state[si];
       if (s.n.toUpperCase().indexOf(q) !== -1)
-        matches.push({ type: 'State', name: s.n, detail: s.l + ' LGAs, ' + s.p.toLocaleString() + ' PUs', la: s.la, ln: s.ln, zoom: 8, data: s });
+        matches.push({ type: 'State', name: s.n, code: s.sc || '', detail: s.l + ' LGAs, ' + s.p.toLocaleString() + ' PUs', la: s.la, ln: s.ln, zoom: 8, data: s });
     }
     for (var li = 0; li < allData.lga.length && matches.length < 20; li++) {
       var l = allData.lga[li];
       if (l.n.toUpperCase().indexOf(q) !== -1 || (l.s + ' ' + l.n).toUpperCase().indexOf(q) !== -1)
-        matches.push({ type: 'LGA', name: l.n, detail: l.s + ' — ' + l.w + ' wards, ' + l.p.toLocaleString() + ' PUs', la: l.la, ln: l.ln, zoom: 11, data: l });
+        matches.push({ type: 'LGA', name: l.n, code: l.lc || '', detail: l.s + ' — ' + l.w + ' wards, ' + l.p.toLocaleString() + ' PUs', la: l.la, ln: l.ln, zoom: 11, data: l });
     }
     for (var wi = 0; wi < allData.ward.length && matches.length < 20; wi++) {
       var w = allData.ward[wi];
-      if (w.n.toUpperCase().indexOf(q) !== -1) {
-        var wardCode = '';
-        for (var _pi = 0; _pi < allData.pu.length; _pi++) {
-          if (allData.pu[_pi].w === w.n && allData.pu[_pi].l === w.l && allData.pu[_pi].s === w.s) {
-            wardCode = allData.pu[_pi].c.split('/').slice(0, 3).join('/');
-            break;
-          }
-        }
-        matches.push({ type: 'Ward', name: w.n, code: wardCode, detail: w.l + ', ' + w.s + (w.cn ? ' — ' + w.cn : '') + ' (' + w.p + ' PUs)', la: w.la, ln: w.ln, zoom: 14, data: w });
-      }
+      if (w.n.toUpperCase().indexOf(q) !== -1)
+        matches.push({ type: 'Ward', name: w.n, code: w.wc || '', detail: w.l + ', ' + w.s + (w.cn ? ' — ' + w.cn : '') + ' (' + w.p + ' PUs)', la: w.la, ln: w.ln, zoom: 14, data: w });
     }
     if (matches.length < 20) {
       for (var pi = 0; pi < allData.pu.length && matches.length < 20; pi++) {
