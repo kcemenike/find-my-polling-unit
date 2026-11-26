@@ -718,12 +718,14 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
 
       var wardIcon = createSquareIcon('#3498db', 10);
       wardData.forEach(function(w) {
-        L.marker([w.la, w.ln], { icon: wardIcon }).bindPopup(wardPopup(w)).addTo(wardLayer);
+        if (w.la != null && w.ln != null)
+          L.marker([w.la, w.ln], { icon: wardIcon }).bindPopup(wardPopup(w)).addTo(wardLayer);
       });
 
       var lgaIcon = createSquareIcon('#e67e22', 14);
       lgaData.forEach(function(l) {
-        L.marker([l.la, l.ln], { icon: lgaIcon }).bindPopup(lgaPopup(l)).addTo(lgaLayer);
+        if (l.la != null && l.ln != null)
+          L.marker([l.la, l.ln], { icon: lgaIcon }).bindPopup(lgaPopup(l)).addTo(lgaLayer);
       });
 
       document.getElementById('wardCount').textContent = wardData.length.toLocaleString();
