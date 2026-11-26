@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INEC 2026 Changes — Delta State</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,system-ui,sans-serif;background:#f8f9fa;color:#333;padding:20px;max-width:1100px;margin:0 auto}
+h1{font-size:24px;font-weight:700;margin-bottom:4px;color:#1a1a1a}
+.subtitle{color:#666;font-size:14px;margin-bottom:24px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:28px}
+.stat{background:#fff;border:1px solid #e0e0e0;border-radius:10px;padding:16px;text-align:center}
+.stat .num{font-size:28px;font-weight:800}
+.stat .label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.stat.green .num{color:#2e7d32}
+.stat.red .num{color:#c62828}
+.stat.blue .num{color:#1565c0}
+.stat.orange .num{color:#e65100}
+.stat.gray .num{color:#666}
+
+.tabs{display:flex;gap:0;border-bottom:2px solid #e0e0e0;margin-bottom:20px}
+.tab{padding:10px 20px;font-size:14px;font-weight:600;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px}
+.tab:hover{color:#333}
+.tab.active{color:#1565c0;border-bottom-color:#1565c0}
+.tab .cnt{font-size:11px;margin-left:4px;padding:1px 6px;border-radius:8px;background:#e3f2fd;color:#1565c0}
+.tab.red-tab .cnt{background:#ffebee;color:#c62828}
+
+.search{margin-bottom:16px}
+.search input{width:100%;padding:10px 14px;border:1px solid #ddd;border-radius:8px;font-size:14px;outline:none}
+.search input:focus{border-color:#1565c0}
+
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden}
+th{text-align:left;padding:8px 12px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#888;border-bottom:1px solid #e0e0e0;cursor:pointer}
+th:hover{color:#1565c0}
+td{padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:13px}
+tr:hover td{background:#f8f9fa}
+.code{font-family:monospace;color:#666;font-size:12px}
+.gps-yes{color:#2e7d32;font-size:11px}
+.gps-no{color:#c62828;font-size:11px}
+
+.pagination{display:flex;justify-content:center;gap:4px;margin-top:16px;align-items:center}
+.pg-btn{padding:5px 10px;font-size:12px;border:1px solid #ddd;border-radius:5px;background:#fff;cursor:pointer;color:#666}
+.pg-btn:hover{border-color:#1565c0;color:#1565c0}
+.pg-btn.active{background:#1565c0;color:#fff;border-color:#1565c0}
+.pg-btn:disabled{opacity:.3;cursor:not-allowed}
+.pg-info{font-size:12px;color:#888;margin:0 8px}
+
+.ward-group{margin-bottom:4px;padding:6px 12px;background:#e3f2fd;border-radius:6px;font-size:13px;font-weight:600;color:#1565c0}
+.ward-group.red{background:#ffebee;color:#c62828}
+</style>
+</head>
+<body>
+<h1>INEC 2026 Redistricting — Delta State</h1>
+<p class="subtitle">Polling unit changes effective November 2026. All changes are in the Warri area (Warri North, Warri South, Warri South West).</p>
+
+<div class="stats" id="stats"></div>
+<div class="tabs" id="tabs"></div>
+<div class="search"><input type="text" id="search" placeholder="Search by name, code, ward, or LGA..." /></div>
+<div id="content"></div>
+<div class="pagination" id="pagination"></div>
+
+<script>
+var DATA = null;
+var TAB = 'added';
+var SEARCH = '';
+var PAGE = 1;
+var PER_PAGE = 50;
+
+fetch('inec_scraped/backup_2026-11-26/delta_changes.json').then(function(r){return r.json()}).then(function(d){DATA=d;render()}).catch(function(){
+  // Inline data as fallback
+  buildFromFiles();
+});
+
+function buildFromFiles() {
+  Promise.all([
+    fetch('inec_scraped/backup_2026-11-26/pu_delta_old.json').then(function(r){return r.json()}),
+    fetch('pu/delta.json').then(function(r){return r.json()})
+  ]).then(function(results) {
+    var oldPus = results[0], newPus = results[1];
+    var oldMap = {}, newMap = {};
+    oldPus.forEach(function(p){oldMap[p.c]=p});
+    newPus.forEach(function(p){newMap[p.c]=p});
+
+    var added = [], removed = [];
+    Object.keys(newMap).forEach(function(c){
+      if (!oldMap[c]) added.push({code:c,name:newMap[c].n,ward:newMap[c].w,lga:newMap[c].l,has_gps:newMap[c].la!=null});
+    });
+    Object.keys(oldMap).forEach(function(c){
+      if (!newMap[c]) removed.push({code:c,name:oldMap[c].n,ward:oldMap[c].w,lga:oldMap[c].l});
+    });
+    added.sort(function(a,b){return a.code<b.code?-1:1});
+    removed.sort(function(a,b){return a.code<b.code?-1:1});
+
+    DATA = {
+      summary: {old_total:oldPus.length, new_total:newPus.length, net_change:newPus.length-oldPus.length,
+        added:added.length, removed:removed.length, unchanged:oldPus.length-removed.length,
+        added_with_gps:added.filter(function(a){return a.has_gps}).length,
+        added_no_gps:added.filter(function(a){return !a.has_gps}).length},
+      added: added, removed: removed
+    };
+    render();
+  });
+}
+
+function render() {
+  var s = DATA.summary;
+  document.getElementById('stats').innerHTML =
+    '<div class="stat blue"><div class="num">'+s.net_change.toLocaleString()+'</div><div class="label">Net Change</div></div>'+
+    '<div class="stat green"><div class="num">'+s.added.toLocaleString()+'</div><div class="label">Added</div></div>'+
+    '<div class="stat red"><div class="num">'+s.removed.toLocaleString()+'</div><div class="label">Removed</div></div>'+
+    '<div class="stat gray"><div class="num">'+s.unchanged.toLocaleString()+'</div><div class="label">Unchanged</div></div>'+
+    '<div class="stat green"><div class="num">'+s.added_with_gps+'</div><div class="label">With GPS</div></div>'+
+    '<div class="stat orange"><div class="num">'+s.added_no_gps+'</div><div class="label">No GPS</div></div>';
+
+  document.getElementById('tabs').innerHTML =
+    '<div class="tab '+(TAB==='added'?'active':'')+'" onclick="switchTab(\'added\')">Added<span class="cnt">'+s.added+'</span></div>'+
+    '<div class="tab red-tab '+(TAB==='removed'?'active':'')+'" onclick="switchTab(\'removed\')">Removed<span class="cnt">'+s.removed+'</span></div>';
+
+  renderTable();
+}
+
+function switchTab(t){TAB=t;PAGE=1;SEARCH='';document.getElementById('search').value='';render()}
+
+document.getElementById('search').addEventListener('input',function(e){
+  SEARCH=e.target.value.trim().toLowerCase();PAGE=1;renderTable();
+});
+
+function renderTable() {
+  var items = TAB==='added' ? DATA.added : DATA.removed;
+  if (SEARCH) {
+    items = items.filter(function(r){
+      return r.name.toLowerCase().indexOf(SEARCH)!==-1||r.code.indexOf(SEARCH)!==-1||
+        r.ward.toLowerCase().indexOf(SEARCH)!==-1||r.lga.toLowerCase().indexOf(SEARCH)!==-1;
+    });
+  }
+
+  var totalPages = Math.ceil(items.length/PER_PAGE);
+  var start = (PAGE-1)*PER_PAGE;
+  var page = items.slice(start, start+PER_PAGE);
+  var el = document.getElementById('content');
+
+  if (!page.length) {el.innerHTML='<p style="text-align:center;padding:40px;color:#999">No results</p>';document.getElementById('pagination').innerHTML='';return}
+
+  var isAdded = TAB==='added';
+  var html = '<table><thead><tr><th>#</th><th>Code</th><th>Polling Unit</th><th>Ward</th><th>LGA</th>'+(isAdded?'<th>GPS</th>':'')+'</tr></thead><tbody>';
+  page.forEach(function(r,i){
+    html += '<tr><td style="color:#aaa">'+(start+i+1)+'</td><td class="code">'+esc(r.code)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.ward)+'</td><td>'+esc(r.lga)+'</td>';
+    if (isAdded) html += '<td>'+(r.has_gps?'<span class="gps-yes">Yes</span>':'<span class="gps-no">No</span>')+'</td>';
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  el.innerHTML = html;
+
+  var pagEl = document.getElementById('pagination');
+  if (totalPages<=1){pagEl.innerHTML='<span class="pg-info">'+items.length+' results</span>';return}
+  var h='<button class="pg-btn" onclick="goPage('+(PAGE-1)+')" '+(PAGE<=1?'disabled':'')+'>Prev</button>';
+  var sp=Math.max(1,PAGE-3),ep=Math.min(totalPages,sp+6);
+  if(ep-sp<6)sp=Math.max(1,ep-6);
+  for(var pg=sp;pg<=ep;pg++)h+='<button class="pg-btn '+(pg===PAGE?'active':'')+'" onclick="goPage('+pg+')">'+pg+'</button>';
+  h+='<button class="pg-btn" onclick="goPage('+(PAGE+1)+')" '+(PAGE>=totalPages?'disabled':'')+'>Next</button>';
+  h+='<span class="pg-info">'+items.length.toLocaleString()+' results</span>';
+  pagEl.innerHTML=h;
+}
+
+function goPage(p){PAGE=p;renderTable();window.scrollTo(0,0)}
+function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
+</script>
+</body>
+</html>
