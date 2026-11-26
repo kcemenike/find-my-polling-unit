@@ -846,8 +846,12 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
           var pct = Math.round((loaded / remaining.length) * 100);
           document.title = loaded < remaining.length
             ? 'Loading ' + pct + '% — Nigeria Electoral Map'
-            : 'Nigeria Electoral Map — 176,846 Polling Units';
-          setTimeout(loadNext, 150);
+            : 'Nigeria Electoral Map — 177,299 Polling Units';
+          setTimeout(loadNext, 300);
+        }).catch(function() {
+          // Skip failed state and continue loading the rest
+          loaded++;
+          setTimeout(loadNext, 1000);
         });
       }
 
