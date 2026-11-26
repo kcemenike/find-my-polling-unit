@@ -1470,14 +1470,22 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
     }
     for (var wi = 0; wi < allData.ward.length && matches.length < 20; wi++) {
       var w = allData.ward[wi];
-      if (w.n.toUpperCase().indexOf(q) !== -1)
-        matches.push({ type: 'Ward', name: w.n, detail: w.l + ', ' + w.s + (w.cn ? ' — ' + w.cn : '') + ' (' + w.p + ' PUs)', la: w.la, ln: w.ln, zoom: 14, data: w });
+      if (w.n.toUpperCase().indexOf(q) !== -1) {
+        var wardCode = '';
+        for (var _pi = 0; _pi < allData.pu.length; _pi++) {
+          if (allData.pu[_pi].w === w.n && allData.pu[_pi].l === w.l && allData.pu[_pi].s === w.s) {
+            wardCode = allData.pu[_pi].c.split('/').slice(0, 3).join('/');
+            break;
+          }
+        }
+        matches.push({ type: 'Ward', name: w.n, code: wardCode, detail: w.l + ', ' + w.s + (w.cn ? ' — ' + w.cn : '') + ' (' + w.p + ' PUs)', la: w.la, ln: w.ln, zoom: 14, data: w });
+      }
     }
     if (matches.length < 20) {
       for (var pi = 0; pi < allData.pu.length && matches.length < 20; pi++) {
         var pu = allData.pu[pi];
         if ((pu.n && pu.n.toUpperCase().indexOf(q) !== -1) || pu.c.indexOf(q) !== -1)
-          matches.push({ type: 'PU', name: pu.n || pu.c, detail: pu.w + ', ' + pu.l + ', ' + pu.s, la: pu.la, ln: pu.ln, zoom: 17, data: pu });
+          matches.push({ type: 'PU', name: pu.n || pu.c, code: pu.c, detail: pu.w + ', ' + pu.l + ', ' + pu.s, la: pu.la, ln: pu.ln, zoom: 17, data: pu });
       }
     }
 
@@ -1490,7 +1498,8 @@ html, body { height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Sego
         var div = document.createElement('div');
         div.className = 'search-result';
         var typeColor = m.type === 'PU' ? '#e74c3c' : m.type === 'Ward' ? '#3498db' : m.type === 'LGA' ? '#e67e22' : '#9b59b6';
-        div.innerHTML = '<span style="color:' + typeColor + ';font-size:10px;font-weight:600;">' + m.type + '</span> <span class="result-name">' + m.name + '</span><div class="result-detail">' + m.detail + '</div>';
+        var codeStr = m.code ? ' <span style="color:#999;font-weight:400;">- ' + m.code + '</span>' : '';
+        div.innerHTML = '<span style="color:' + typeColor + ';font-size:10px;font-weight:600;">' + m.type + '</span> <span class="result-name">' + m.name + codeStr + '</span><div class="result-detail">' + m.detail + '</div>';
         div.addEventListener('click', function() {
           results.classList.remove('active');
           document.getElementById('searchInput').value = m.name;
