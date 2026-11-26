@@ -1,0 +1,3363 @@
+{
+  "date": "2026-11-26",
+  "state": "DELTA",
+  "added_wards": 29,
+  "added_pus": 453,
+  "new_wards": [
+    {
+      "id": "8812",
+      "name": "OBOMKPA II",
+      "lga": "ANIOCHA NORTH",
+      "code": "11"
+    },
+    {
+      "id": "8813",
+      "name": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH",
+      "code": "11"
+    },
+    {
+      "id": "8814",
+      "name": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH",
+      "code": "12"
+    },
+    {
+      "id": "8815",
+      "name": "ASIGBORODO",
+      "lga": "WARRI  NORTH",
+      "code": "13"
+    },
+    {
+      "id": "8816",
+      "name": "AWANBA",
+      "lga": "WARRI  NORTH",
+      "code": "14"
+    },
+    {
+      "id": "8817",
+      "name": "JAKPA",
+      "lga": "WARRI  NORTH",
+      "code": "15"
+    },
+    {
+      "id": "8818",
+      "name": "KOKO III",
+      "lga": "WARRI  NORTH",
+      "code": "16"
+    },
+    {
+      "id": "8819",
+      "name": "OBOGHORO",
+      "lga": "WARRI  NORTH",
+      "code": "17"
+    },
+    {
+      "id": "8820",
+      "name": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH",
+      "code": "18"
+    },
+    {
+      "id": "8821",
+      "name": "OPUAMA II",
+      "lga": "WARRI  NORTH",
+      "code": "19"
+    },
+    {
+      "id": "8822",
+      "name": "POLOBUBO II",
+      "lga": "WARRI  NORTH",
+      "code": "20"
+    },
+    {
+      "id": "8823",
+      "name": "EGBORODJE",
+      "lga": "WARRI SOUTH",
+      "code": "13"
+    },
+    {
+      "id": "8824",
+      "name": "EKPENE/ESISI",
+      "lga": "WARRI SOUTH",
+      "code": "14"
+    },
+    {
+      "id": "8825",
+      "name": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH",
+      "code": "15"
+    },
+    {
+      "id": "8826",
+      "name": "EWEIN",
+      "lga": "WARRI SOUTH",
+      "code": "16"
+    },
+    {
+      "id": "8827",
+      "name": "G.R.A. II",
+      "lga": "WARRI SOUTH",
+      "code": "17"
+    },
+    {
+      "id": "8828",
+      "name": "ITIFO/MARKRO",
+      "lga": "WARRI SOUTH",
+      "code": "18"
+    },
+    {
+      "id": "8829",
+      "name": "OGBEDENGBE",
+      "lga": "WARRI SOUTH",
+      "code": "19"
+    },
+    {
+      "id": "8830",
+      "name": "OGBE-IJOH WARRI URBAN",
+      "lga": "WARRI SOUTH",
+      "code": "20"
+    },
+    {
+      "id": "8831",
+      "name": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "11"
+    },
+    {
+      "id": "8832",
+      "name": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "12"
+    },
+    {
+      "id": "8833",
+      "name": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "13"
+    },
+    {
+      "id": "8834",
+      "name": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "14"
+    },
+    {
+      "id": "8835",
+      "name": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "15"
+    },
+    {
+      "id": "8836",
+      "name": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "16"
+    },
+    {
+      "id": "8837",
+      "name": "OKOROWARE",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "17"
+    },
+    {
+      "id": "8838",
+      "name": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "18"
+    },
+    {
+      "id": "8839",
+      "name": "ORERE II",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "19"
+    },
+    {
+      "id": "8840",
+      "name": "UGBORODO II",
+      "lga": "WARRI SOUTH  WEST",
+      "code": "20"
+    }
+  ],
+  "new_pus": [
+    {
+      "id": "683815",
+      "name": "AFIAKPA PRIMARY SCHOOL, EKEKPORO III",
+      "code": "030",
+      "ward": "OGHEYE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683816",
+      "name": "AFIAKPA PRIMARY SCHOOL, EKEKPORO IV",
+      "code": "031",
+      "ward": "OGHEYE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683817",
+      "name": "DIMIGUN TOWN HALL",
+      "code": "032",
+      "ward": "OGHEYE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683818",
+      "name": "DIMIGUN POLICE POST",
+      "code": "033",
+      "ward": "OGHEYE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683819",
+      "name": "EBOKITI TOWN HALL",
+      "code": "034",
+      "ward": "OGHEYE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683820",
+      "name": "DIARE PRY. SCH, GBOKODA III",
+      "code": "018",
+      "ward": "GBOKODA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683821",
+      "name": "DIARE PRIMARY SCHOOL, GBOKODA IV",
+      "code": "019",
+      "ward": "GBOKODA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683822",
+      "name": "AJAMITA TOWN HALL, AJAMITA IV",
+      "code": "020",
+      "ward": "GBOKODA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683823",
+      "name": "TEBU TOWN HALL, TEBU IV",
+      "code": "021",
+      "ward": "GBOKODA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683824",
+      "name": "UDO TOWN HALL, UDO III",
+      "code": "022",
+      "ward": "GBOKODA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683825",
+      "name": "UDO TOWN HALL, UDO IV",
+      "code": "023",
+      "ward": "GBOKODA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683826",
+      "name": "GBOKODA TOWN HALL",
+      "code": "024",
+      "ward": "GBOKODA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683827",
+      "name": "OLOMU PRIMARY SCHOOL, EBROHIMI IV",
+      "code": "019",
+      "ward": "EBROHIMI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683828",
+      "name": "OLUMAGADA TOWN HALL, OLUMAGADA II",
+      "code": "020",
+      "ward": "EBROHIMI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683829",
+      "name": "DUDU PRIMARY SCHOOL, OBONTIE GHANREDA V",
+      "code": "024",
+      "ward": "BERESIBI/UREJU/EGHORO/OBONTEGHAREDA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683830",
+      "name": "BERESIBE PRIMARY SCHOOL BERESIBE II",
+      "code": "025",
+      "ward": "BERESIBI/UREJU/EGHORO/OBONTEGHAREDA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683831",
+      "name": "ABOKWA PRIMARY SCHOOL EGHORO IV",
+      "code": "026",
+      "ward": "BERESIBI/UREJU/EGHORO/OBONTEGHAREDA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683832",
+      "name": "ABOKWA PRIMARY SCHOOL EGHORO V",
+      "code": "027",
+      "ward": "BERESIBI/UREJU/EGHORO/OBONTEGHAREDA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683833",
+      "name": "EGHORO TOWN HALL",
+      "code": "028",
+      "ward": "BERESIBI/UREJU/EGHORO/OBONTEGHAREDA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683834",
+      "name": "EGHORO HEALTH CENTRE",
+      "code": "029",
+      "ward": "BERESIBI/UREJU/EGHORO/OBONTEGHAREDA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683835",
+      "name": "ASHIMA HOUSING UNIT, ASHIMA",
+      "code": "030",
+      "ward": "BERESIBI/UREJU/EGHORO/OBONTEGHAREDA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683836",
+      "name": "AKUARAJOR PRIMARY SCHOOL KOKO BEACH IV",
+      "code": "031",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683837",
+      "name": "IWERE COLLEGE, KOKO TOWN V",
+      "code": "032",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683838",
+      "name": "AJA OLUGBETI TOWN III",
+      "code": "033",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683839",
+      "name": "AKUARAJOR PRIMARY SCHOOL KOKO BEACH V",
+      "code": "034",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683840",
+      "name": "AKUARAJOR PRIMARY SCHOOL KOKO BEACH VI",
+      "code": "035",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683841",
+      "name": "AKUARAJOR PRIMARY SCHOOL KOKO BEACH VII",
+      "code": "036",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683842",
+      "name": "IWERE COLLEGE, KOKO TOWN VI",
+      "code": "037",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683843",
+      "name": "KOROBE TOWN, KOROBE IV",
+      "code": "038",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683844",
+      "name": "AJA OLUGBETI TOWN IV",
+      "code": "039",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683845",
+      "name": "AJA OLUGBETI TOWN V",
+      "code": "040",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683846",
+      "name": "UBAFUE TOWN II",
+      "code": "041",
+      "ward": "KOKO  I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683847",
+      "name": "UMEUGBE PRIMARY SCHOOL, ABIGBERODO V",
+      "code": "025",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683848",
+      "name": "UMEUGBE PRIMARY SCHOOL, ABIGBERODO VI",
+      "code": "026",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683849",
+      "name": "UMEUGBE PRIMARY SCHOOL, ABIGBERODO VII",
+      "code": "027",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683850",
+      "name": "UMEUGBE PRIMARY SCHOOL, ABIGBERODO VIII",
+      "code": "028",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683851",
+      "name": "IKENGBUWA PRIMARY SCHOOL, UBAGBORO II",
+      "code": "029",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683852",
+      "name": "OKOGHO TOWN HALL, OKOGHO II",
+      "code": "030",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683853",
+      "name": "UMEUGBE PRIMARY SCHOOL, ABIGBERODO IX",
+      "code": "031",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683854",
+      "name": "IKENGBUWA PRIMARY SCHOOL, UBAGBORO III",
+      "code": "032",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683855",
+      "name": "OKOGHO TOWN HALL, OKOGHO III",
+      "code": "033",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683856",
+      "name": "AJAGBODUDU PRIMARY SCHOOL, AJAGBODUDU III",
+      "code": "034",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683857",
+      "name": "AJAGBODUDU PRIMARY SCHOOL IV",
+      "code": "035",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683858",
+      "name": "ABIGBERODO PRIMARY HEALTH CENTRE",
+      "code": "036",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683859",
+      "name": "AJATITAN SKILL ACQUISITION CENTRE",
+      "code": "037",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683860",
+      "name": "TOBO COMMUNITY TOWN HALL",
+      "code": "038",
+      "ward": "KOKO  II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683861",
+      "name": "OLODUWA SECONDARY SCHOOL, OPUAMA",
+      "code": "016",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683862",
+      "name": "AZAMA ZION II BY JETTY",
+      "code": "017",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683863",
+      "name": "DUMORE NEW SETTLEMENT",
+      "code": "018",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683864",
+      "name": "GBENE BITEI NEW SETTLEMENT",
+      "code": "019",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683865",
+      "name": "JALAYE NEW SETTLEMENT",
+      "code": "020",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683866",
+      "name": "AGUGUJERE COMMUNITY",
+      "code": "021",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683867",
+      "name": "EBIORORO COMMUNITY (BY LUTU CREEK JUNCTION)",
+      "code": "022",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683868",
+      "name": "FINYONPRE NEW SETTLEMENT",
+      "code": "023",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683869",
+      "name": "OJUDOR COMMUNITY, OPUAMA",
+      "code": "024",
+      "ward": "OPUAMA I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683870",
+      "name": "MIYEN PRIMARY SCHOOL, TSEKELEWU IV",
+      "code": "019",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683871",
+      "name": "MIYEN PRIMARY SCHOOL, TSEKELEWU V",
+      "code": "020",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683872",
+      "name": "KABE PRIMARY SCHOOL, TSEKELEWU III",
+      "code": "021",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683873",
+      "name": "UROUPAMA",
+      "code": "022",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683874",
+      "name": "EKELEMODI",
+      "code": "023",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683875",
+      "name": "LOGOSE",
+      "code": "024",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683876",
+      "name": "GBEMI GBENE",
+      "code": "025",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683877",
+      "name": "BELIEF GBENE",
+      "code": "026",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683878",
+      "name": "EBIAMA ZION COMMUNITY",
+      "code": "027",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683879",
+      "name": "DOYAH COMMUNITY",
+      "code": "028",
+      "ward": "POLOBUBO I",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683880",
+      "name": "EGBEMA PRIMARY SCHOOL, OGBINBIRI IV",
+      "code": "015",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683881",
+      "name": "EGBEMA PRIMARY SCHOOL, OGBINBIRI V",
+      "code": "016",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683882",
+      "name": "EGBEMA PRIMARY SCHOOL, OGBINBIRI VI",
+      "code": "017",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683883",
+      "name": "OGBINBIRI SECONDARY SCHOOL",
+      "code": "018",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683884",
+      "name": "OGBINBIRI TOWN HALL",
+      "code": "019",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683885",
+      "name": "LUGBENE",
+      "code": "020",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683886",
+      "name": "OGEUBA TOWN HALL",
+      "code": "021",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683887",
+      "name": "AKPASIBEWEIGBENE TOWN HALL",
+      "code": "022",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683888",
+      "name": "ASINGBAGBENE TOWN HALL",
+      "code": "023",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683889",
+      "name": "DABIO-UBA TOWN HALL",
+      "code": "024",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683890",
+      "name": "EBIBOFA/IKPEGBENE",
+      "code": "025",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683891",
+      "name": "EKO-ITA COMMUNITY HALL",
+      "code": "026",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683892",
+      "name": "OKOROGBENE TOWN HALL",
+      "code": "027",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683893",
+      "name": "LAWURU QUARTERS",
+      "code": "028",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683894",
+      "name": "OBORIGBENE TOWN HALL",
+      "code": "029",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683895",
+      "name": "THE ARENA KARE WARE I",
+      "code": "030",
+      "ward": "OGBINBIRI",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683896",
+      "name": "OGBUDUGBUDU JUNIOR SECONDARY SCHOOL",
+      "code": "012",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683897",
+      "name": "AGUN QUARTER",
+      "code": "013",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683898",
+      "name": "AMATORU ABU QUARTER",
+      "code": "014",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683899",
+      "name": "DONFURE QUARTER",
+      "code": "015",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683900",
+      "name": "UTOLU TOWN HALL I",
+      "code": "016",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683901",
+      "name": "IGIEBIRI QUARTER",
+      "code": "017",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683902",
+      "name": "FIENAGHAN",
+      "code": "018",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683903",
+      "name": "KUSUWEI WARI",
+      "code": "019",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683904",
+      "name": "PEREHABOGBENE",
+      "code": "020",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683905",
+      "name": "PORGHABEDEGBENE",
+      "code": "021",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683906",
+      "name": "SUREI- QUARTER",
+      "code": "022",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683907",
+      "name": "TORLOR GBENE",
+      "code": "023",
+      "ward": "OGBUDUGBUDU",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683908",
+      "name": "OKIFAMBA PRIMARY SCHOOL, OKIFAMBA II",
+      "code": "005",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683909",
+      "name": "TARAKEME GBENE",
+      "code": "006",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683910",
+      "name": "ITELI GBENE",
+      "code": "007",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683911",
+      "name": "GEDUPELE GBENE",
+      "code": "008",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683912",
+      "name": "SURU GBENE",
+      "code": "009",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683913",
+      "name": "OLERU UGBO ZION",
+      "code": "010",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683914",
+      "name": "OKPOYE GBENE",
+      "code": "011",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683915",
+      "name": "OSUOFAYE GBENE",
+      "code": "012",
+      "ward": "ABADIGBENE/OKIFAMBA /ASANTUWAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683916",
+      "name": "OTURUN PRIMARY SCHOOL KOLOKOLO IV",
+      "code": "013",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683917",
+      "name": "OTURUN PRIMARY SCHOOL KOLOKOLO V",
+      "code": "014",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683918",
+      "name": "OTURUN PRIMARY SCHOOL KOLOKOLO VI",
+      "code": "015",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683919",
+      "name": "UDEFI PRIMARY SCHOOL TISUN III",
+      "code": "016",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683920",
+      "name": "UDEFI PRIMARY SCHOOL TISUN IV",
+      "code": "017",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683921",
+      "name": "SAHARA - TIE TOWN HALL, SAHARA-TIE II",
+      "code": "018",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683922",
+      "name": "UGBOTOSAN COMMUNITY TOWN HALL II",
+      "code": "019",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683923",
+      "name": "UREJU - SIN - SIN TOWN HALL IV",
+      "code": "020",
+      "ward": "AJA OMETAN/TISUN/KOLOKOLO/SAGHARATE/UGHOTOSA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683924",
+      "name": "ASIGBORODO PRY. SCHOOL, ASIGBORODO II",
+      "code": "002",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683925",
+      "name": "OGIGAGBENE TOWN HALL I",
+      "code": "003",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683926",
+      "name": "OGIGAGBENE TOWN HALL II",
+      "code": "004",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683927",
+      "name": "ASERI COMMUNITY HALL",
+      "code": "005",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683928",
+      "name": "ISONOGBENE COMMUNITY SCHOOL",
+      "code": "006",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683929",
+      "name": "ASIGBORODO COMMUNITY HALL",
+      "code": "007",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683930",
+      "name": "ASIGBORODO MARKET SQUARE",
+      "code": "008",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683931",
+      "name": "KOROPINGBE COMMUNITY CENTRE",
+      "code": "009",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683932",
+      "name": "LEMOGBENE TOWN HALL",
+      "code": "010",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683933",
+      "name": "EKOGBENE DRIVERS QUARTERS",
+      "code": "011",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683934",
+      "name": "THIKANGBENE TOWN HALL",
+      "code": "012",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683935",
+      "name": "DAJUWOGBENE TOWN HALL",
+      "code": "013",
+      "ward": "ASIGBORODO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683936",
+      "name": "AWANBA PRY. SCHOOL, AWANBA II",
+      "code": "004",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683937",
+      "name": "AWANBA SECONDARY SCHOOL I",
+      "code": "005",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683938",
+      "name": "AWANBA SECONDARY SCHOOL II",
+      "code": "006",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683939",
+      "name": "AWANBA SECONDARY SCHOOL III",
+      "code": "007",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683940",
+      "name": "AJATITONGBENE TOWN",
+      "code": "008",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683941",
+      "name": "ALUZUGBENE",
+      "code": "009",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683942",
+      "name": "AWAMBA OPEN SPACE",
+      "code": "010",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683943",
+      "name": "AWAMBA TOWN HALL",
+      "code": "011",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683944",
+      "name": "AWAMBA ZION",
+      "code": "012",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683945",
+      "name": "BINIBIRIAGBENE TOWN",
+      "code": "013",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683946",
+      "name": "IBARIBOTEI COMMUNITY TOWN",
+      "code": "014",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683947",
+      "name": "ITAGBENE PRIMARY SCHOOL",
+      "code": "015",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683948",
+      "name": "KAREN QUARTERS",
+      "code": "016",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683949",
+      "name": "KOKOTORU TOWN",
+      "code": "017",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683950",
+      "name": "OGEZA QUARTER",
+      "code": "018",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683951",
+      "name": "OLUBAKAGBENE PRIMARY SCHOOL I",
+      "code": "019",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683952",
+      "name": "OLUBAKAGBENE PRIMARY SCHOOL II",
+      "code": "020",
+      "ward": "AWANBA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683953",
+      "name": "JAKPA-TIE TOWN HALL",
+      "code": "007",
+      "ward": "JAKPA",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683954",
+      "name": "NEW HEALTH CENTRE, KOROBE ROAD, KOKO II",
+      "code": "015",
+      "ward": "KOKO III",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683955",
+      "name": "FORMER HEALTH CENTRE, KOKO BEACH, KOKO II",
+      "code": "016",
+      "ward": "KOKO III",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683956",
+      "name": "UGO GOEGIN TOWN HALL, UGOGOEGIN III",
+      "code": "009",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683957",
+      "name": "UGO GOEGIN TOWN HALL, UGOGOEGIN IV",
+      "code": "010",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683958",
+      "name": "OBOGHORO PAVILLION, OBOGHORO II",
+      "code": "011",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683959",
+      "name": "UGBERUN/IJALA PRY SCHOOL, OBOGHORO II",
+      "code": "012",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683960",
+      "name": "ODOKUN SEC. SCH, OBOGHORO II",
+      "code": "013",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683961",
+      "name": "PRINCE IJALA AKENGBOYE TOWN HALL, OBOGHORO II",
+      "code": "014",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683962",
+      "name": "ATANKPOKI TOWN HALL I",
+      "code": "015",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683963",
+      "name": "ATANKPOKI TOWN HALL II",
+      "code": "016",
+      "ward": "OBOGHORO",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683964",
+      "name": "TIMI PRIMARY SCHOOL, IDEBAGBENE IV",
+      "code": "009",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683965",
+      "name": "OPIA TOWN HALL, OPIA II",
+      "code": "010",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683966",
+      "name": "ASABUBOTIE",
+      "code": "011",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683967",
+      "name": "OZUDOGBENE TOWN HALL",
+      "code": "012",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683968",
+      "name": "AZAMA COMMUNITY HALL",
+      "code": "013",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683969",
+      "name": "DIBI OIL FIELD, OPIA COMMUNITY",
+      "code": "014",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683970",
+      "name": "OPUBA COMMUNITY HALL",
+      "code": "015",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683971",
+      "name": "TARAGBENE PRIMARY SCHOOL, ASISABOUTE",
+      "code": "016",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683972",
+      "name": "LOUGBENE COMMUNITY TOWN HALL",
+      "code": "017",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683973",
+      "name": "ODIBOGBENE COMMUNITY HALL",
+      "code": "018",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683974",
+      "name": "ITEIMOGBENE ATELEWARE",
+      "code": "019",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683975",
+      "name": "DABIO-UBA COMMUNITY HALL",
+      "code": "020",
+      "ward": "OGBINBIRI AZAMA/ASISABUBOTIE/IDEBAGBENE",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683976",
+      "name": "IKPOTOGBENE PRIMARY SCHOOL, IKPOTOGBENE II",
+      "code": "011",
+      "ward": "OPUAMA II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683977",
+      "name": "ABOY GBENE",
+      "code": "012",
+      "ward": "OPUAMA II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683978",
+      "name": "ADEGBENE COMMUNITY",
+      "code": "013",
+      "ward": "OPUAMA II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683979",
+      "name": "AGODUBA COMMUNITY",
+      "code": "014",
+      "ward": "OPUAMA II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683980",
+      "name": "AKIGBENE COMMUNITY",
+      "code": "015",
+      "ward": "OPUAMA II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683981",
+      "name": "ATESUO COMMUNITY",
+      "code": "016",
+      "ward": "OPUAMA II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683982",
+      "name": "ATILABOR COMMUNITY",
+      "code": "017",
+      "ward": "OPUAMA II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683983",
+      "name": "BEMOKIRI",
+      "code": "011",
+      "ward": "POLOBUBO II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683984",
+      "name": "OMILESAN",
+      "code": "012",
+      "ward": "POLOBUBO II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683985",
+      "name": "NEW JERUSALEM",
+      "code": "013",
+      "ward": "POLOBUBO II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683986",
+      "name": "KUKUGBENE",
+      "code": "014",
+      "ward": "POLOBUBO II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683987",
+      "name": "EBIORORO ZION",
+      "code": "015",
+      "ward": "POLOBUBO II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683988",
+      "name": "OGONO AMA COMMUNITY",
+      "code": "016",
+      "ward": "POLOBUBO II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683989",
+      "name": "PROMISELAND",
+      "code": "017",
+      "ward": "POLOBUBO II",
+      "lga": "WARRI  NORTH"
+    },
+    {
+      "id": "683990",
+      "name": "EGBOKODO TOWN HALL, EGBOKODO II",
+      "code": "031",
+      "ward": "OBODO/OMADINO",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683991",
+      "name": "EGBOKODO TOWN HALL, EGBOKODO III",
+      "code": "032",
+      "ward": "OBODO/OMADINO",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683992",
+      "name": "UGBORITSE DUWA TOWN HALL, UGBORITSE DUWA II",
+      "code": "033",
+      "ward": "OBODO/OMADINO",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683993",
+      "name": "IFIE-KPORO TOWN HALL, IFIE-KPORO III",
+      "code": "034",
+      "ward": "OBODO/OMADINO",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683994",
+      "name": "ORUGBO PRIMARY SCHOOL,ORUGBO III",
+      "code": "022",
+      "ward": "ODE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683995",
+      "name": "POSTAL AGENCY, RIVER VILLA II",
+      "code": "023",
+      "ward": "ODE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683996",
+      "name": "AJA DEODIARE TWON HALL, AJA DEODIARE II",
+      "code": "024",
+      "ward": "ODE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683997",
+      "name": "EKUREDE TOWN HALL, EKUREDE-URHOBO V",
+      "code": "023",
+      "ward": "OGUNU/OKURODE/URHOBO/UKPOTITI/OTEGHELE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683998",
+      "name": "COURT FOUR, EKUREDE-URHOBO III",
+      "code": "024",
+      "ward": "OGUNU/OKURODE/URHOBO/UKPOTITI/OTEGHELE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "683999",
+      "name": "YONWUREN COLLEGE, UGBUWANGUE III",
+      "code": "037",
+      "ward": "UGBUWANGUE/EKUREDE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684000",
+      "name": "YONWUREN COLLEGE, UGBUWANGUE IV",
+      "code": "038",
+      "ward": "UGBUWANGUE/EKUREDE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684001",
+      "name": "AGBAJE PRIMARY SCHOOL, UGBUWANGUE II",
+      "code": "039",
+      "ward": "UGBUWANGUE/EKUREDE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684002",
+      "name": "EWOLUFU TOWN HALL, UGBORI II",
+      "code": "040",
+      "ward": "UGBUWANGUE/EKUREDE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684003",
+      "name": "UBEJI PRIMARY SCHOOL, UBEJI III",
+      "code": "041",
+      "ward": "UGBUWANGUE/EKUREDE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684004",
+      "name": "UBEJI PRIMARY SCHOOL, UBEJI IV",
+      "code": "042",
+      "ward": "UGBUWANGUE/EKUREDE-ITSEKIRI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684005",
+      "name": "ORERE TOWN HALL",
+      "code": "037",
+      "ward": "BOWEN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684006",
+      "name": "OGBE CAMP",
+      "code": "038",
+      "ward": "BOWEN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684007",
+      "name": "ULUBA FARM SETTLEMENT",
+      "code": "039",
+      "ward": "BOWEN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684008",
+      "name": "ULUBA TOWN HALL",
+      "code": "040",
+      "ward": "BOWEN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684009",
+      "name": "ENEMEJUWA ST BY NO 18, ENEMEJUWA II",
+      "code": "028",
+      "ward": "OKERE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684010",
+      "name": "HUSSEY COLLEGE, HUSSEY COLLEGE AREA II",
+      "code": "029",
+      "ward": "OKERE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684011",
+      "name": "ENEMEJUWA ST BY NO 18, ENEMEJUWA III",
+      "code": "030",
+      "ward": "OKERE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684012",
+      "name": "HUSSEY COLLEGE, HUSSEY COLLEGE AREA III",
+      "code": "031",
+      "ward": "OKERE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684013",
+      "name": "IGBUDU PRIMARY SCHOOL, MARINE GATE III",
+      "code": "047",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684014",
+      "name": "IGBUDU PRIMARY SCHOOL, MARINE GATE IV",
+      "code": "048",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684015",
+      "name": "COLLEGE OF COMMERCE, IGBUDU III",
+      "code": "049",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684016",
+      "name": "IGBUDU TOWN HALL, IGBUDU II",
+      "code": "050",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684017",
+      "name": "ESSI COLLEGE, MACDEMOTT WARRI II",
+      "code": "051",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684018",
+      "name": "MEROGUN PRIMARY SCHOOL, MEROGUN III",
+      "code": "052",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684019",
+      "name": "STEP FORWARD NURSERY SCHOOL, D.D.P.A. AREA II",
+      "code": "053",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684020",
+      "name": "AREA NEAR ARABIC CENTRE, HAUSA QTRS III",
+      "code": "054",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684021",
+      "name": "IGBUDU PRIMARY SCHOOL, MARINE GATE V",
+      "code": "055",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684022",
+      "name": "IGBUDU PRIMARY SCHOOL, MARINE GATE VI",
+      "code": "056",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684023",
+      "name": "COLLEGE OF COMMERCE, IGBUDU IV",
+      "code": "057",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684024",
+      "name": "IGBUDU TOWN HALL, IGBUDU III",
+      "code": "058",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684025",
+      "name": "ESSI COLLEGE, MACDEMOTT WARRI III",
+      "code": "059",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684026",
+      "name": "MEROGUN PRIMARY SCHOOL, MEROGUN IV",
+      "code": "060",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684027",
+      "name": "STEP FORWARD NURSERY SCHOOL, D.D.P.A. AREA III",
+      "code": "061",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684028",
+      "name": "AREA NEAR ARABIC CENTRE, HAUSA QTRS IV",
+      "code": "062",
+      "ward": "IGBUDU- ESSI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684029",
+      "name": "OGWA OLODI, OKUMAGBA LAYOUT IV",
+      "code": "033",
+      "ward": "OKUMAGBA I",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684030",
+      "name": "GIDDEL NATIONAL SCHOOL, GIWA AMU AREA OKUMAGBA LAYOUT II",
+      "code": "034",
+      "ward": "OKUMAGBA I",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684031",
+      "name": "SCHOOL BY GOD'S GRACE MINISTRY, ARUBAYE AREA, OKUMAGBA LAYOUT II",
+      "code": "035",
+      "ward": "OKUMAGBA I",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684032",
+      "name": "OGWA OLODI, OKUMAGBA LAYOUT V",
+      "code": "036",
+      "ward": "OKUMAGBA I",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684033",
+      "name": "GIDDEL NATIONAL SCHOOL, GIWA AMU AREA OKUMAGBA LAYOUT III",
+      "code": "037",
+      "ward": "OKUMAGBA I",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684034",
+      "name": "SCHOOL BY GOD'S GRACE MINISTRY, ARUBAYE AREA, OKUMAGBA LAYOUT III",
+      "code": "038",
+      "ward": "OKUMAGBA I",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684035",
+      "name": "OLODI PRIMARY SCHOOL, OKUMAGBA AVENUE IV",
+      "code": "038",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684036",
+      "name": "IGHOGBADU PRIMARY SCHOOL, IGHOGBADU IV",
+      "code": "039",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684037",
+      "name": "EJEMUDARO BY CINEMA, OKUMAGBA LAYOUT III",
+      "code": "040",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684038",
+      "name": "ST. GEORGE'S CLINIC, IGHOGBADU BY RIGHT II",
+      "code": "041",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684039",
+      "name": "EMEBIREN BY EYESON, AVENUE AREA II",
+      "code": "042",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684040",
+      "name": "OKUMAGBA ESTATE, BY AVENUE POLICE STATION III",
+      "code": "043",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684041",
+      "name": "EMEBIREN BY EYESON, AVENUE AREA III",
+      "code": "044",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684042",
+      "name": "OKUMAGBA ESTATE, BY AVENUE POLICE STATION IV",
+      "code": "045",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684043",
+      "name": "OLODI PRIMARY SCHOOL, OKUMAGBA AVENUE V",
+      "code": "046",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684044",
+      "name": "IGHOGBADU PRIMARY SCHOOL, IGHOGBADU V",
+      "code": "047",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684045",
+      "name": "EJEMUDARO BY CINEMA, OKUMAGBA LAYOUT IV",
+      "code": "048",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684046",
+      "name": "ST. GEORGE'S CLINIC, IGHOGBADU BY RIGHT III",
+      "code": "049",
+      "ward": "OKUMAGBA II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684047",
+      "name": "UKU TOWN HALL, UKU SQUARE AREA II",
+      "code": "014",
+      "ward": "EKPENE/ESISI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684048",
+      "name": "NANA COLLEGE SCHOOL ROAD & ENVIRON V",
+      "code": "015",
+      "ward": "EKPENE/ESISI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684049",
+      "name": "NANA COLLEGE SCHOOL ROAD & ENVIRON VI",
+      "code": "016",
+      "ward": "EKPENE/ESISI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684050",
+      "name": "IGINI PRIMARY SCHOOL, ESISI ROAD II",
+      "code": "017",
+      "ward": "EKPENE/ESISI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684051",
+      "name": "UKU TOWN HALL, UKU SQUARE AREA III",
+      "code": "018",
+      "ward": "EKPENE/ESISI",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684052",
+      "name": "OMATSOLA PRIMARY SCHOOL, ODION ROAD IV",
+      "code": "018",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684053",
+      "name": "ALDES TOWN PRIMARY SCHOOL, IJAW STREET IV",
+      "code": "019",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684054",
+      "name": "ALDES TOWN PRIMARY SCHOOL, IJAW STREET V",
+      "code": "020",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684055",
+      "name": "ALDES TOWN PRIMARY SCHOOL, IJAW STREET VI",
+      "code": "021",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684056",
+      "name": "SPORT COUNCIL, CEMETARY ROAD, (RIGHT) II",
+      "code": "022",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684057",
+      "name": "COUNCIL DISPENSARY, ODION ROAD III",
+      "code": "023",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684058",
+      "name": "DORE NUMA COLLEGE, IJAW STREET II",
+      "code": "024",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684059",
+      "name": "CAVAGINA PRIMARY SCHOOL, ODION ROAD III",
+      "code": "025",
+      "ward": "ERUVWHARAN OTOVWODO/OMOINE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684060",
+      "name": "EWEIN PRIMARY SCHOOL A",
+      "code": "007",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684061",
+      "name": "EWEIN PRIMARY SCHOOL B",
+      "code": "008",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684062",
+      "name": "OTURUBIRI PLAYGROUND",
+      "code": "009",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684063",
+      "name": "OBOKONE COMMUNITY TOWNHALL",
+      "code": "010",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684064",
+      "name": "ORUPA TOWN HALL",
+      "code": "011",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684065",
+      "name": "KEMEKEDOUMENE COMMUNITY TOWN HALL",
+      "code": "012",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684066",
+      "name": "OBOKONE COMMUNITY TOWNHALL II",
+      "code": "013",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684067",
+      "name": "ORUPA TOWN HALL II",
+      "code": "014",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684068",
+      "name": "OGBE IJOH TRANS HALL, OGBE IJOH MARKET III",
+      "code": "015",
+      "ward": "EWEIN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684069",
+      "name": "PEACE PRIMARY SCHOOL, GENERAL HOSPITAL & POLICE HQRS III",
+      "code": "010",
+      "ward": "G.R.A. II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684070",
+      "name": "PEACE PRIMARY SCHOOL, GENERAL HOSPITAL & POLICE HQRS IV",
+      "code": "011",
+      "ward": "G.R.A. II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684071",
+      "name": "MILEER WATER SIDE, MARINA POLICE AREA II",
+      "code": "012",
+      "ward": "G.R.A. II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684072",
+      "name": "BOLOUAMA TOWN HALL",
+      "code": "013",
+      "ward": "G.R.A. II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684073",
+      "name": "BOLOUAMA COMMUNITY PLAYGROUND",
+      "code": "014",
+      "ward": "G.R.A. II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684074",
+      "name": "OPEN SPACE BY JETTY, CHIEF TUNDE SMOOTH ROAD OPPOSITE GENERAL HOSPITAL",
+      "code": "015",
+      "ward": "G.R.A. II",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684075",
+      "name": "OGBEDENGBE PRIMARY SCHOOL, OGBEDENGBE STREET III",
+      "code": "013",
+      "ward": "OGBEDENGBE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684076",
+      "name": "OGBEDENGBE PRIMARY SCHOOL, OGBEDENGBE STREET IV",
+      "code": "014",
+      "ward": "OGBEDENGBE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684077",
+      "name": "OGBEDENGBE SQUARE, IYARE III",
+      "code": "015",
+      "ward": "OGBEDENGBE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684078",
+      "name": "OGBEDENGBE SQUARE, IYARE IV",
+      "code": "016",
+      "ward": "OGBEDENGBE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684079",
+      "name": "OGBEDENGBE SQUARE, IYARE V",
+      "code": "017",
+      "ward": "OGBEDENGBE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684080",
+      "name": "OGBEDENGBE PRIMARY SCHOOL, OGBEDENGBE STREET V",
+      "code": "018",
+      "ward": "OGBEDENGBE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684081",
+      "name": "OGBEDENGBE PRIMARY SCHOOL, OGBEDENGBE STREET VI",
+      "code": "019",
+      "ward": "OGBEDENGBE",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684082",
+      "name": "OLABRAKONPRE COMMUNITY TOWN HALL I",
+      "code": "005",
+      "ward": "OGBE-IJOH WARRI URBAN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684083",
+      "name": "OLABRAKONPRE OPEN SPACE I",
+      "code": "006",
+      "ward": "OGBE-IJOH WARRI URBAN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684084",
+      "name": "OLABRAKONPRE COMMUNITY TOWN HALL II",
+      "code": "007",
+      "ward": "OGBE-IJOH WARRI URBAN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684085",
+      "name": "OLABRAKONPRE OPEN SPACE II",
+      "code": "008",
+      "ward": "OGBE-IJOH WARRI URBAN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684086",
+      "name": "OPEN SPACE OPPOSITE AREA COMMAND HEADQUARTERS SMU TUNS SHOPPING CENTRE (MINISTRY OF EDUCATION, DELTA BOAT YARD & NAVAL BASE)",
+      "code": "009",
+      "ward": "OGBE-IJOH WARRI URBAN",
+      "lga": "WARRI SOUTH"
+    },
+    {
+      "id": "684087",
+      "name": "ADU TOWN HALL II",
+      "code": "042",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684088",
+      "name": "DOSUMOR TOWN HALL II",
+      "code": "043",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684089",
+      "name": "EWEIN PRIMARY SCHOOL II",
+      "code": "044",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684090",
+      "name": "GENERAL HOSPITAL OGBE-IJOH II",
+      "code": "045",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684091",
+      "name": "NIFOR TOWN HALL II",
+      "code": "046",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684092",
+      "name": "IKIANDUMU PLAY-GROUND II",
+      "code": "047",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684093",
+      "name": "LOTIEBIRI II",
+      "code": "048",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684094",
+      "name": "ODEGBENE TOWN HALL II",
+      "code": "049",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684095",
+      "name": "OGBE-IJOH GRAMMAR SCHOOL I",
+      "code": "050",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684096",
+      "name": "OGBE-IJOH GRAMMAR SCHOOL II",
+      "code": "051",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684097",
+      "name": "OGBE - IJOH COURT HALL II",
+      "code": "052",
+      "ward": "OGBE - IJOH",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684098",
+      "name": "ISABA SECONDARY SCHOOL II",
+      "code": "026",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684099",
+      "name": "ISABA TOWN HALL II",
+      "code": "027",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684100",
+      "name": "ISABA PRIMARY SCHOOL II",
+      "code": "028",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684101",
+      "name": "ORUBEKE TOWN HALL II",
+      "code": "029",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684102",
+      "name": "PERE OF ISABA PALACE ARENA",
+      "code": "030",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684103",
+      "name": "ODIBOWEIGBENE II",
+      "code": "031",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684104",
+      "name": "PAMIRN/AYAMA II",
+      "code": "032",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684105",
+      "name": "GBONWEIGVENE TOWN HALL II",
+      "code": "033",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684106",
+      "name": "ISABA CENTRAL MARKET I",
+      "code": "034",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684107",
+      "name": "ISABA HEALTHCARE CENTRE PEREAMA I",
+      "code": "035",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684108",
+      "name": "ISABA YOUTH HALL",
+      "code": "036",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684109",
+      "name": "OGBUGBU-GBENE",
+      "code": "037",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684110",
+      "name": "AMAREN-GBENE",
+      "code": "038",
+      "ward": "ISABA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684111",
+      "name": "OPOROZA PRIMARY SCHOOL II",
+      "code": "024",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684112",
+      "name": "GBARAUN GRAMMAR SCHOOL II",
+      "code": "025",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684113",
+      "name": "OPOROZA MODERN MARKET",
+      "code": "026",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684114",
+      "name": "PERE PALACE",
+      "code": "027",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684115",
+      "name": "OPOROZAWEI WARE I",
+      "code": "028",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684116",
+      "name": "NEW JERUSLEM ZION III",
+      "code": "029",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684117",
+      "name": "UBABIRI TOWN HALL II",
+      "code": "030",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684118",
+      "name": "UBURU TOWN HALL II",
+      "code": "031",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684119",
+      "name": "OPOROZA SECRETARIAT I",
+      "code": "032",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684120",
+      "name": "OPOROZA LIBRARY",
+      "code": "033",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684121",
+      "name": "KENIBRA IDUMU",
+      "code": "034",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684122",
+      "name": "SARABUBOWEI COMMUNITY",
+      "code": "035",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684123",
+      "name": "IKERETIMI IDUMU",
+      "code": "036",
+      "ward": "OPOROZA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684124",
+      "name": "ADAKAGBENE TOWN HALL II",
+      "code": "069",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684125",
+      "name": "IVA IDUMU TOWN HALL II",
+      "code": "070",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684126",
+      "name": "KUNUKUNUMA PRIMARY SCHOOL II",
+      "code": "071",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684127",
+      "name": "OWEIZIDE G.E/MARITIME UNIVERSITY, KURUTIE II",
+      "code": "072",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684128",
+      "name": "OWEIZIDE G.E/MARITIME UNIVERSITY, KURUTIE III",
+      "code": "073",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684129",
+      "name": "IVA-AMA TOWN HALL",
+      "code": "074",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684130",
+      "name": "OSEN THOMAS EKPEMUPOLO HALL, KURUTIE II",
+      "code": "075",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684131",
+      "name": "OWEIZIBIRI PRIMARY SCHOOL, KANTU",
+      "code": "076",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684132",
+      "name": "KURUTIE MARKET SQUARE I",
+      "code": "077",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684133",
+      "name": "EBI-AMADIFIE/OKONOWEIBOUSINGHAN",
+      "code": "078",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684134",
+      "name": "BOUGHAWEI, KURUTIE",
+      "code": "079",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684135",
+      "name": "PEPE - AMA TOWN HALL II",
+      "code": "080",
+      "ward": "KUNUKUNUMA/KANTU/KURUTIE/PEPE-AMA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684136",
+      "name": "ARUNTON QUARTERS IV",
+      "code": "061",
+      "ward": "UGBORODO I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684137",
+      "name": "ARUNTON QUARTERS V",
+      "code": "062",
+      "ward": "UGBORODO I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684138",
+      "name": "IKPERE PRIMARY SCHOOL V",
+      "code": "063",
+      "ward": "UGBORODO I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684139",
+      "name": "IKPERE PRIMARY SCHOOL VI",
+      "code": "064",
+      "ward": "UGBORODO I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684140",
+      "name": "UGBORODO TOWN HALL V",
+      "code": "065",
+      "ward": "UGBORODO I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684141",
+      "name": "AKONU QUARTERS IV",
+      "code": "014",
+      "ward": "AKPIKPA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684142",
+      "name": "OGOGORO QUARTERS II",
+      "code": "015",
+      "ward": "AKPIKPA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684143",
+      "name": "OGU - AJAKPAKPA II",
+      "code": "016",
+      "ward": "AKPIKPA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684144",
+      "name": "OMUMU QUARTERS III",
+      "code": "017",
+      "ward": "AKPIKPA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684145",
+      "name": "ETIORUBU QUARTERS III",
+      "code": "018",
+      "ward": "AKPIKPA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684146",
+      "name": "MADANGHO III",
+      "code": "016",
+      "ward": "MADANGHO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684147",
+      "name": "ASAKPI QUARTERS II",
+      "code": "017",
+      "ward": "MADANGHO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684148",
+      "name": "DISPENSARY HALL II",
+      "code": "018",
+      "ward": "MADANGHO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684149",
+      "name": "DISPENSARY HALL III",
+      "code": "019",
+      "ward": "MADANGHO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684150",
+      "name": "EDAH PRIMARY SCHOOL V",
+      "code": "020",
+      "ward": "MADANGHO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684151",
+      "name": "AJA OKOTURO III",
+      "code": "021",
+      "ward": "MADANGHO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684152",
+      "name": "AGOGBORO PRIMARY SCHOOL IV",
+      "code": "061",
+      "ward": "ORERE I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684153",
+      "name": "BATEREN PRIMARY SCHOOL V",
+      "code": "062",
+      "ward": "ORERE I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684154",
+      "name": "BATEREN PRIMARY SCHOOL VI",
+      "code": "063",
+      "ward": "ORERE I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684155",
+      "name": "SUMUGE IV",
+      "code": "064",
+      "ward": "ORERE I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684156",
+      "name": "AJUDAIBO PRIMARY SCHOOL III",
+      "code": "013",
+      "ward": "AJA - UDAIBO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684157",
+      "name": "AJUDAIBO PRIMARY SCHOOL IV",
+      "code": "014",
+      "ward": "AJA - UDAIBO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684158",
+      "name": "ASUMBO TOWN HALL III",
+      "code": "015",
+      "ward": "AJA - UDAIBO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684159",
+      "name": "OBITEBON QUARTERS III",
+      "code": "016",
+      "ward": "AJA - UDAIBO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684160",
+      "name": "OKEGBE QUARTERS III",
+      "code": "017",
+      "ward": "AJA - UDAIBO",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684161",
+      "name": "LIGHT HOUSE II",
+      "code": "016",
+      "ward": "OGIDIGBEN I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684162",
+      "name": "OGIDIGBEN TOWN HALL IV",
+      "code": "017",
+      "ward": "OGIDIGBEN I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684163",
+      "name": "OGIDIGBEN TOWN HALL V",
+      "code": "018",
+      "ward": "OGIDIGBEN I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684164",
+      "name": "OMARETINE PRIMARY SCHOOL III",
+      "code": "019",
+      "ward": "OGIDIGBEN I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684165",
+      "name": "OMARETINE PRIMARY SCHOOL IV",
+      "code": "020",
+      "ward": "OGIDIGBEN I",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684166",
+      "name": "EKPE TOWN HALL",
+      "code": "010",
+      "ward": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684167",
+      "name": "PELEBENGHA IDUMU, IGOBA I",
+      "code": "011",
+      "ward": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684168",
+      "name": "INIKOROGHA TOWNHALL II",
+      "code": "012",
+      "ward": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684169",
+      "name": "IBAFAN TOWN HALL I",
+      "code": "013",
+      "ward": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684170",
+      "name": "INIKOROGHA PRIMARY SCHOOL II",
+      "code": "014",
+      "ward": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684171",
+      "name": "AZAMA PRIMARY SCHOOL I",
+      "code": "015",
+      "ward": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684172",
+      "name": "AZAMA TOWN HALL",
+      "code": "016",
+      "ward": "AZAMA/IGOBA/INIKOROOGHA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684173",
+      "name": "BENIKRUKRU TOWN HALL II",
+      "code": "015",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684174",
+      "name": "BENIKRUKRU PRIMARY SCHOOL II",
+      "code": "016",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684175",
+      "name": "OGBUMUGBENE/BUBORGBENE/LUGBENE TOWN HALL II",
+      "code": "017",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684176",
+      "name": "IMOUN QUARTERS",
+      "code": "018",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684177",
+      "name": "OBORO ADA",
+      "code": "019",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684178",
+      "name": "NEIN QUARTERS",
+      "code": "020",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684179",
+      "name": "ASANTUAGBENE TOWN HALL",
+      "code": "021",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684180",
+      "name": "BENIKRUKRU WATER BOARD AREA",
+      "code": "022",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684181",
+      "name": "BRALABOR IDUMU",
+      "code": "023",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684182",
+      "name": "ASANTUAGBENE TOWN HALL II",
+      "code": "024",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684183",
+      "name": "GBAZOR IDUMU I",
+      "code": "025",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684184",
+      "name": "DABIRIYEGBENE",
+      "code": "026",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684185",
+      "name": "DIBIGBENE",
+      "code": "027",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684186",
+      "name": "EKU CENTRE",
+      "code": "028",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684187",
+      "name": "GBAZOR IDUMU II",
+      "code": "029",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684188",
+      "name": "KENYAGBENE TOWN HALL",
+      "code": "030",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684189",
+      "name": "BENIKRUKRU NEW ESTATE",
+      "code": "031",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684190",
+      "name": "KOKODIAGBENE SECONDARY",
+      "code": "032",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684191",
+      "name": "OBORO IDUMU",
+      "code": "033",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684192",
+      "name": "OGONO-EBIJOH ZION SQUARE",
+      "code": "034",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684193",
+      "name": "TONLAGHAGBENE TOWN HALL",
+      "code": "035",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684194",
+      "name": "ZAIDUNOR PLAYGROUND",
+      "code": "036",
+      "ward": "BENIKRUKRU/KOKODIAGBENE",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684195",
+      "name": "DIEBIRI TOWN HALL II",
+      "code": "006",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684196",
+      "name": "BATAN TOWN HALL II",
+      "code": "007",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684197",
+      "name": "IGADE PRIMARY SCHOOL II",
+      "code": "008",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684198",
+      "name": "DIEBIRI CIVIC CENTER HALL II",
+      "code": "009",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684199",
+      "name": "DIEBIRI PLAY GROUND II",
+      "code": "010",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684200",
+      "name": "KOKOLOGBENE-DIEBIRI",
+      "code": "011",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684201",
+      "name": "BULOBUGBANA-DIEBIRI",
+      "code": "012",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684202",
+      "name": "BOBIGBENE-DIEBIRI",
+      "code": "013",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684203",
+      "name": "ERESEGBENE-DIEBIRI",
+      "code": "014",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684204",
+      "name": "IKUOTUGBENE-DIEBIRI I",
+      "code": "015",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684205",
+      "name": "BOBIGBENE-DIEBIRI I",
+      "code": "016",
+      "ward": "DIEBIRI",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684206",
+      "name": "IZANSA TOWN HALL II",
+      "code": "016",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684207",
+      "name": "AJUJU PRIMARY SCHOOL II",
+      "code": "017",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684208",
+      "name": "IKEREMOR ZION I",
+      "code": "018",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684209",
+      "name": "IJELEJELE TOWN HALL II",
+      "code": "019",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684210",
+      "name": "SALVATION CITY TOWN HALL II",
+      "code": "020",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684211",
+      "name": "ODIDI TOWN HALL II",
+      "code": "021",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684212",
+      "name": "BOUY-4",
+      "code": "022",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684213",
+      "name": "ENIGBOGBENE TOWN HALL II",
+      "code": "023",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684214",
+      "name": "OKOFA",
+      "code": "024",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684215",
+      "name": "BOMOBULOU II",
+      "code": "025",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684216",
+      "name": "AJUJU TOWN HALL",
+      "code": "026",
+      "ward": "IZANSA-IJELEJELE/IKEREMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684217",
+      "name": "AJA-MAMAH II",
+      "code": "006",
+      "ward": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684218",
+      "name": "AJA-MAWE II",
+      "code": "007",
+      "ward": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684219",
+      "name": "AJATSOSI QUARTERS IV",
+      "code": "008",
+      "ward": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684220",
+      "name": "AJATSOSI QUARTERS V",
+      "code": "009",
+      "ward": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684221",
+      "name": "ELESANMI QUARTERS IV",
+      "code": "010",
+      "ward": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684222",
+      "name": "ELESANMI QUARTERS V",
+      "code": "011",
+      "ward": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684223",
+      "name": "AJA-MAMAH III",
+      "code": "012",
+      "ward": "OGIDIGBEN II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684224",
+      "name": "OKERENKOKO TOWN HALL II",
+      "code": "020",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684225",
+      "name": "EGWA TOWN HALL II",
+      "code": "021",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684226",
+      "name": "AGOBOUGHA-ELIE IDUMU",
+      "code": "022",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684227",
+      "name": "AKPATA IDUMU",
+      "code": "023",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684228",
+      "name": "ASAFAMA-OKERENKOKO I",
+      "code": "024",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684229",
+      "name": "BIBOPERE PRIMARY SCHOOL II",
+      "code": "025",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684230",
+      "name": "EKPEMU-OKERENKOKO",
+      "code": "026",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684231",
+      "name": "BIKUMOR/IKPOGBENE",
+      "code": "027",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684232",
+      "name": "LAWEI IDUMU, EGWA",
+      "code": "028",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684233",
+      "name": "NIGERIAN MARITIME UNIVERSITY OKERENKOKO II",
+      "code": "029",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684234",
+      "name": "OTUARO-OKERENKOKO PHASE TWO",
+      "code": "030",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684235",
+      "name": "OKEBINADE IDUMU, KEREGBENE",
+      "code": "031",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684236",
+      "name": "OKERENKOKO DOCKYARD",
+      "code": "032",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684237",
+      "name": "OSEIN IDUMU",
+      "code": "033",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684238",
+      "name": "TAIKE IDUMU, KEREGBENE",
+      "code": "034",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684239",
+      "name": "TOWA IDUMU, EGWA",
+      "code": "035",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684240",
+      "name": "TUWAYERIN IDUMU, EGWA",
+      "code": "036",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684241",
+      "name": "JONES CREEK TOWN HALL III",
+      "code": "037",
+      "ward": "OKERENKOKO/EGWA",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684242",
+      "name": "ATENKA IDUMU-OPUEDEBUBOR ARENA I",
+      "code": "021",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684243",
+      "name": "BENAKE-AYE IDUMU, OPUEDEBUBOR",
+      "code": "022",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684244",
+      "name": "BENAKE-AYE IDUMU-OPUEDEBUBOR ARENA I",
+      "code": "023",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684245",
+      "name": "GHAN-AMA ZION PLAYGROUND",
+      "code": "024",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684246",
+      "name": "IGBORUGBO PRIMARY SCHOOL OPUEDE II",
+      "code": "025",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684247",
+      "name": "IZONBIRI IDUMU, OPUEDEBUBOR",
+      "code": "026",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684248",
+      "name": "OKPELEAMA DUMOIDUMA TOWN HALL II",
+      "code": "027",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684249",
+      "name": "OPUEDE NEW JERUSALEM II",
+      "code": "028",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684250",
+      "name": "OPUEDEBUBO PRIMARY SCHOOL II",
+      "code": "029",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684251",
+      "name": "SARABUBOR",
+      "code": "030",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684252",
+      "name": "TANGBE IDUMU PLAY GROUND II",
+      "code": "031",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684253",
+      "name": "TEBUZOR I",
+      "code": "032",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684254",
+      "name": "TEBUJOR COMMUNITY FILM HOUSE",
+      "code": "033",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684255",
+      "name": "TEBUJOR TRANSPORT WAITING BAY I",
+      "code": "034",
+      "ward": "OPOROZA-AMASEIKUMOR",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684256",
+      "name": "DEGHELE IYE PRIMARY SCHOOL IV",
+      "code": "035",
+      "ward": "ORERE II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684257",
+      "name": "DEGHELE IYE PRIMARY SCHOOL V",
+      "code": "036",
+      "ward": "ORERE II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684258",
+      "name": "AJUMO TOWN HALL III",
+      "code": "037",
+      "ward": "ORERE II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684259",
+      "name": "GBOGBODU TOWN HALL III",
+      "code": "038",
+      "ward": "ORERE II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684260",
+      "name": "OBI OLOBE HALL II",
+      "code": "039",
+      "ward": "ORERE II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684261",
+      "name": "BOBI PRIMARY SCHOOL IV",
+      "code": "040",
+      "ward": "ORERE II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684262",
+      "name": "OLOBE TOWN HALL III",
+      "code": "041",
+      "ward": "ORERE II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684263",
+      "name": "AJA-IGBAN II",
+      "code": "046",
+      "ward": "UGBORODO II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684264",
+      "name": "OLOTE UGBEGU III",
+      "code": "047",
+      "ward": "UGBORODO II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684265",
+      "name": "CANNAL QUARTERS III",
+      "code": "048",
+      "ward": "UGBORODO II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684266",
+      "name": "UGBEGIN QUARTERS II",
+      "code": "049",
+      "ward": "UGBORODO II",
+      "lga": "WARRI SOUTH  WEST"
+    },
+    {
+      "id": "684267",
+      "name": "AJA-IGBAN TOWN HALL",
+      "code": "050",
+      "ward": "UGBORODO II",
+      "lga": "WARRI SOUTH  WEST"
+    }
+  ],
+  "old_totals": {
+    "wards": 270,
+    "pus": 5863
+  },
+  "new_totals": {
+    "wards": 299,
+    "pus": 6316
+  }
+}
